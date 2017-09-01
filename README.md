@@ -1,2 +1,4 @@
-# cs440_fall2017
-Repository for CS 440 MPs and related documents/reports for Fall 2017
+# *Fall 2017* - CS 440: Artificial Intelligent
+
+## Purpose
+This repository acts a location to place CS 440 MPs and related documents/reports for the Fall 2017 instance of CS 440.
