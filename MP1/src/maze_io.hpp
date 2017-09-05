@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <string>
-#include "graph.hpp"
+#include "maze.hpp"
 
 
 namespace maze_io {
@@ -25,11 +25,8 @@ namespace maze_io {
     
     
     // main functions for loading and saving a graph
-    void load_maze( const std::string & maze_file,
-                    maze_graph & out_graph,
-                    id_list & final_points,
-                    maze_graph::id_type & start_node_id );
-    void write_maze( const maze_graph & in_graph, const maze_graph::node_list* nlist = nullptr );
+    void load_maze( const std::string & maze_file, maze & out_maze );
+    void write_maze( const maze & in_maze, const maze_graph::node_list* nlist = nullptr );
 }
 
 #endif /* maze_reader_hpp */

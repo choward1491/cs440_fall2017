@@ -26,10 +26,7 @@ namespace maze_io {
     }
     
     
-    void load_maze( const std::string & maze_file,
-                    maze_graph & out_graph,
-                    id_list & final_points,
-                    maze_graph::id_type & start_node_id )
+    void load_maze( const std::string & maze_file, maze & out_maze )
     {
         
         // open maze file
@@ -49,7 +46,8 @@ namespace maze_io {
             // allocate storage
             std::vector<bool> visit(rows*cols,false);
             std::vector<char> map(rows*cols,'%');
-            out_graph.setNumNodes(rows*cols);
+            out_maze.setDims(rows, cols);
+            auto & out_graph = out_maze.getGraph();
             
             // reset maze file and dump maze into map array
             maze.resetFile();
@@ -63,7 +61,7 @@ namespace maze_io {
             int row = 0, col = 0;
             int dr[4] = {0, 1, 0, -1}, dc[4] = {-1, 0, 1, 0};
             bool isValidPos = false;
-            final_points.clear();
+            out_maze.clearGoalPoints();
             std::queue<maze_graph::id_type> bfs_list;
             bfs_list.push(0);
             
@@ -75,8 +73,8 @@ namespace maze_io {
                 
                 // mark current node and do extra work if necessary
                 switch( map[id] ){
-                    case 'P': if( map[id] == 'P' ){ start_node_id = id; }
-                    case '.': if( map[id] == '.' ){ final_points.push_back(id); }
+                    case 'P': if( map[id] == 'P' ){ out_maze.setStartingLocationID(id); }
+                    case '.': if( map[id] == '.' ){ out_maze.addGoalPoint(id); }
                     case ' ': isValidPos = true; break;
                     case '%': isValidPos = false;
                     default: break;
