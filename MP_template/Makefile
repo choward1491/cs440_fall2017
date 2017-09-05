@@ -11,7 +11,7 @@ BIN     := bin
 DOBJ    := objs_d
 ROBJ    := objs_r
 SRC     := src
-INCLUDES:=-Iheaders/
+INCLUDES:=-Isrc/
 
 # setup source files, object files
 src    := $(wildcard $(SRC)/*.cpp)
