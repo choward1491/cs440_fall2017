@@ -40,6 +40,11 @@ maze::maze():rows(0),cols(0) {
 }
 
 // getters/setters
+maze::point   maze::getCoordinateForID( id_type id) const {
+    int row = 0, col = 0;
+    getRowColFromHash(id, cols, row, col);
+    return point(row,col);
+}
 void    maze::setStartingLocationID( id_type start_id ) {
     startID = start_id;
 }

@@ -32,6 +32,7 @@ public:
     maze();
     
     // getters/setters
+    point   getCoordinateForID( id_type id) const;
     void    setStartingLocationID( id_type start_id );
     id_type getStartingLocationID() const;
     void    setValidityAtLocationID( id_type id, bool isValidNode );
