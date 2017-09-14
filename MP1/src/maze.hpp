@@ -2,7 +2,7 @@
 //  maze.hpp
 //  MP1
 //
-//  Created by Christian J Howard on 9/5/17.
+//  Created by Christian J Howard.
 //  Copyright © 2017 C. Howard. All rights reserved.
 //
 
@@ -31,7 +31,9 @@ public:
     
     // getters/setters
     void    setStartingLocationID( id_type start_id );
-    id_type getStartingLocationID( id_type start_id ) const;
+    id_type getStartingLocationID() const;
+    void    setValidityAtLocationID( id_type id, bool isValidNode );
+    bool    getValidityAtLocationID( id_type id ) const;
     void            setDims( unsigned int num_rows, unsigned int num_cols );
     unsigned int    getNumRows() const;
     unsigned int    getNumCols() const;
@@ -39,15 +41,20 @@ public:
     const   maze_graph & getGraph() const;
     void            addGoalPoint( id_type goal_id );
     unsigned int    numGoalPoints() const;
-    id_type &       goalPointAt(unsigned int idx) const;
+    const id_type & goalPointAt(unsigned int idx) const;
+          id_type & goalPointAt(unsigned int idx);
     void            clearGoalPoints();
     
+    // some useful functionality
+    bool idIsGoalPoint( id_type id ) const;
     
 private:
     
     // internel state
     unsigned int rows, cols;
+    id_type startID;
     std::vector<id_type> goal_points;
+    std::vector<bool>    valid_node;
     maze_graph mgraph;
 };
 

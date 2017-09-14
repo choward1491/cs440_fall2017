@@ -10,6 +10,7 @@
 #include "custom_exception.hpp"
 #include "text_color.hpp"
 #include "maze_io.hpp"
+#include "maze.hpp"
 #include "commandline_parser.hpp"
 
 int main(int argc, char** argv){
@@ -17,11 +18,11 @@ int main(int argc, char** argv){
     try {
         parser::commandline commp(argc,argv);
         std::string maze_file = commp["-maze"];
-        maze_io::maze_graph mgraph;
-        maze_io::id_list    fpoints;
-        maze_io::maze_graph::id_type start_id = 0;
-        maze_io::load_maze(maze_file, mgraph, fpoints, start_id);
+        maze maze_;
+        maze_io::load_maze(maze_file, maze_);
+        maze::maze_graph & mgraph = maze_.getGraph();
         auto & list = mgraph.getConnectivityListFor(0);
+        maze_io::save_maze("/Users/cjh/Documents/testmaze.txt", maze_);
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");

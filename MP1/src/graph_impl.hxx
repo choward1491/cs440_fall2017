@@ -42,7 +42,7 @@ void GRAPH::setNumNodes( unsigned int num_nodes ) {
 TEMPLATE_HEADER
 void GRAPH::addNode( node_type node_id, const data & ndata ) {
     if( node_id > node_data.size() ){
-        setNumNodes( node_id );
+        setNumNodes( node_id + 1 );
     }
     node_data[node_id] = ndata;
 }

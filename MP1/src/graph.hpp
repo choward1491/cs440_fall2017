@@ -20,8 +20,7 @@ class graph {
     typedef node_type id_type;
     
     // ctors/dtors
-    graph() = default;
-    graph(unsigned int num_nodes);
+    graph(unsigned int num_nodes = 1);
     ~graph() = default;
     
     // set/get number of nodes

@@ -3,8 +3,8 @@ print-% : ; @echo $* = $($*)
 
 # Main macros for compilation related objects
 COMPILER:=g++
-D_CFLAGS:= -O0 -Wall -std=c++11
-R_CFLAGS:= -O2 -std=c++11
+D_CFLAGS:= -std=c++11 -O0 -Wall
+R_CFLAGS:= -std=c++11 -O2
 LFLAGS  := 
 EXEC    := mp_exec
 BIN     := bin

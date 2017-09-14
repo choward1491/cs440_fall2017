@@ -81,8 +81,9 @@ namespace maze_io {
                 }
                 
                 // create edges in graph and add node data
-                getRowColFromHash(id, cols, row, col);
+                maze::getRowColFromHash(id, cols, row, col);
                 out_graph.addNode(id, point(row,col));
+                out_maze.setValidityAtLocationID(id, isValidPos);
                 for(int i = 0; i < 4; ++i){
                     int r = row + dr[i], c = col + dc[i];
                     
@@ -105,7 +106,43 @@ namespace maze_io {
             }// end while
         }// end if
     }
-    void write_maze( const maze_graph & in_graph, const maze_graph::node_list* nlist ) {
+    void save_maze( const std::string & maze_file, const maze & in_maze, const maze_graph::node_list* nlist ) {
         
+        // open output maze file
+        wrap::file mazeFile(maze_file,wrap::file::Write);
+        
+        // if output text file is open
+        if( mazeFile.isOpen() ){
+            
+            // get reference to underlying graph
+            const auto & mgraph = in_maze.getGraph();
+            
+            // allocate matrix to store characters from baseline graph
+            unsigned int rows = in_maze.getNumRows(), cols = in_maze.getNumCols();
+            std::vector<char> graph_mat(rows*cols);
+            
+            // loop through information from graph and populate char matrix
+            for(unsigned int i = 0; i < mgraph.getNumNodes(); ++i){
+                if( in_maze.getValidityAtLocationID(i) ){
+                    if( in_maze.idIsGoalPoint(i) ){ graph_mat[i] = '.'; }
+                    else if( in_maze.getStartingLocationID() == i ) { graph_mat[i] = 'P'; }
+                    else{ graph_mat[i] = ' '; }
+                }else{ graph_mat[i] = '%'; }
+            }
+            
+            // add path to graph output if needed
+            if( nlist ){
+                // TODO 
+            }
+            
+            // write the char matrix to file
+            for(unsigned int ir = 0; ir < rows; ++ir ){
+                for(unsigned int ic = 0; ic < cols; ++ic ){
+                    fprintf(mazeFile,"%c",graph_mat[maze::hash(ir, ic, cols)]);
+                }// end for ic
+                fprintf(mazeFile,"\n"); // add next line
+            }// end for ir
+        }
+    
     }
 }
