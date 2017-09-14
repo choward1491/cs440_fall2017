@@ -13,6 +13,7 @@
 
 #include "maze.hpp"
 #include "path.hpp"
+#include <string>
 
 class path_planner {
 public:
