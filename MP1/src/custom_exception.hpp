@@ -7,6 +7,7 @@
 
 namespace custom {
 
+    // exception for returning a basic string message
 	class exception : public std::exception {
 	public:
 		exception(const std::string & s_) :s(s_) {}

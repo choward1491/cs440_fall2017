@@ -1,10 +1,12 @@
-//
-//  graph.hpp
-//  MP1
-//
-//  Created by Christian J Howard on 9/3/17.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  graph.hpp
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #ifndef graph_h
 #define graph_h
@@ -12,9 +14,11 @@
 #include <vector>
 #include <list>
 
+
+// basic graph data structure with not associated algorithms built in
 template<typename data, typename node_type = unsigned int>
 class graph {
-    public:
+public:
     
     typedef std::list<node_type> node_list;
     typedef node_type id_type;
@@ -47,7 +51,7 @@ class graph {
     // clear data in graph
     void clear();
     
-    private:
+private:
     std::vector<node_list>  node_connectivity;
     std::vector<data>       node_data;
     

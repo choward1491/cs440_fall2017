@@ -1,10 +1,12 @@
-//
-//  maze_reader.hpp
-//  MP1
-//
-//  Created by Christian J Howard on 9/3/17.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  maze_io.hpp
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #ifndef maze_reader_hpp
 #define maze_reader_hpp
@@ -15,6 +17,8 @@
 
 
 namespace maze_io {
+    
+    // useful typedefs
     typedef maze::point         point;
     typedef maze::maze_graph    maze_graph;
     typedef maze::id_list       id_list;

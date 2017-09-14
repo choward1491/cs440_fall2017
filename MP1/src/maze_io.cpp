@@ -1,13 +1,16 @@
-//
-//  maze_reader.cpp
-//  MP1
-//
-//  Created by Christian J Howard on 9/3/17.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  maze_io.cpp
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #include "maze_io.hpp"
 #include "FileWrap.hpp"
+#include "custom_exception.hpp"
 #include <queue>
 
 namespace maze_io {
@@ -105,6 +108,9 @@ namespace maze_io {
                 
             }// end while
         }// end if
+        else{
+            throw custom::exception("No existing maze file has been passed into the executable. Revise your command line arguments.");
+        }
     }
     void save_maze( const std::string & maze_file, const maze & in_maze, const maze_graph::node_list* nlist ) {
         

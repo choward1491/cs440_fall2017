@@ -1,10 +1,12 @@
-//
-//  graph_impl.hxx
-//  MP1
-//
-//  Created by Christian J Howard on 9/3/17.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  graph_impl.hxx
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #ifndef graph_impl_h
 #define graph_impl_h

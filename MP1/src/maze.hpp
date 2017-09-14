@@ -1,10 +1,12 @@
-//
-//  maze.hpp
-//  MP1
-//
-//  Created by Christian J Howard.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  maze.hpp
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #ifndef maze_hpp
 #define maze_hpp

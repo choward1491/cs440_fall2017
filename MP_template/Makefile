@@ -3,8 +3,8 @@ print-% : ; @echo $* = $($*)
 
 # Main macros for compilation related objects
 COMPILER:=g++
-D_CFLAGS:= -O0 -Wall
-R_CFLAGS:= -O2
+D_CFLAGS:= -O0 -Wall -std=c++11
+R_CFLAGS:= -O2 -std=c++11
 LFLAGS  := 
 EXEC    := mp_exec
 BIN     := bin
@@ -28,11 +28,11 @@ build: debug release
 
 debug: $(d_objs)
 	mkdir -p $(BIN)
-	$(COMPILER) $< -o $(BIN)/$(EXEC)_d $(LFLAGS)
+	$(COMPILER) $^ -o $(BIN)/$(EXEC)_d $(LFLAGS)
 
 release: $(r_objs)
 	mkdir -p $(BIN)
-	$(COMPILER) $< -o $(BIN)/$(EXEC) $(LFLAGS)
+	$(COMPILER) $^ -o $(BIN)/$(EXEC) $(LFLAGS)
 
 $(DOBJ)/%.o: $(SRC)/%.cpp
 	mkdir -p $(DOBJ)

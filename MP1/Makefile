@@ -28,11 +28,11 @@ build: debug release
 
 debug: $(d_objs)
 	mkdir -p $(BIN)
-	$(COMPILER) $< -o $(BIN)/$(EXEC)_d $(LFLAGS)
+	$(COMPILER) $^ -o $(BIN)/$(EXEC)_d $(LFLAGS)
 
 release: $(r_objs)
 	mkdir -p $(BIN)
-	$(COMPILER) $< -o $(BIN)/$(EXEC) $(LFLAGS)
+	$(COMPILER) $^ -o $(BIN)/$(EXEC) $(LFLAGS)
 
 $(DOBJ)/%.o: $(SRC)/%.cpp
 	mkdir -p $(DOBJ)

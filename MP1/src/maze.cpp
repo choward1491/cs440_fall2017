@@ -1,10 +1,12 @@
-//
-//  maze.cpp
-//  MP1
-//
-//  Created by Christian J Howard on 9/5/17.
-//  Copyright © 2017 C. Howard. All rights reserved.
-//
+/*
+ *  maze.cpp
+ *
+ *  Project: MP1
+ *  Author : Christian J Howard
+ *  Date   : 9/14/17
+ *  Purpose:
+ *
+ */
 
 #include "maze.hpp"
 

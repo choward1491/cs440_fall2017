@@ -12,7 +12,7 @@
 #include "stdint.h"
 
 
-
+// random number generator
 class prng {
 
 public:
