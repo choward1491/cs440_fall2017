@@ -91,6 +91,22 @@ void            maze::clearGoalPoints() {
     goal_points.clear();
 }
 
+maze::action_set maze::getActionSetForID( id_type id ) const {
+    action_set aset;
+    const auto & nlist = mgraph.getConnectivityListFor(id);
+    
+    for( auto&& node : nlist ){
+        int del = static_cast<int>(node) - static_cast<int>(id);
+        if      ( del == -1   ) { aset.push_back(Right);    }
+        else if ( del == 1    ) { aset.push_back(Left);     }
+        else if ( del == cols ) { aset.push_back(Down);     }
+        else if ( del == -cols) { aset.push_back(Up);       }
+        else                    { aset.push_back(Null);     }
+    }
+    
+    return aset;
+}
+
 bool maze::idIsGoalPoint( id_type id ) const {
     for(unsigned int i = 0; i < goal_points.size(); ++i) {
         if( goal_points[i] == id ){ return true; }

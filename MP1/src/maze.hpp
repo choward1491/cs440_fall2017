@@ -18,7 +18,11 @@
 class maze {
 public:
     
+    // action space enum
+    enum Actions { Null = 0, Left, Up, Right, Down };
+    
     // helpful typedefs
+    typedef std::vector<Actions>                    action_set;
     typedef std::pair<unsigned int, unsigned int>   point;
     typedef graph<point>                            maze_graph;
     typedef std::vector<maze_graph::id_type>        id_list;
@@ -47,6 +51,7 @@ public:
     const id_type & goalPointAt(unsigned int idx) const;
           id_type & goalPointAt(unsigned int idx);
     void            clearGoalPoints();
+    action_set getActionSetForID( id_type id ) const;
     
     // some useful functionality
     bool idIsGoalPoint( id_type id ) const;
