@@ -94,14 +94,14 @@ void            maze::clearGoalPoints() {
 maze::action_set maze::getActionSetForID( id_type id ) const {
     action_set aset;
     const auto & nlist = mgraph.getConnectivityListFor(id);
-    
+    const int icols = static_cast<int>(cols);
     for( auto&& node : nlist ){
         int del = static_cast<int>(node) - static_cast<int>(id);
-        if      ( del == -1   ) { aset.push_back(Right);    }
-        else if ( del == 1    ) { aset.push_back(Left);     }
-        else if ( del == cols ) { aset.push_back(Down);     }
-        else if ( del == -cols) { aset.push_back(Up);       }
-        else                    { aset.push_back(Null);     }
+        if      ( del == -1   )  { aset.push_back(Right);    }
+        else if ( del == 1    )  { aset.push_back(Left);     }
+        else if ( del == icols ) { aset.push_back(Down);     }
+        else if ( del == -icols) { aset.push_back(Up);       }
+        else                     { aset.push_back(Null);     }
     }
     
     return aset;
