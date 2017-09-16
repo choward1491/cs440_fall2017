@@ -8,7 +8,7 @@
  *
  */
 
-#include "astar_manhatten.hpp"
+#include "astar_manhattan.hpp"
 #include "custom_exception.hpp"
 
 
@@ -19,11 +19,11 @@ namespace astar {
     }
     
     // get name of heuristic
-    std::string manhatten_dist::name() const {
-        return "Manhatten Distance";
+    std::string manhattan_dist::name() const {
+        return "Manhattan Distance";
     }
     
-    unsigned int manhatten_dist::operator()( maze::id_type node1 ) const {
+    unsigned int manhattan_dist::operator()( maze::id_type node1 ) const {
         unsigned int cost = UINT32_MAX;
         const maze* maze_ = this->getMaze();
         if( maze_ ){
@@ -31,7 +31,7 @@ namespace astar {
             auto point2 = maze_->getCoordinateForID(this->getFinalNode());
             cost =  abs( (int)point2.first - (int)point1.first ) +
                     abs( (int)point2.second - (int)point1.second );
-        }else{ custom::exception("A* Manhatten Distance Heuristic does not have a reference maze, cannot compute distance properly."); }
+        }else{ custom::exception("A* Manhattan Distance Heuristic does not have a reference maze, cannot compute distance properly."); }
         return cost;
     }
     

@@ -8,20 +8,20 @@
  *
  */
 
-#ifndef astar_manhatten_hpp
-#define astar_manhatten_hpp
+#ifndef astar_manhattan_hpp
+#define astar_manhattan_hpp
 
 #include "astar_heuristic.hpp"
 
 namespace astar {
     
     // heuristic function for A* based on the manhatten distance
-    class manhatten_dist : public heuristic_func_base {
+    class manhattan_dist : public heuristic_func_base {
     public:
         
         // ctor/dtor
-        manhatten_dist() = default;
-        ~manhatten_dist() = default;
+        manhattan_dist() = default;
+        ~manhattan_dist() = default;
         
         // get name of heuristic
         std::string name() const;

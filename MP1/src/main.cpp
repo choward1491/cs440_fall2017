@@ -17,7 +17,7 @@
 #include "maze.hpp"
 #include "commandline_parser.hpp"
 #include "astar_planner.hpp"
-#include "astar_manhatten.hpp"
+#include "astar_manhattan.hpp"
 
 int main(int argc, char** argv){
     
@@ -33,7 +33,7 @@ int main(int argc, char** argv){
         path path_;
         
         // define heuristic function
-        astar::manhatten_dist h; h.setMaze(maze_);
+        astar::manhattan_dist h; h.setMaze(maze_);
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
