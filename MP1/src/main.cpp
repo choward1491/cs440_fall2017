@@ -42,8 +42,10 @@ int main(int argc, char** argv){
         // compute maze solution using path planning algorithm
         aplanner.computePath(maze_, path_);
         
-        // save maze to file and see that it matches original
-        maze_io::save_maze("/Users/cjh/Documents/testmaze.txt", maze_, &path_.path_list);
+        // save solved maze to file
+        std::string out_maze_file = commp["-out"];
+        if( out_maze_file.size() == 0 ){ out_maze_file = "out_maze.txt"; }
+        maze_io::save_maze(out_maze_file, maze_, &path_.path_list);
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");
