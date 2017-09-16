@@ -107,6 +107,25 @@ maze::action_set maze::getActionSetForID( id_type id ) const {
     return aset;
 }
 
+void maze::getActionSetForID( id_type id, action_set & aset ) const {
+
+    maze::Action action = Null;
+    unsigned int counter = 0;
+    const auto & nlist = mgraph.getConnectivityListFor(id);
+    const int icols = static_cast<int>(cols);
+    aset.resize(0);
+    for( auto&& node : nlist ){
+        
+        int del = static_cast<int>(node) - static_cast<int>(id);
+        if      ( del == -1   )  { action = Left;    }
+        else if ( del == 1    )  { action = Right;   }
+        else if ( del == icols ) { action = Down;    }
+        else if ( del == -icols) { action = Up;      }
+        else                     { action = Null;    }
+        aset.push_back(action);
+    }
+}
+
 bool maze::idIsGoalPoint( id_type id ) const {
     for(unsigned int i = 0; i < goal_points.size(); ++i) {
         if( goal_points[i] == id ){ return true; }

@@ -138,7 +138,10 @@ namespace maze_io {
             
             // add path to graph output if needed
             if( nlist ){
-                // TODO 
+                for( auto & node : *nlist ){
+                    graph_mat[node] = '.';
+                }
+                graph_mat[in_maze.getStartingLocationID()] = 'P';
             }
             
             // write the char matrix to file

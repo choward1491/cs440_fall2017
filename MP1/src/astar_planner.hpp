@@ -27,17 +27,20 @@ namespace astar {
         
         // method to return the path planner name for potential use in
         // post processing or automated testing work
-        std::string plannerName();
+        std::string plannerName() const;
         
         // method(s) to be defined by specialized path planning algorithms.
         // this method should take an input maze reference and path reference and
         // generate a path that takes an agent from an initial point through all the
         // desired locations until there isn't any left. How optimal a path is
         // will be decided by the path planner algorithm being used.
-        void computePath( const maze & maze_, path & path_ );
+        void computePath( const maze & maze_, path & path_ ) const;
+        
+        // method to set the heuristic function for the A* algorithm
+        void setHeuristic( heuristic_func_base& heuristic );
         
     private:
-        
+        heuristic_func_base* h;
         
         
     };

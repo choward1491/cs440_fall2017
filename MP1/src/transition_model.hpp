@@ -24,7 +24,10 @@ namespace transition {
         ~model() = default;
         
         // define state transition operator
-        maze::id_type operator()( maze::id_type current_state, maze::Actions current_action );
+        maze::id_type operator()( maze::id_type current_state, maze::Action current_action );
+        
+        // method to set maze reference if needed
+        void setMaze( const maze & maze);
         
     private:
         const maze* maze_ref;

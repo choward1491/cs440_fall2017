@@ -18,12 +18,17 @@ namespace astar {
         return num < 0 ? -num : num ;
     }
     
-    unsigned int manhatten_dist::operator()( maze::id_type node1, maze::id_type node2 ) const {
+    // get name of heuristic
+    std::string manhatten_dist::name() const {
+        return "Manhatten Distance";
+    }
+    
+    unsigned int manhatten_dist::operator()( maze::id_type node1 ) const {
         unsigned int cost = UINT32_MAX;
         const maze* maze_ = this->getMaze();
         if( maze_ ){
             auto point1 = maze_->getCoordinateForID(node1);
-            auto point2 = maze_->getCoordinateForID(node2);
+            auto point2 = maze_->getCoordinateForID(this->getFinalNode());
             cost =  abs( (int)point2.first - (int)point1.first ) +
                     abs( (int)point2.second - (int)point1.second );
         }else{ custom::exception("A* Manhatten Distance Heuristic does not have a reference maze, cannot compute distance properly."); }

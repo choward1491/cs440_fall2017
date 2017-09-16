@@ -23,8 +23,11 @@ namespace astar {
         manhatten_dist() = default;
         ~manhatten_dist() = default;
         
+        // get name of heuristic
+        std::string name() const;
+        
         // distance measure
-        unsigned int operator()( maze::id_type node1, maze::id_type node2 ) const;
+        unsigned int operator()( maze::id_type node1 ) const;
         
     };
     
