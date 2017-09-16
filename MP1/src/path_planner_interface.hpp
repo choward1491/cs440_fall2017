@@ -11,12 +11,26 @@
 #ifndef path_planner_hpp
 #define path_planner_hpp
 
+#include <cmath>
 #include "maze.hpp"
 #include "path.hpp"
 #include <string>
 
 class path_planner {
 public:
+    
+    // internal absolute value
+    static int abs( int value ){
+        if( value < 0 ){ return -value; }
+        return value;
+    }
+    
+    // manhatten distance
+    static unsigned int manhatten_dist( const maze::point & pt1, const maze::point & pt2 ){
+        int pt1_[2] = { (int)pt1.first, (int)pt1.second };
+        int pt2_[2] = { (int)pt2.first, (int)pt2.second };
+        return abs(pt2_[0] - pt1_[0]) + abs(pt2_[1] - pt1_[1]);
+    }
     
     // ctor/dtor
     path_planner()          = default;
