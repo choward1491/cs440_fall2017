@@ -58,7 +58,6 @@ namespace astar {
             auto num_nodes = maze_.getGraph().getNumNodes();
             std::vector<bool>           visited(num_nodes, false);
             std::vector<unsigned int>   costFromStart(num_nodes,UINT32_MAX);
-            std::vector<unsigned int>   best_costs(num_nodes,UINT32_MAX);
             std::vector<unsigned int>   path_history(num_nodes,0);
             
             // get the starting position and throw into a min heap
