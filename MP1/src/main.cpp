@@ -26,6 +26,8 @@ int main(int argc, char** argv){
         std::string maze_file = commp["-maze"];
         maze maze_;
         maze_io::load_maze(maze_file, maze_);
+        auto sid = maze_.getStartingLocationID();
+        auto actions = maze_.getActionSetForID(sid-2);
         
         // save maze to file and see that it matches original
         maze_io::save_maze("testmaze.txt", maze_);
