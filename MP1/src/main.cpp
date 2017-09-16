@@ -28,12 +28,19 @@ int main(int argc, char** argv){
         std::string maze_file = commp["-maze"];
         maze maze_;
         maze_io::load_maze(maze_file, maze_);
+        
+        // define path variable
         path path_;
+        
+        // define heuristic function
         astar::manhatten_dist h; h.setMaze(maze_);
+        
+        // define planning algorithm and set heuristic function
         astar::planner aplanner;
         aplanner.setHeuristic(h);
-        aplanner.computePath(maze_, path_);
         
+        // compute maze solution using path planning algorithm
+        aplanner.computePath(maze_, path_);
         
         // save maze to file and see that it matches original
         maze_io::save_maze("/Users/cjh/Documents/testmaze.txt", maze_, &path_.path_list);
