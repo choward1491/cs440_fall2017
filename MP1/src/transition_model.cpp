@@ -31,15 +31,11 @@ namespace transition {
                 case maze::Null:    break;
             }
             
-            int i = 0;
-            for(auto it = new_state.hasSeenGoalPoint.begin();
-                it != new_state.hasSeenGoalPoint.end();
-                ++it,++i )
-            {
-                if( !(*it) ){
-                    if( new_state.current_node == (*gplist_ref)[i] ){
-                        *it = true;
-                        break;
+            if( maze_ref->idIsGoalPoint(new_state.current_node) ){
+                std::vector<bool> & goal_bools = new_state.hasSeenGoalPoint;
+                for( unsigned int i = 0; i < goal_bools.size(); ++i){
+                    if( !goal_bools[i] && new_state.current_node == (*gplist_ref)[i] ){
+                        goal_bools[i] = true; break;
                     }
                 }
             }

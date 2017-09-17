@@ -12,6 +12,7 @@
 #include "FileWrap.hpp"
 #include "custom_exception.hpp"
 #include <queue>
+#include <map>
 
 namespace maze_io {
     /*
@@ -112,7 +113,7 @@ namespace maze_io {
             throw custom::exception("No existing maze file has been passed into the executable. Revise your command line arguments.");
         }
     }
-    void save_maze( const std::string & maze_file, const maze & in_maze, const maze_graph::node_list* nlist ) {
+    void save_maze( const std::string & maze_file, const maze & in_maze, const path * nlist ) {
         
         // open output maze file
         wrap::file mazeFile(maze_file,wrap::file::Write);
@@ -138,10 +139,27 @@ namespace maze_io {
             
             // add path to graph output if needed
             if( nlist ){
-                for( auto & node : *nlist ){
+                
+                // write out path to the maze
+                for( auto & node : nlist->path_list ){
                     graph_mat[node] = '.';
                 }
                 graph_mat[in_maze.getStartingLocationID()] = 'P';
+                
+                // write out visited goal points in their appropriate order
+                std::map<unsigned int, unsigned int> visited_goals;
+                unsigned int idx = 0;
+                for( auto & node : nlist->goal_visit_list ){
+                    char character = '.';
+                    if( idx < 9 ){  character = '1' + idx; }
+                    else{           character = 'a' + (idx - 9); }
+                    
+                    if( visited_goals.find(node) == visited_goals.end() ){
+                        visited_goals[node] = node;
+                        graph_mat[node] = character;
+                        ++idx;
+                    }
+                }
             }
             
             // write the char matrix to file

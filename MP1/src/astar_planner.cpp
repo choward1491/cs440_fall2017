@@ -64,6 +64,7 @@ namespace astar {
             // define maps that store whether a state has been visited, the cost to that state,
             // and the previous state that lead to a current state
             std::map<unsigned long,bool>           visited;
+            std::map<unsigned int ,bool>           visited_goal;
             std::map<unsigned long,unsigned int>   costFromStart;
             std::map<unsigned long,unsigned long>  path_history;
             
@@ -77,6 +78,7 @@ namespace astar {
             maze::id_type sid = maze_.getStartingLocationID();
             current_state.current_node = sid;
             unsigned long sstate = multi::state::highdim_hasher(current_state,nn);
+            unsigned long fstate = 0;
             h->setUnvisitedGoalPointList(goal_points);
             costFromStart[sstate] = 0;
             traversal_heap.push(heap_node(costFromStart[sstate] + (*h)(current_state), current_state));
@@ -94,10 +96,7 @@ namespace astar {
                 path_.num_nodes_expanded++;
                 
                 // check if current node is the final node, exit loop if it is
-                if( maze_.idIsGoalPoint(state.current_node) ){
-                    path_.goal_visit_list.push_back(state.current_node);
-                    if( state.isFinished() ){ break; }
-                }
+                if( state.isFinished() ){ fstate = current_state_idx; break; }
                 
                 // get list of actions for current node
                 maze_.getActionSetForID(state.current_node, action_list);
@@ -126,8 +125,8 @@ namespace astar {
             }// end while
             
             // set the final path and output information
-            getResultingPathAndOutputData( costFromStart, path_history, sstate,
-                                          maze_.numGoalPoints(),num_nodes, path_ );
+            getResultingPathAndOutputData( costFromStart, path_history, sstate, fstate,
+                                          maze_.numGoalPoints(),num_nodes, maze_, path_ );
             
             
         }else{
@@ -142,8 +141,10 @@ namespace astar {
     void planner::getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,
                                        const std::map<unsigned long,unsigned long> & path_history,
                                        unsigned long start_state,
+                                       unsigned long fstate,
                                        unsigned int num_goal_points,
                                        unsigned int num_maze_nodes,
+                                       const maze & maze_,
                                        path & path_ ) const
     {
         // define useful typedefs
@@ -151,15 +152,15 @@ namespace astar {
         
         // define state variables that will be used
         mstate final_state;
-        final_state.current_node = path_.goal_visit_list.back();
+        final_state.current_node = (unsigned int)mstate::nodeFromStateIdx(fstate, num_maze_nodes);
         final_state.hasSeenGoalPoint.resize(num_goal_points,true);
-        unsigned long fstate    = mstate::highdim_hasher(final_state, num_maze_nodes);
         path_.path_cost         = costFromStart.find(fstate)->second;
         
         // get the resulting path going from the final node and working backwards
         unsigned long sidx = fstate;
         while( sidx != start_state ){
             auto node_id = static_cast<unsigned int>(mstate::nodeFromStateIdx(sidx, num_maze_nodes));
+            if( maze_.idIsGoalPoint(node_id) ){ path_.goal_visit_list.push_front(node_id); }
             path_.path_list.push_front( node_id );
             sidx = path_history.find(sidx)->second;
         }

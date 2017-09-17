@@ -51,7 +51,7 @@ int main(int argc, char** argv){
         // save solved maze to file
         std::string out_maze_file = commp["-out"];
         if( out_maze_file.size() == 0 ){ out_maze_file = "out_maze.txt"; }
-        maze_io::save_maze(out_maze_file, maze_, &path1.path_list);
+        maze_io::save_maze(out_maze_file, maze_, &path1);
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");
