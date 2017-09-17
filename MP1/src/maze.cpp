@@ -87,6 +87,10 @@ const maze::id_type & maze::goalPointAt(unsigned int idx) const {
 maze::id_type & maze::goalPointAt(unsigned int idx) {
     return goal_points[idx];
 }
+const std::vector<maze::id_type> & maze::getGoalPoints() const {
+    return goal_points;
+}
+
 void            maze::clearGoalPoints() {
     goal_points.clear();
 }

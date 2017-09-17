@@ -1,5 +1,5 @@
 /*
- *  astar_manhatten.hpp
+ *  astar_euclidean.hpp
  *
  *  Project: MP1
  *  Author : Christian J Howard
@@ -8,20 +8,20 @@
  *
  */
 
-#ifndef astar_manhattan_hpp
-#define astar_manhattan_hpp
+#ifndef astar_euclidean_hpp
+#define astar_euclidean_hpp
 
 #include "astar_heuristic.hpp"
 
 namespace astar {
     
     // heuristic function for A* based on the manhatten distance
-    class manhattan_dist : public heuristic_func_base {
+    class euclidean_dist : public heuristic_func_base {
     public:
         
         // ctor/dtor
-        manhattan_dist() = default;
-        ~manhattan_dist() = default;
+        euclidean_dist() = default;
+        ~euclidean_dist() = default;
         
         // get name of heuristic
         std::string name() const;
@@ -33,4 +33,4 @@ namespace astar {
     
 }
 
-#endif /* astar_manhatten_hpp */
+#endif /* astar_euclidean_hpp */

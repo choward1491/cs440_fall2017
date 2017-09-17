@@ -12,6 +12,7 @@
 #define astar_heuristic_hpp
 
 #include "maze.hpp"
+#include "multi_state.hpp"
 
 namespace astar {
     
@@ -27,20 +28,26 @@ namespace astar {
         virtual std::string name() const = 0;
         
         // cost func
-        virtual unsigned int operator()( maze::id_type node1 ) const = 0;
+        virtual unsigned int operator()( const multi::state & s ) const = 0;
         
         // set reference to maze
         void setMaze( maze & maze_ ) { maze_ref = &maze_; }
         
-        // set destination node
-        void setFinalNode( maze::id_type node_final ) { final_node = node_final; }
+        // set list of unvisited goal points
+        void setUnvisitedGoalPointList( const std::vector<maze::id_type> & gplist){
+            gplist_ref = &gplist;
+        }
         
     protected:
+        
+        // methods for use in subclasses of this abstract heuristic function class
         const maze * getMaze() const { return maze_ref; }
+        const std::vector<maze::id_type>* getGoalPointList() const { return gplist_ref; }
         maze::id_type getFinalNode() const { return final_node; }
         
     private:
         maze * maze_ref;
+        const std::vector<maze::id_type>* gplist_ref;
         maze::id_type final_node;
     };
     

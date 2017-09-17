@@ -13,6 +13,7 @@
 
 #include "path_planner_interface.hpp"
 #include "astar_heuristic.hpp"
+#include <map>
 
 namespace astar {
     
@@ -22,6 +23,7 @@ namespace astar {
     class planner : public path_planner {
     public:
         
+        //ctor/dtor
         planner();
         ~planner() = default;
         
@@ -29,11 +31,8 @@ namespace astar {
         // post processing or automated testing work
         std::string plannerName() const;
         
-        // method(s) to be defined by specialized path planning algorithms.
-        // this method should take an input maze reference and path reference and
-        // generate a path that takes an agent from an initial point through all the
-        // desired locations until there isn't any left. How optimal a path is
-        // will be decided by the path planner algorithm being used.
+        // method to perform A*, given some set heuristic function, to find
+        // an efficient path through a given maze
         void computePath( const maze & maze_, path & path_ ) const;
         
         // method to set the heuristic function for the A* algorithm
@@ -41,6 +40,13 @@ namespace astar {
         
     private:
         heuristic_func_base* h;
+        
+        void getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,
+                                            const std::map<unsigned long,unsigned long> & path_history,
+                                            unsigned long start_state,
+                                            unsigned int num_goal_points,
+                                            unsigned int num_maze_nodes,
+                                            path & path_ ) const;
         
         
     };

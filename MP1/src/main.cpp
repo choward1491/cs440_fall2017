@@ -18,6 +18,8 @@
 #include "commandline_parser.hpp"
 #include "astar_planner.hpp"
 #include "astar_manhattan.hpp"
+#include "astar_euclidean.hpp"
+#include "dfs_planner.hpp"
 
 int main(int argc, char** argv){
     
@@ -30,22 +32,26 @@ int main(int argc, char** argv){
         maze_io::load_maze(maze_file, maze_);
         
         // define path variable
-        path path_;
+        path path1, path2, path3;
         
         // define heuristic function
         astar::manhattan_dist h; h.setMaze(maze_);
+        astar::euclidean_dist h_e; h_e.setMaze(maze_);
+        
+        // define dfs planner
+        dfs::planner dplanner;
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
         aplanner.setHeuristic(h);
         
         // compute maze solution using path planning algorithm
-        aplanner.computePath(maze_, path_);
+        aplanner.computePath(maze_, path1);
         
         // save solved maze to file
         std::string out_maze_file = commp["-out"];
         if( out_maze_file.size() == 0 ){ out_maze_file = "out_maze.txt"; }
-        maze_io::save_maze(out_maze_file, maze_, &path_.path_list);
+        maze_io::save_maze(out_maze_file, maze_, &path1.path_list);
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");

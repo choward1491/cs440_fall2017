@@ -50,6 +50,7 @@ public:
     unsigned int    numGoalPoints() const;
     const id_type & goalPointAt(unsigned int idx) const;
           id_type & goalPointAt(unsigned int idx);
+    const std::vector<id_type> & getGoalPoints() const;
     void            clearGoalPoints();
     action_set      getActionSetForID( id_type id ) const;
     void            getActionSetForID( id_type id, action_set & aset ) const;

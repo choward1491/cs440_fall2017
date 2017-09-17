@@ -11,7 +11,6 @@
 #ifndef bfs_planner_hpp
 #define bfs_planner_hpp
 
-#include <stdio.h>
 #include "path_planner_interface.hpp"
 
 class bfs_planner : public path_planner {
