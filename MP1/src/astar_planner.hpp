@@ -35,8 +35,9 @@ namespace astar {
         // an efficient path through a given maze
         void computePath( const maze & maze_, path & path_ ) const;
         
-        // method to set the heuristic function for the A* algorithm
-        void setHeuristic( heuristic_func_base& heuristic );
+        // method to set the heuristic function for the A* algorithm or greedy
+        void setHeuristic( heuristic_func_base& heuristic);
+        void setHeuristic( heuristic_func_base& heuristic, bool beGreedy );
         
     private:
         heuristic_func_base* h;

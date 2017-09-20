@@ -47,6 +47,9 @@ int main(int argc, char** argv){
         astar::planner aplanner;
         aplanner.setHeuristic(h_d);
         
+        //use greedy heuristic
+//        aplanner.setHeuristic(h, true);
+        
         // compute maze solution using path planning algorithm
         aplanner.computePath(maze_, path1);
         path1.printResults();

@@ -11,6 +11,7 @@
 #ifndef astar_manhattan_hpp
 #define astar_manhattan_hpp
 
+#include <string>
 #include "astar_heuristic.hpp"
 
 namespace astar {

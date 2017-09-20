@@ -34,6 +34,7 @@ namespace astar {
     typedef std::priority_queue<heap_node, std::vector<heap_node>, std::greater<heap_node>> min_heap;
     
     // class definitions
+    bool isGreedy;
     planner::planner():h(nullptr){}
     
     std::string planner::plannerName() const {
@@ -118,7 +119,11 @@ namespace astar {
                     {
                         path_history[new_state_idx]  = current_state_idx;
                         costFromStart[new_state_idx] = newCostFromStart;
-                        traversal_heap.push(heap_node( newCostFromStart + (*h)(new_state) , new_state));
+                        if(!isGreedy) {
+                            traversal_heap.push(heap_node( newCostFromStart + (*h)(new_state) , new_state));
+                        } else {
+                            traversal_heap.push(heap_node( (*h)(new_state) , new_state));
+                        }
                     }// end if
                     
                 }// end for
@@ -134,8 +139,14 @@ namespace astar {
         }
     }
     
-    void planner::setHeuristic( heuristic_func_base& heuristic ) {
+    void planner::setHeuristic( heuristic_func_base& heuristic) {
         h = &heuristic;
+        isGreedy = false;
+    }
+    
+    void planner::setHeuristic( heuristic_func_base& heuristic, bool beGreedy) {
+        h = &heuristic;
+        isGreedy = beGreedy;
     }
     
     void planner::getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,

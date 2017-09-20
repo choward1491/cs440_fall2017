@@ -11,6 +11,7 @@
 #ifndef astar_euclidean_hpp
 #define astar_euclidean_hpp
 
+#include <string>
 #include "astar_heuristic.hpp"
 
 namespace astar {
