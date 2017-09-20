@@ -19,6 +19,7 @@
 #include "astar_planner.hpp"
 #include "astar_manhattan.hpp"
 #include "astar_euclidean.hpp"
+#include "astar_deviation.hpp"
 #include "dfs_planner.hpp"
 
 int main(int argc, char** argv){
@@ -35,18 +36,20 @@ int main(int argc, char** argv){
         path path1, path2, path3;
         
         // define heuristic function
-        astar::manhattan_dist h; h.setMaze(maze_);
-        astar::euclidean_dist h_e; h_e.setMaze(maze_);
+        astar::manhattan_dist h;    h.setMaze(maze_);
+        astar::euclidean_dist h_e;  h_e.setMaze(maze_);
+        astar::deviation h_d;       h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         
         // define dfs planner
         dfs::planner dplanner;
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
-        aplanner.setHeuristic(h);
+        aplanner.setHeuristic(h_d);
         
         // compute maze solution using path planning algorithm
         aplanner.computePath(maze_, path1);
+        path1.printResults();
         
         // save solved maze to file
         std::string out_maze_file = commp["-out"];

@@ -12,6 +12,7 @@
 #define path_hpp
 
 #include "maze.hpp"
+#include <stdio.h>
 
 // structure that will store information about a path after being
 // generated using some path planning algorithm
@@ -29,6 +30,10 @@ struct path {
         path_list.clear();
         path_cost = 0;
         num_nodes_expanded = 0;
+    }
+    
+    void printResults(){
+        printf("The path cost is %u after %u expanded nodes.\n",path_cost,num_nodes_expanded);
     }
 };
 
