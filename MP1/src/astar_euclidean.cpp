@@ -9,6 +9,7 @@
  */
 
 #include <cmath>
+#include <string>
 #include "astar_euclidean.hpp"
 #include "custom_exception.hpp"
 
