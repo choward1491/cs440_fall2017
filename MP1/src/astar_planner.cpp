@@ -12,7 +12,6 @@
 #include "custom_exception.hpp"
 #include "transition_model.hpp"
 #include <queue>
-#include <iostream>
 
 // useful typedefs
 typedef multi::state state_t;
