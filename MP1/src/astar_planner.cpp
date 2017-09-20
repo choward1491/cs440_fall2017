@@ -139,11 +139,6 @@ namespace astar {
         }
     }
     
-    void planner::setHeuristic( heuristic_func_base& heuristic) {
-        h = &heuristic;
-        isGreedy = false;
-    }
-    
     void planner::setHeuristic( heuristic_func_base& heuristic, bool beGreedy) {
         h = &heuristic;
         isGreedy = beGreedy;
