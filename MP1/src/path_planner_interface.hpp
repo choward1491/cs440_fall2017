@@ -15,6 +15,7 @@
 #include "maze.hpp"
 #include "path.hpp"
 #include <string>
+#include <map>
 
 class path_planner {
 public:
@@ -47,6 +48,17 @@ public:
     // will be decided by the path planner algorithm being used.
     virtual void computePath( const maze & maze_, path & path_ ) const = 0;
     
+    
+protected:
+    
+    void getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,
+                                       const std::map<unsigned long,unsigned long> & path_history,
+                                       unsigned long start_state,
+                                       unsigned long final_state,
+                                       unsigned int num_goal_points,
+                                       unsigned int num_maze_nodes,
+                                       const maze & maze_,
+                                       path & path_ ) const;
     
 };
 

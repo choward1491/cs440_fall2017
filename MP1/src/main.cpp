@@ -22,6 +22,7 @@
 #include "astar_deviation.hpp"
 #include "astar_average.hpp"
 #include "dfs_planner.hpp"
+#include "bfs_planner.hpp"
 
 int main(int argc, char** argv){
     
@@ -43,7 +44,7 @@ int main(int argc, char** argv){
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(0.35);
         
         // define dfs planner
-        dfs::planner dplanner;
+        bfs::planner bplanner;
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
@@ -54,7 +55,7 @@ int main(int argc, char** argv){
         
         // compute maze solution using path planning algorithm
     //    aplanner.computePath(maze_, path1);
-		aplanner.bfs_computePath(maze_, path1);
+		bplanner.computePath(maze_, path1);
         path1.printResults();
         
         // save solved maze to file
