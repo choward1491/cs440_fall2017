@@ -53,7 +53,8 @@ int main(int argc, char** argv){
 //        aplanner.setHeuristic(h, true);
         
         // compute maze solution using path planning algorithm
-        aplanner.computePath(maze_, path1);
+    //    aplanner.computePath(maze_, path1);
+		aplanner.bfs_computePath(maze_, path1);
         path1.printResults();
         
         // save solved maze to file
