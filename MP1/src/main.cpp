@@ -40,7 +40,7 @@ int main(int argc, char** argv){
         astar::manhattan_dist   h_m;    h_m.setMaze(maze_);
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
-        astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(0.55);
+        astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(0.35);
         
         // define dfs planner
         dfs::planner dplanner;
