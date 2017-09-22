@@ -35,6 +35,4 @@ namespace dfs {
 
 }
 
-
-
 #endif /* dfs_planner_hpp */

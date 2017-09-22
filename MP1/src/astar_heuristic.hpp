@@ -13,6 +13,7 @@
 
 #include "maze.hpp"
 #include "multi_state.hpp"
+#include <string>
 
 namespace astar {
     
