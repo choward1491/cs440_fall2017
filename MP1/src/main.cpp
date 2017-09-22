@@ -43,8 +43,11 @@ int main(int argc, char** argv){
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(0.35);
         
-        // define dfs planner
-        bfs::planner bplanner;
+        // define bfs planner
+//        bfs::planner bplanner;
+        
+        //define dfs planner
+        dfs::planner dplanner;
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
@@ -54,8 +57,9 @@ int main(int argc, char** argv){
 //        aplanner.setHeuristic(h, true);
         
         // compute maze solution using path planning algorithm
-    //    aplanner.computePath(maze_, path1);
-		bplanner.computePath(maze_, path1);
+//        aplanner.computePath(maze_, path1);
+//        bplanner.computePath(maze_, path1);
+        dplanner.computePath(maze_, path1);
         path1.printResults();
         
         // save solved maze to file
