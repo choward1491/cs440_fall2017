@@ -3,106 +3,138 @@
  *
  *  Project: MP1
  *  Author : Christian J Howard
- *  Date   : 9/17/17
+ *  Date   : 9/16/17
  *  Purpose:
  *
  */
 
 #include "dfs_planner.hpp"
+#include "custom_exception.hpp"
 #include "transition_model.hpp"
+#include <queue>
 #include <stack>
+#include <map>
+
+#ifdef _WIN32
+#include <functional>
+#endif
+
+// useful typedefs
+typedef multi::state state_t;
+typedef std::pair<unsigned int, state_t> heap_node;
+
+// define std::greater for heap_node
+namespace std {
+    template<>
+    struct greater<heap_node> {
+        bool operator()( const heap_node& lhs, const heap_node& rhs) const {
+            return lhs.first > rhs.first;
+        }
+    };
+}
+
 
 namespace dfs {
     
-// ctor/dtor
-planner::planner(){
+    // define useful typedefs
+    typedef std::priority_queue<heap_node, std::vector<heap_node>, std::greater<heap_node>> min_heap;
     
-}
-
-// method to return the path planner name for potential use in
-// post processing or automated testing work
-std::string planner::plannerName() const { return "DFS"; }
-
-// method(s) to be defined by specialized path planning algorithms.
-// this method should take an input maze reference and path reference and
-// generate a path that takes an agent from an initial point through all the
-// desired locations until there isn't any left. How optimal a path is
-// will be decided by the path planner algorithm being used.
-void planner::computePath( const maze & maze_, path & path_ ) const {
-    /*if( maze_.numGoalPoints() == 1 ){
+    // class definitions
+    planner::planner(){}
+    
+    std::string planner::plannerName() const {
+        return "DFS";
+    }
+    
+    void planner::computePath(const maze & maze_, path & path_) const
+    {
+        
+        // compute path using DFS search method
+        
+        // define map of goal points
+        std::vector<maze::id_type> goal_points = maze_.getGoalPoints();
         
         // define the transition model
         transition::model F;
         F.setMaze(maze_);
+        F.setUnvisitedGoalPointList(goal_points);
         
-        // initialize visited list, cost from start, and overall current cost estimate for given node
-        // also initialize vector saying what the last node prior to arriving at node_i
+        // define stack that will be used in traversal
+        std::stack<state_t> stateStack;
+        
+        // define state variable
+        multi::state current_state;
+        current_state.hasSeenGoalPoint.resize(goal_points.size(), false);
+        
+        // define maps that store whether a state has been visited, the cost to that state,
+        // and the previous state that lead to a current state
+        std::map<unsigned long, bool>           visited;
+        std::map<unsigned int, bool>            visited_goal;
+        std::map<unsigned long, unsigned int>   costFromStart;
+        std::map<unsigned long, unsigned long>  path_history;
+        
+        // define the number of nodes in the maze graph and the number of total states
+        // after adding in the boolean chunk of the state space (based on number of goal points)
         auto num_nodes = maze_.getGraph().getNumNodes();
-        std::vector<bool>           visited(num_nodes, false);
-        std::vector<unsigned int>   costFromStart(num_nodes,UINT32_MAX);
-        std::vector<unsigned int>   path_history(num_nodes,0);
+        auto nn = num_nodes;
+//        auto num_states = multi::state::numOverallState(goal_points.size(), num_nodes);
         
-        // get the starting position and final position. Set cost at initial position to 0
+        // get the starting position and throw into stack
         maze::id_type sid = maze_.getStartingLocationID();
-        maze::id_type fid = maze_.goalPointAt(0);
-        costFromStart[sid] = 0;
+        current_state.current_node = sid;
+        unsigned long sstate = multi::state::highdim_hasher(current_state, nn);
+        unsigned long fstate = 0;
+        costFromStart[sstate] = 0;
+        stateStack.push(current_state);
         
-        // define stack and push first node into it
-        std::stack<maze::id_type> traversal_stack;
-        traversal_stack.push(sid);
-        
-        // do loop evaluating path
-        std::vector<maze::Action> action_list(5,maze::Null);
+        // start main loop for traversal
+        std::vector<maze::Action> action_list(5, maze::Null);
         path_.reset();
-        while( !traversal_stack.empty() ){
+        while (!stateStack.empty()) {
             
-            // get node on top of stack to process
-            auto node = traversal_stack.top(); traversal_stack.pop();
+            // pop next state in stack data structure
+            auto state = stateStack.top(); stateStack.pop();
+            unsigned long current_state_idx = multi::state::highdim_hasher(state, nn);
             
-            // set information related to current node
-            visited[node]   = true;
-            path_.num_nodes_expanded++;
-            
-            // check if current node is the final node, exit loop if it is
-            if( node == fid ){ break; }
-            
-            // get list of actions for current node
-            maze_.getActionSetForID(node, action_list);
-            
-            // loop through actions and compute necessary data for use in search
-            for( maze::Action a : action_list ){
+            if (!visited[current_state_idx]) {
                 
-                // compute state transition based on action
-                auto new_node = F(node,a);
+                visited[current_state_idx] = true;
+                path_.num_nodes_expanded++;
                 
-                // compute cost from start to new_node
-                unsigned int newCostFromStart = costFromStart[node] + 1;
+                // check if current node is the final node, exit loop if it is
+                if (state.isFinished()) { fstate = current_state_idx; break; }
                 
-                // update information for new_node and add to traversal stack if necessary
-                if( !visited[new_node]
-                   ||
-                   (visited[new_node] && newCostFromStart < costFromStart[new_node]) )
-                {
-                    path_history[new_node]  = node;
-                    costFromStart[new_node] = newCostFromStart;
-                    traversal_stack.push(new_node);
-                }// end if
-            }// end for
+                // get list of actions for current node
+                maze_.getActionSetForID(state.current_node, action_list);
+                
+                // loop through actions and compute necessary data for use in search
+                for (maze::Action a : action_list) {
+                    
+                    // compute state transition based on action
+                    auto new_state = F(state, a);
+                    unsigned long new_state_idx = multi::state::highdim_hasher(new_state, nn);
+                    
+                    // compute cost from start to new_node
+                    unsigned int newCostFromStart = costFromStart[current_state_idx] + 1;
+                    
+                    // update information for new_node and add to stack if necessary
+                    if (visited.find(new_state_idx) == visited.end())
+                    {
+                        path_history[new_state_idx] = current_state_idx;
+                        costFromStart[new_state_idx] = newCostFromStart;
+                        stateStack.push(new_state);
+                    }// end if
+                    
+                }// end for
+                
+            }
             
         }// end while
         
-        // add cost for overall path
-        path_.path_cost = costFromStart[fid];
+        // set the final path and output information
+        this->getResultingPathAndOutputData(costFromStart, path_history, sstate, fstate,
+                                      maze_.numGoalPoints(), num_nodes, maze_, path_);
         
-        // get the resulting path going from start node to final node
-        unsigned int id = fid;
-        while( id != sid ){
-            path_.path_list.push_front(id);
-            id = path_history[id];
-        }
-        path_.path_list.push_front(sid);
-        
-    }*/
-}
-
+    }
+    
 }
