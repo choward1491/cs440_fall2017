@@ -23,8 +23,11 @@
 #include "astar_average.hpp"
 #include "dfs_planner.hpp"
 #include "bfs_planner.hpp"
+#include <chrono>
 
 int main(int argc, char** argv){
+    
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     
     try {
         
@@ -41,7 +44,7 @@ int main(int argc, char** argv){
         astar::manhattan_dist   h_m;    h_m.setMaze(maze_);
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
-        astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(0.35);
+        astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
         
         // define dfs planner
         bfs::planner bplanner;
@@ -54,8 +57,8 @@ int main(int argc, char** argv){
 //        aplanner.setHeuristic(h, true);
         
         // compute maze solution using path planning algorithm
-    //    aplanner.computePath(maze_, path1);
-		bplanner.computePath(maze_, path1);
+        aplanner.computePath(maze_, path1);
+		//bplanner.computePath(maze_, path1);
         path1.printResults();
         
         // save solved maze to file
@@ -75,6 +78,10 @@ int main(int argc, char** argv){
         text::printf_color(text::Red, "\n");
         return -2;
     }
+    
+    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    auto time_span = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    printf("The code ran for %lu milliseconds\n",time_span.count());
     
 	return 0;
 }

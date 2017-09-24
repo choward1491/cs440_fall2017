@@ -11,8 +11,8 @@
 #include "path_planner_interface.hpp"
 #include "multi_state.hpp"
 
-void path_planner::getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,
-                                                 const std::map<unsigned long,unsigned long> & path_history,
+void path_planner::getResultingPathAndOutputData( const std::unordered_map<unsigned long,unsigned int> &  costFromStart,
+                                                 const std::unordered_map<unsigned long,unsigned long> & path_history,
                                                  unsigned long start_state,
                                                  unsigned long fstate,
                                                  unsigned int num_goal_points,

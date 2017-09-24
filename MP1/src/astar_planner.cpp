@@ -29,6 +29,25 @@ namespace std {
             return lhs.first > rhs.first;
         }
     };
+    
+    template<>
+    struct equal_to<heap_node> {
+        bool operator()( const heap_node& lhs, const heap_node& rhs ) const {
+            return lhs.first == rhs.first;
+        }
+    };
+    
+    template<>
+    struct hash< heap_node >{
+        typedef heap_node argument_type;
+        typedef std::size_t result_type;
+        result_type operator()(argument_type const& s) const
+        {
+            result_type const h1 = 2098960;
+            result_type const h2 = s.first;
+            return h1 ^ (h2 << 1);
+        }
+    };
 }
 
 
@@ -68,10 +87,15 @@ namespace astar {
             
             // define maps that store whether a state has been visited, the cost to that state,
             // and the previous state that lead to a current state
-            std::map<unsigned long,bool>           visited;
+            /*std::map<unsigned long,bool>           visited;
             std::map<unsigned int ,bool>           visited_goal;
             std::map<unsigned long,unsigned int>   costFromStart;
-            std::map<unsigned long,unsigned long>  path_history;
+            std::map<unsigned long,unsigned long>  path_history;*/
+            
+            std::unordered_map<unsigned long,bool>           visited;
+            std::unordered_map<unsigned int ,bool>           visited_goal;
+            std::unordered_map<unsigned long,unsigned int>   costFromStart;
+            std::unordered_map<unsigned long,unsigned long>  path_history;
             
             // define the number of nodes in the maze graph and the number of total states
             // after adding in the boolean chunk of the state space (based on number of goal points)

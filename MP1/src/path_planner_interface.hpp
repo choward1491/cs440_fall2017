@@ -16,6 +16,7 @@
 #include "path.hpp"
 #include <string>
 #include <map>
+#include <unordered_map>
 
 class path_planner {
 public:
@@ -51,8 +52,8 @@ public:
     
 protected:
     
-    void getResultingPathAndOutputData( const std::map<unsigned long,unsigned int> &  costFromStart,
-                                       const std::map<unsigned long,unsigned long> & path_history,
+    void getResultingPathAndOutputData( const std::unordered_map<unsigned long,unsigned int> &  costFromStart,
+                                       const std::unordered_map<unsigned long,unsigned long> & path_history,
                                        unsigned long start_state,
                                        unsigned long final_state,
                                        unsigned int num_goal_points,

@@ -51,6 +51,8 @@ namespace astar {
             auto point1 = maze_->getCoordinateForID(node1);
             int idx     = 0;
             cost        = 0;
+            int max_cost= 0;
+            unsigned int num_unvisited = 0;
             
             // loop through boolean part of state
             for( auto it = s.hasSeenGoalPoint.begin(); it != s.hasSeenGoalPoint.end(); ++it,++idx ){
@@ -60,7 +62,9 @@ namespace astar {
                     auto point2 = maze_->getCoordinateForID( (*gplist_)[idx] );
                     auto local_cost = abs( (int)point2.first - (int)point1.first ) +
                     abs( (int)point2.second - (int)point1.second );
+                    if( local_cost > max_cost ){ max_cost = local_cost; }
                     distances.push_back(static_cast<double>(local_cost));
+                    num_unvisited++;
                 }
             }
             
@@ -68,6 +72,8 @@ namespace astar {
             double invN = 1.0 / static_cast<double>(distances.size());
             for( auto dist : distances ){ avg_dist += invN*dist; }
             cost = static_cast<unsigned int>( scale_*avg_dist/invN );
+            
+            cost = static_cast<unsigned int>( max_cost + scale_*( num_unvisited - 1) );
             
             
         }else{ custom::exception("A* Scaled Average Distance Heuristic does not have a reference maze, cannot compute distance properly."); }
