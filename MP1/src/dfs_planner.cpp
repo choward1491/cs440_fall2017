@@ -68,10 +68,10 @@ namespace dfs {
         
         // define maps that store whether a state has been visited, the cost to that state,
         // and the previous state that lead to a current state
-        std::map<unsigned long, bool>           visited;
-        std::map<unsigned int, bool>            visited_goal;
-        std::map<unsigned long, unsigned int>   costFromStart;
-        std::map<unsigned long, unsigned long>  path_history;
+        std::unordered_map<unsigned long, bool>           visited;
+        std::unordered_map<unsigned int, bool>            visited_goal;
+        std::unordered_map<unsigned long, unsigned int>   costFromStart;
+        std::unordered_map<unsigned long, unsigned long>  path_history;
         
         // define the number of nodes in the maze graph and the number of total states
         // after adding in the boolean chunk of the state space (based on number of goal points)
