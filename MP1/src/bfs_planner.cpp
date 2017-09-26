@@ -89,7 +89,7 @@ namespace bfs {
         // start main loop for traversal
         std::vector<maze::Action> action_list(5, maze::Null);
         path_.reset();
-        while (!fifo.empty()) {
+        while (!fifo.empty()) { 
             
             // pop next state in fifo data structure
             auto state = fifo.front(); fifo.pop();

@@ -71,7 +71,7 @@ namespace astar {
         if( h ){
             
             // define map of goal points
-            std::vector<maze::id_type> goal_points = maze_.getGoalPoints();
+            const std::vector<maze::id_type> & goal_points = maze_.getGoalPoints();
             
             // define the transition model
             transition::model F;
@@ -79,7 +79,7 @@ namespace astar {
             F.setUnvisitedGoalPointList(goal_points);
             
             // define min heap that will be used in traversal
-            min_heap traversal_heap;
+            min_heap frontier;
             
             // define state variable
             multi::state current_state;
@@ -87,11 +87,6 @@ namespace astar {
             
             // define maps that store whether a state has been visited, the cost to that state,
             // and the previous state that lead to a current state
-            /*std::map<unsigned long,bool>           visited;
-            std::map<unsigned int ,bool>           visited_goal;
-            std::map<unsigned long,unsigned int>   costFromStart;
-            std::map<unsigned long,unsigned long>  path_history;*/
-            
             std::unordered_map<unsigned long,bool>           visited;
             std::unordered_map<unsigned int ,bool>           visited_goal;
             std::unordered_map<unsigned long,unsigned int>   costFromStart;
@@ -104,24 +99,24 @@ namespace astar {
             auto num_states= multi::state::numOverallState(goal_points.size(), num_nodes);
             
             // get the starting position, set goal point list for heuristics, and throw into a min heap
-            maze::id_type sid = maze_.getStartingLocationID();
-            current_state.current_node = sid;
-            unsigned long sstate = multi::state::highdim_hasher(current_state,nn);
-            unsigned long fstate = 0;
+            maze::id_type sid           = maze_.getStartingLocationID();
+            current_state.current_node  = sid;
+            unsigned long sstate        = multi::state::highdim_hasher(current_state,nn);
+            unsigned long fstate        = 0;
             h->setUnvisitedGoalPointList(goal_points);
-            costFromStart[sstate] = 0;
-            traversal_heap.push(heap_node(costFromStart[sstate] + (*h)(current_state), current_state));
+            costFromStart[sstate]       = 0;
+            frontier.push(heap_node(costFromStart[sstate] + (*h)(current_state), current_state));
             
             // start main loop for traversal
             std::vector<maze::Action> action_list(5,maze::Null);
             path_.reset();
-            while( !traversal_heap.empty() ){
+            while( !frontier.empty() ){
                 
                 // pop next heap_node in min_heap data structure
-                auto hnode      = traversal_heap.top(); traversal_heap.pop();
-                auto state      = hnode.second;
+                auto hnode                      = frontier.top(); frontier.pop();
+                auto state                      = hnode.second;
                 unsigned long current_state_idx = multi::state::highdim_hasher(state, nn);
-                visited[current_state_idx]   = true;
+                visited[current_state_idx]      = true;
                 path_.num_nodes_expanded++;
                 
                 // check if current node is the final node, exit loop if it is
@@ -134,7 +129,7 @@ namespace astar {
                 for( maze::Action a : action_list ){
                     
                     // compute state transition based on action
-                    auto new_state = F(state,a);
+                    auto new_state              = F(state,a);
                     unsigned long new_state_idx = multi::state::highdim_hasher(new_state, nn);
                     
                     // compute cost from start to new_node
@@ -143,14 +138,15 @@ namespace astar {
                     // update information for new_node and add to traversal heap if necessary
                     if( visited.find(new_state_idx) == visited.end()
                         ||
-                        (visited[new_state_idx] && newCostFromStart < costFromStart[new_state_idx]) )
+                        newCostFromStart < costFromStart[new_state_idx] )
                     {
                         path_history[new_state_idx]  = current_state_idx;
                         costFromStart[new_state_idx] = newCostFromStart;
+                        auto heuristic_cost = (*h)(new_state);
                         if(!isGreedy) {
-                            traversal_heap.push(heap_node( newCostFromStart + (*h)(new_state) , new_state));
+                            frontier.push(heap_node( newCostFromStart + heuristic_cost , new_state));
                         } else {
-                            traversal_heap.push(heap_node( (*h)(new_state) , new_state));
+                            frontier.push(heap_node( heuristic_cost , new_state));
                         }
                     }// end if
                     

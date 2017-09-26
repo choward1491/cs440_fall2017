@@ -71,9 +71,10 @@ namespace astar {
             // compute average distance and standard deviation
             double invN = 1.0 / static_cast<double>(distances.size());
             for( auto dist : distances ){ avg_dist += invN*dist; }
-            cost = static_cast<unsigned int>( scale_*avg_dist/invN );
+            cost = static_cast<unsigned int>( scale_*avg_dist );
             
-            cost = static_cast<unsigned int>( max_cost + scale_*( num_unvisited - 1) );
+            //cost = static_cast<unsigned int>( max_cost + scale_*(num_unvisited != 0)*( num_unvisited - 1) );
+            //printf("Cost = %u, num_pts_left = %u, ",cost,num_unvisited);
             
             
         }else{ custom::exception("A* Scaled Average Distance Heuristic does not have a reference maze, cannot compute distance properly."); }

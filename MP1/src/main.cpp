@@ -23,7 +23,10 @@
 #include "astar_average.hpp"
 #include "dfs_planner.hpp"
 #include "bfs_planner.hpp"
+#include "astar_convexhull.hpp"
 #include <chrono>
+
+
 
 int main(int argc, char** argv){
     
@@ -45,25 +48,27 @@ int main(int argc, char** argv){
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
+        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(1); // 2.5 leads to 207 cost for mediumSearch
         
         // define bfs planner
-//        bfs::planner bplanner;
+        bfs::planner bplanner;
         
         //define dfs planner
         dfs::planner dplanner;
         
         // define planning algorithm and set heuristic function
         astar::planner aplanner;
-        aplanner.setHeuristic(h_a);
+        aplanner.setHeuristic(h_ch);
         
         //use greedy heuristic
-//        aplanner.setHeuristic(h, true);
+        //aplanner.setHeuristic(h, true);
         
         // compute maze solution using path planning algorithm
         aplanner.computePath(maze_, path1);
         //bplanner.computePath(maze_, path1);
         //dplanner.computePath(maze_, path1);
         path1.printResults();
+        
         
         // save solved maze to file
         std::string out_maze_file = commp["-out"];
