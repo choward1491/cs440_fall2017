@@ -5,13 +5,13 @@ print-% : ; @echo $* = $($*)
 COMPILER:=g++
 D_CFLAGS:= -O0 -Wall -std=c++11
 R_CFLAGS:= -O2 -std=c++11
-LFLAGS  := 
+LFLAGS  := -lpng16 -lz -lm 
 EXEC    := mp_exec
 BIN     := bin
 DOBJ    := objs_d
 ROBJ    := objs_r
 SRC     := src
-INCLUDES:=-Isrc/
+INCLUDES:=-Isrc/ -I/usr/include/libpng16
 
 # setup source files, object files
 src    := $(wildcard $(SRC)/*.cpp)
