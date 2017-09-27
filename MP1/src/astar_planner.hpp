@@ -20,8 +20,11 @@ namespace astar {
     // This planning algorithm is going to  be a generic A* implementation that can
     // take any Heuristic Function, represented as a functor that satisfies a defined interface,
     // and use it to try and solve path planning problems.
+    template<typename transition_model>
     class planner : public path_planner {
     public:
+        
+        typedef typename transition_model::state_t state_t;
         
         //ctor/dtor
         planner();
@@ -36,14 +39,16 @@ namespace astar {
         void computePath( const maze & maze_, path & path_ ) const;
         
         // method to set the heuristic function for the A* algorithm or greedy
-        void setHeuristic( heuristic_func_base& heuristic, bool beGreedy = false );
+        void setHeuristic( heuristic_func_base<state_t>& heuristic, bool beGreedy = false );
         
     private:
-        heuristic_func_base* h;
+        heuristic_func_base<state_t>* h;
         
         
     };
     
 }
+
+#include "astar_planner_impl.hxx"
 
 #endif /* astar_planner_hpp */

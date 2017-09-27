@@ -10,7 +10,7 @@
 
 #include "bfs_planner.hpp"
 #include "custom_exception.hpp"
-#include "transition_model.hpp"
+#include "maze_transition_model.hpp"
 #include <queue>
 #include <map>
 
@@ -54,7 +54,7 @@ namespace bfs {
         std::vector<maze::id_type> goal_points = maze_.getGoalPoints();
         
         // define the transition model
-        transition::model F;
+        transition::maze_model F;
         F.setMaze(maze_);
         F.setUnvisitedGoalPointList(goal_points);
         

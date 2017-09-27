@@ -1,5 +1,5 @@
 /*
- *  transition_model.cpp
+ *  transition_maze_model.cpp
  *
  *  Project: MP1
  *  Author : Christian J Howard
@@ -8,16 +8,16 @@
  *
  */
 
-#include "transition_model.hpp"
+#include "maze_transition_model.hpp"
 #include "custom_exception.hpp"
 
 namespace transition {
     
-    model::model( const maze * mref ):maze_ref(mref) {
+    maze_model::maze_model( const maze * mref ):maze_ref(mref) {
         
     }
     
-    multi::state model::operator()( const multi::state & current_state, maze::Action current_action ) {
+    multi::state maze_model::operator()( const multi::state & current_state, maze::Action current_action ) {
         
         multi::state new_state = current_state;
         
@@ -49,12 +49,12 @@ namespace transition {
     
     
     // method to set maze reference if needed
-    void model::setMaze( const maze & maze) {
+    void maze_model::setMaze( const maze & maze) {
         maze_ref = &maze;
     }
     
     
-    void model::setUnvisitedGoalPointList( const std::vector<maze::id_type> & gplist){
+    void maze_model::setUnvisitedGoalPointList( const std::vector<maze::id_type> & gplist){
         gplist_ref = &gplist;
     }
     

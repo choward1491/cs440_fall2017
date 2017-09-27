@@ -12,11 +12,12 @@
 #define astar_average_hpp
 
 #include "astar_heuristic.hpp"
+#include "multi_state.hpp"
 
 namespace astar {
     
     // heuristic function for A* based on the manhatten distance
-    class average : public heuristic_func_base {
+    class average : public heuristic_func_base<multi::state> {
     public:
         
         // ctor/dtor

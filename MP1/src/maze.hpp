@@ -46,17 +46,27 @@ public:
     unsigned int    getNumCols() const;
             maze_graph & getGraph();
     const   maze_graph & getGraph() const;
+    
+    // stuff for goal points
     void            addGoalPoint( id_type goal_id );
     unsigned int    numGoalPoints() const;
     const id_type & goalPointAt(unsigned int idx) const;
           id_type & goalPointAt(unsigned int idx);
     const std::vector<id_type> & getGoalPoints() const;
     void            clearGoalPoints();
+    bool idIsGoalPoint( id_type id ) const;
+    
+    // stuff for boxes
+    void addBoxPosition( id_type box_id );
+    unsigned int numBoxes() const;
+    const id_type & positionForBox( unsigned int idx ) const;
+    id_type & positionForBox( unsigned int idx );
+    const std::vector<id_type> & getBoxPositions() const;
+    void clearBoxes();
+    
+    // stuff for actions
     action_set      getActionSetForID( id_type id ) const;
     void            getActionSetForID( id_type id, action_set & aset ) const;
-    
-    // some useful functionality
-    bool idIsGoalPoint( id_type id ) const;
     
 private:
     
@@ -64,6 +74,7 @@ private:
     unsigned int rows, cols;
     id_type startID;
     std::vector<id_type> goal_points;
+    std::vector<id_type> boxes;
     std::vector<bool>    valid_node;
     maze_graph mgraph;
 };

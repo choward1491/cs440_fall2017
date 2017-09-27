@@ -26,6 +26,8 @@
 #include "astar_convexhull.hpp"
 #include <chrono>
 #include "gif_wrapper.hpp"
+#include "maze_transition_model.hpp"
+#include "multi_state.hpp"
 
 
 #ifndef _WIN32
@@ -39,6 +41,7 @@ void writeGifSolution( std::map<wrap::tile_t, img::image> & tile_set,
                        const maze & maze_,
                        const path & path );
 #endif
+
 
 int main(int argc, char** argv){
     
@@ -87,7 +90,7 @@ int main(int argc, char** argv){
         dfs::planner dplanner;
         
         // define planning algorithm and set heuristic function
-        astar::planner aplanner;
+        astar::planner<transition::maze_model> aplanner;
         aplanner.setHeuristic(h_ch);
         
         //use greedy heuristic
@@ -107,8 +110,8 @@ int main(int argc, char** argv){
         
 #ifdef LIBPNG_DEFINED
         // generate GIF of the maze
-        if( out_gif.size() == 0 ){ out_gif = "out_gif.gif"; }
-        writeGifSolution(image_set, out_gif, maze_, path1);
+        //if( out_gif.size() == 0 ){ out_gif = "out_gif.gif"; }
+        //writeGifSolution(image_set, out_gif, maze_, path1);
 #endif
         
     

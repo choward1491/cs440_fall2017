@@ -13,11 +13,12 @@
 
 #include <string>
 #include "astar_heuristic.hpp"
+#include "multi_state.hpp"
 
 namespace astar {
     
     // heuristic function for A* based on the manhatten distance
-    class manhattan_dist : public heuristic_func_base {
+    class manhattan_dist : public heuristic_func_base<multi::state> {
     public:
         
         // ctor/dtor

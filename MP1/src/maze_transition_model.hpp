@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef transition_model_hpp
-#define transition_model_hpp
+#ifndef maze_transition_model_hpp
+#define maze_transition_model_hpp
 
 #include "maze.hpp"
 #include "multi_state.hpp"
@@ -17,12 +17,14 @@
 namespace transition {
     
     // state transition model
-    class model {
+    class maze_model {
     public:
         
+        typedef multi::state state_t;
+        
         // ctor/dtor
-        model( const maze * mref = nullptr );
-        ~model() = default;
+        maze_model( const maze * mref = nullptr );
+        ~maze_model() = default;
         
         // define state transition operator
         multi::state operator()( const multi::state & current_state, maze::Action current_action );

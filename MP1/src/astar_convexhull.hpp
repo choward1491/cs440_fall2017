@@ -12,11 +12,12 @@
 #define astar_convexhull_hpp
 
 #include "astar_heuristic.hpp"
+#include "multi_state.hpp"
 
 namespace astar {
     
     // heuristic function for A* based on the manhatten distance
-    class convexhull : public heuristic_func_base {
+    class convexhull : public heuristic_func_base<multi::state> {
     public:
         
         // ctor/dtor

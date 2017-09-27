@@ -95,6 +95,26 @@ void            maze::clearGoalPoints() {
     goal_points.clear();
 }
 
+void maze::addBoxPosition( id_type box_id ) {
+    boxes.push_back(box_id);
+}
+unsigned int maze::numBoxes() const {
+    return boxes.size();
+}
+const maze::id_type & maze::positionForBox( unsigned int idx ) const {
+    return boxes[idx];
+}
+maze::id_type & maze::positionForBox( unsigned int idx ) {
+    return boxes[idx];
+}
+const std::vector<maze::id_type> & maze::getBoxPositions() const {
+    return boxes;
+}
+void maze::clearBoxes() {
+    boxes.clear();
+}
+
+
 maze::action_set maze::getActionSetForID( id_type id ) const {
     action_set aset;
     const auto & nlist = mgraph.getConnectivityListFor(id);

@@ -56,7 +56,7 @@ namespace maze_io {
             // reset maze file and dump maze into map array
             maze.resetFile();
             while( fscanf(maze,"%c",&c) != EOF ){
-                if( c == ' ' || c == '.' || c == 'P' || c == '%' ){
+                if( c == ' ' || c == '.' || c == 'P' || c == '%' || c == 'b' || c == 'B' ){
                     map[idx++] = c;
                 }
             }
@@ -78,7 +78,9 @@ namespace maze_io {
                 // mark current node and do extra work if necessary
                 switch( map[id] ){
                     case 'P': if( map[id] == 'P' ){ out_maze.setStartingLocationID(id); }
-                    case '.': if( map[id] == '.' ){ out_maze.addGoalPoint(id); }
+                    case 'B':
+                    case '.': if( map[id] == '.' || map[id] == 'B' ){ out_maze.addGoalPoint(id); }
+                    case 'b': if( map[id] == 'b' || map[id] == 'B' ){ out_maze.addBoxPosition(id); }
                     case ' ': isValidPos = true; break;
                     case '%': isValidPos = false;
                     default: break;

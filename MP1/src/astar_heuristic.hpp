@@ -12,12 +12,12 @@
 #define astar_heuristic_hpp
 
 #include "maze.hpp"
-#include "multi_state.hpp"
 #include <string>
 
 namespace astar {
     
     // abstract base class to represent an A* heuristic function
+    template< typename state_t >
     class heuristic_func_base {
     public:
         
@@ -29,7 +29,7 @@ namespace astar {
         virtual std::string name() const = 0;
         
         // cost func
-        virtual unsigned int operator()( const multi::state & s ) const = 0;
+        virtual unsigned int operator()( const state_t & s ) const = 0;
         
         // set reference to maze
         void setMaze( maze & maze_ ) { maze_ref = &maze_; }

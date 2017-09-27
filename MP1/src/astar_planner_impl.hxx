@@ -10,36 +10,41 @@
 
 #include "astar_planner.hpp"
 #include "custom_exception.hpp"
-#include "transition_model.hpp"
 #include <queue>
 
 #ifdef _WIN32
 #include <functional>
 #endif
 
+#ifndef _astar_planner_impl_
+#define _astar_planner_impl_
+
+#define TEMPLATE_HEADER template<typename transition_model>
+#define PLANNER planner<transition_model>
+
 // useful typedefs
-typedef multi::state state_t;
-typedef std::pair<unsigned int, state_t> heap_node;
+//typedef multi::state state_t;
+//typedef std::pair<unsigned int, state_t> heap_node;
 
 // define std::greater for heap_node
 namespace std {
-    template<>
-    struct greater<heap_node> {
-        bool operator()( const heap_node& lhs, const heap_node& rhs) const {
+    template<typename T>
+    struct greater< std::pair<unsigned int, T> > {
+        bool operator()( const std::pair<unsigned int, T>& lhs, const std::pair<unsigned int, T>& rhs) const {
             return lhs.first > rhs.first;
         }
     };
     
-    template<>
-    struct equal_to<heap_node> {
-        bool operator()( const heap_node& lhs, const heap_node& rhs ) const {
+    template<typename T>
+    struct equal_to<std::pair<unsigned int, T>> {
+        bool operator()( const std::pair<unsigned int, T>& lhs, const std::pair<unsigned int, T>& rhs ) const {
             return lhs.first == rhs.first;
         }
     };
     
-    template<>
-    struct hash< heap_node >{
-        typedef heap_node argument_type;
+    template<typename T>
+    struct hash< std::pair<unsigned int, T> >{
+        typedef std::pair<unsigned int, T> argument_type;
         typedef std::size_t result_type;
         result_type operator()(argument_type const& s) const
         {
@@ -54,18 +59,25 @@ namespace std {
 namespace astar {
     
     // define useful typedefs
-    typedef std::priority_queue<heap_node, std::vector<heap_node>, std::greater<heap_node>> min_heap;
+    
     
     // class definitions
     bool isGreedy;
-    planner::planner():h(nullptr){}
     
-    std::string planner::plannerName() const {
+    TEMPLATE_HEADER
+    PLANNER::planner():h(nullptr){}
+    
+    TEMPLATE_HEADER
+    std::string PLANNER::plannerName() const {
         if( h ){ return "A* - " + h->name(); }
         return "A*";
     }
     
-    void planner::computePath( const maze & maze_, path & path_ ) const {
+    TEMPLATE_HEADER
+    void PLANNER::computePath( const maze & maze_, path & path_ ) const {
+        typedef std::pair<unsigned int, state_t> heap_node;
+        typedef std::priority_queue<heap_node, std::vector<heap_node>, std::greater<heap_node>> min_heap;
+        
         
         // compute path, given heuristic is defined
         if( h ){
@@ -74,7 +86,7 @@ namespace astar {
             const std::vector<maze::id_type> & goal_points = maze_.getGoalPoints();
             
             // define the transition model
-            transition::model F;
+            transition_model F;
             F.setMaze(maze_);
             F.setUnvisitedGoalPointList(goal_points);
             
@@ -82,7 +94,7 @@ namespace astar {
             min_heap frontier;
             
             // define state variable
-            multi::state current_state;
+            state_t current_state;
             current_state.hasSeenGoalPoint.resize(goal_points.size(),false);
             
             // define maps that store whether a state has been visited, the cost to that state,
@@ -96,12 +108,12 @@ namespace astar {
             // after adding in the boolean chunk of the state space (based on number of goal points)
             auto num_nodes = maze_.getGraph().getNumNodes();
             auto nn        = num_nodes;
-            auto num_states= multi::state::numOverallState(goal_points.size(), num_nodes);
+            auto num_states= state_t::numOverallState(goal_points.size(), num_nodes);
             
             // get the starting position, set goal point list for heuristics, and throw into a min heap
             maze::id_type sid           = maze_.getStartingLocationID();
             current_state.current_node  = sid;
-            unsigned long sstate        = multi::state::highdim_hasher(current_state,nn);
+            unsigned long sstate        = state_t::highdim_hasher(current_state,nn);
             unsigned long fstate        = 0;
             h->setUnvisitedGoalPointList(goal_points);
             costFromStart[sstate]       = 0;
@@ -115,7 +127,7 @@ namespace astar {
                 // pop next heap_node in min_heap data structure
                 auto hnode                      = frontier.top(); frontier.pop();
                 auto state                      = hnode.second;
-                unsigned long current_state_idx = multi::state::highdim_hasher(state, nn);
+                unsigned long current_state_idx = state_t::highdim_hasher(state, nn);
                 visited[current_state_idx]      = true;
                 path_.num_nodes_expanded++;
                 
@@ -130,7 +142,7 @@ namespace astar {
                     
                     // compute state transition based on action
                     auto new_state              = F(state,a);
-                    unsigned long new_state_idx = multi::state::highdim_hasher(new_state, nn);
+                    unsigned long new_state_idx = state_t::highdim_hasher(new_state, nn);
                     
                     // compute cost from start to new_node
                     unsigned int newCostFromStart = costFromStart[current_state_idx] + 1;
@@ -163,9 +175,15 @@ namespace astar {
         }
     }
     
-    void planner::setHeuristic( heuristic_func_base& heuristic, bool beGreedy) {
+    TEMPLATE_HEADER
+    void PLANNER::setHeuristic( heuristic_func_base<state_t>& heuristic, bool beGreedy) {
         h = &heuristic;
         isGreedy = beGreedy;
     }
     
 }
+
+#undef TEMPLATE_HEADER
+#undef PLANNER
+
+#endif
