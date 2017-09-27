@@ -81,7 +81,7 @@ int main(int argc, char** argv){
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
-        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(20); // 2.5 leads to 207 cost for mediumSearch
+        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(2); // 2.5 leads to 207 cost for mediumSearch
         
         // define bfs planner
         bfs::planner bplanner;

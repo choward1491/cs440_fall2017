@@ -34,7 +34,7 @@ namespace astar {
         void setScaleFactor( double scale );
         
     private:
-        static int dist_between_pts( const maze::point & p1, const maze::point & p2 );
+        static double dist_between_pts( const maze::point & p1, const maze::point & p2 );
         static double dist_to_line( const std::vector<maze::point> & point_cloud, const maze::point & edge, const maze::point & pt );
         static void get_chull( const std::vector<maze::point> & point_cloud, std::vector<maze::point> & chull_edge_list );
         double scale_;
