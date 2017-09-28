@@ -34,11 +34,11 @@ namespace astar {
         scale_ = scale;
     }
     
-    unsigned int average::operator()( const multi::state & s ) const {
+    double average::operator()( const multi::state & s ) const {
         
         // setup variables being used
         maze::id_type node1 = s.current_node;
-        unsigned int cost   = UINT32_MAX;
+        double cost   = UINT32_MAX;
         const maze* maze_   = this->getMaze();
         const gplist* gplist_= this->getGoalPointList();
         double avg_dist     = 0.0;

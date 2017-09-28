@@ -29,7 +29,7 @@ namespace astar {
         virtual std::string name() const = 0;
         
         // cost func
-        virtual unsigned int operator()( const state_t & s ) const = 0;
+        virtual double operator()( const state_t & s ) const = 0;
         
         // set reference to maze
         void setMaze( maze & maze_ ) { maze_ref = &maze_; }

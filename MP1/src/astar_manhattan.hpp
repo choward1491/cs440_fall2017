@@ -29,7 +29,7 @@ namespace astar {
         std::string name() const;
         
         // distance measure
-        unsigned int operator()( const multi::state & s ) const;
+        double operator()( const multi::state & s ) const;
         
     };
     

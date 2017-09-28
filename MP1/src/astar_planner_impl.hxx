@@ -29,22 +29,22 @@
 // define std::greater for heap_node
 namespace std {
     template<typename T>
-    struct greater< std::pair<unsigned int, T> > {
-        bool operator()( const std::pair<unsigned int, T>& lhs, const std::pair<unsigned int, T>& rhs) const {
+    struct greater< std::pair<double, T> > {
+        bool operator()( const std::pair<double, T>& lhs, const std::pair<double, T>& rhs) const {
             return lhs.first > rhs.first;
         }
     };
     
     template<typename T>
-    struct equal_to<std::pair<unsigned int, T>> {
-        bool operator()( const std::pair<unsigned int, T>& lhs, const std::pair<unsigned int, T>& rhs ) const {
+    struct equal_to<std::pair<double, T>> {
+        bool operator()( const std::pair<double, T>& lhs, const std::pair<double, T>& rhs ) const {
             return lhs.first == rhs.first;
         }
     };
     
     template<typename T>
-    struct hash< std::pair<unsigned int, T> >{
-        typedef std::pair<unsigned int, T> argument_type;
+    struct hash< std::pair<double, T> >{
+        typedef std::pair<double, T> argument_type;
         typedef std::size_t result_type;
         result_type operator()(argument_type const& s) const
         {
@@ -75,7 +75,7 @@ namespace astar {
     
     TEMPLATE_HEADER
     void PLANNER::computePath( const maze & maze_, path & path_ ) const {
-        typedef std::pair<unsigned int, state_t> heap_node;
+        typedef std::pair<double, state_t> heap_node;
         typedef std::priority_queue<heap_node, std::vector<heap_node>, std::greater<heap_node>> min_heap;
         
         

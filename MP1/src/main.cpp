@@ -81,7 +81,7 @@ int main(int argc, char** argv){
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
-        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(2); // 2.5 leads to 207 cost for mediumSearch
+        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(1); // 2.5 leads to 207 cost for mediumSearch
         
         // define bfs planner
         bfs::planner bplanner;
@@ -130,7 +130,7 @@ int main(int argc, char** argv){
     
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto time_span = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-    printf("The code ran for %lu milliseconds\n",time_span.count());
+    printf("The code ran for %lf seconds\n", (double)(time_span.count()/1000.0) );
     
 	return 0;
 }

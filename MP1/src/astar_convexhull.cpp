@@ -13,6 +13,7 @@
 #include <vector>
 #include <cmath>
 #include <queue>
+#include <map>
 
 typedef std::pair<double,unsigned int> chull_pair;
 
@@ -49,11 +50,12 @@ namespace astar {
         scale_ = scale;
     }
     
-    double convexhull::dist_between_pts( const maze::point & p1, const maze::point & p2 ) {
+    double convexhull::dist_between_pts( const maze::point & p1, const maze::point & p2, bool useL1 ) {
         // compute the euclidean distance between points
         double dx = (double)p2.first - (double)p1.first;
         double dy = (double)p2.second - (double)p1.second;
-        //return abs(dx) + abs(dy);
+        
+        if( useL1 ){ return abs(dx) + abs(dy); }
         return sqrt(dx*dx + dy*dy);
     }
     
@@ -189,11 +191,11 @@ namespace astar {
     }// end method
     
     
-    unsigned int convexhull::operator()( const multi::state & s ) const {
+    double convexhull::operator()( const multi::state & s ) const {
         
         // setup variables being used
         maze::id_type node1 = s.current_node;
-        unsigned int cost   = UINT32_MAX;
+        double cost   = UINT32_MAX;
         const maze* maze_   = this->getMaze();
         const gplist* gplist_= this->getGoalPointList();
         double avg_dist     = 0.0;
@@ -217,6 +219,7 @@ namespace astar {
                 if( !(*it) ){
                     auto point2 = maze_->getCoordinateForID( (*gplist_)[idx] );
                     auto local_cost = dist_between_pts(point1,point2);
+                    cost += 1e-4*local_cost;
                     if( local_cost < min_cost ){ min_cost = local_cost; }
                     unvisited_pts.push_back(point2);
                     num_unvisited++;
@@ -225,33 +228,51 @@ namespace astar {
             
             // compute convex hull based distance measurement
             int chull_dist = 0;
-            double avg_edge_len = 0.0;
+            double avg_edge_dif = 0.0, l1_dist = 0.0, l2_dist = 0.0;
             unsigned int len = unvisited_pts.size();
+            std::map<unsigned int, bool> chull_pts;
             unvisited_pts.push_back(point1);
             if( unvisited_pts.size() > 1 ){
                 // compute convex hull around 2D point cloud
                 get_chull( unvisited_pts, chull_edges );
                 
                 // compute perimeter around convex hull
-                const double inv_ne = 1.0/((double)(chull_edges.size()-1));
-                const double inv_sq2 = 1.0 / sqrt(2.0);
+                const double inv_ne = 1.0/((double)(chull_edges.size()));
                 unsigned int max_dist = 0;
-                double dist = 0;
                 for(unsigned int i = 0; i < chull_edges.size(); ++i){
                     auto edge = chull_edges[i];
-                    dist = dist_between_pts(unvisited_pts[edge.first], unvisited_pts[edge.second]);
-                    if( /*(edge.first == len || edge.second == len ) &&*/ dist > max_dist ){ max_dist = dist; }
-                    chull_dist += (int)dist;
-                    avg_edge_len += (1.0*dist*inv_sq2*inv_ne);
+                    chull_pts[edge.first]   = true;
+                    chull_pts[edge.second]  = true;
+                    double l2 = dist_between_pts(unvisited_pts[edge.first], unvisited_pts[edge.second]);
+                    double l1 = dist_between_pts(unvisited_pts[edge.first], unvisited_pts[edge.second],true);
+                    l2_dist += l2;
+                    l1_dist += l1;
+                    if( l2 > max_dist ){ max_dist = l2; }
                 }
              
                 // subtract largest edge distance since an agent would not go around the whole perimeter
-                chull_dist -= max_dist;
-                avg_edge_len -= (1.0*(max_dist+1)*inv_sq2*inv_ne);
-             }
+                chull_dist      = l2_dist - max_dist;
+                avg_edge_dif    = (l2_dist-l1_dist)*inv_ne;
+                
+                // min distance to interior points
+                double min_dist = 0.0;
+                if( unvisited_pts.size() != chull_pts.size() ){
+                    for(unsigned int i = 0; i < unvisited_pts.size()-1; ++i){
+                        if( chull_pts.find(i) == chull_pts.end() ){
+                            double mdist = 1e100;
+                            for(unsigned int j = 0; j < unvisited_pts.size()-1; ++j ){
+                                double tmp = dist_between_pts(unvisited_pts[j], unvisited_pts[i]);
+                                if( tmp != 0 && tmp < mdist ){ mdist = tmp; }
+                            }// end for
+                            min_dist += mdist;
+                        }// end if
+                    }// end for
+                }// end if
+                chull_dist += min_dist;
+            }
              
              // compute overall distance estimate based on convex hull and penalization of unvisited goals
-             cost = static_cast<unsigned int>( chull_dist + scale_*(num_unvisited - (chull_edges.size()-1)) + avg_edge_len*(chull_edges.size()-1) );
+             cost = (1.0 + 0e-3)*chull_dist /*+scale_*(num_unvisited - (chull_edges.size()-1)) + avg_edge_dif*(chull_edges.size()-1)*/;
             
             
         }else{ custom::exception("A* Convex Hull Distance Heuristic does not have a reference maze, cannot compute distance properly."); }
