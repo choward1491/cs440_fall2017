@@ -62,10 +62,9 @@ namespace astar {
     
     
     // class definitions
-    bool isGreedy;
     
     TEMPLATE_HEADER
-    PLANNER::planner():h(nullptr){}
+    PLANNER::planner():h(nullptr),isGreedy_(false){}
     
     TEMPLATE_HEADER
     std::string PLANNER::plannerName() const {
@@ -155,7 +154,7 @@ namespace astar {
                         path_history[new_state_idx]  = current_state_idx;
                         costFromStart[new_state_idx] = newCostFromStart;
                         auto heuristic_cost = (*h)(new_state);
-                        if(!isGreedy) {
+                        if(!isGreedy_) {
                             frontier.push(heap_node( newCostFromStart + heuristic_cost , new_state));
                         } else {
                             frontier.push(heap_node( heuristic_cost , new_state));
@@ -176,9 +175,13 @@ namespace astar {
     }
     
     TEMPLATE_HEADER
-    void PLANNER::setHeuristic( heuristic_func_base<state_t>& heuristic, bool beGreedy) {
+    void PLANNER::setHeuristic( heuristic_func_base<state_t>& heuristic) {
         h = &heuristic;
-        isGreedy = beGreedy;
+    }
+    
+    TEMPLATE_HEADER
+    void PLANNER::beGreedy(bool bg) {
+        isGreedy_ = bg;
     }
     
 }

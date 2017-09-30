@@ -21,6 +21,7 @@
 #include "astar_euclidean.hpp"
 #include "astar_deviation.hpp"
 #include "astar_average.hpp"
+#include "astar_nearest.hpp"
 #include "dfs_planner.hpp"
 #include "bfs_planner.hpp"
 #include "astar_convexhull.hpp"
@@ -52,66 +53,108 @@ int main(int argc, char** argv){
         
         // get command line inputs
         parser::commandline commp(argc,argv);
-        std::string maze_file = commp["-maze"];
-        std::string agent_tile = commp["-agent_t"];
-        std::string wall_tile = commp["-wall_t"];
-        std::string back_tile = commp["-back_t"];
-        std::string goal_tile = commp["-goal_t"];
-        std::string out_gif   = commp["-out_gif"];
+        std::string maze_file   = commp["-maze"];
+        std::string agent_tile  = commp["-agent_t"];
+        std::string wall_tile   = commp["-wall_t"];
+        std::string back_tile   = commp["-back_t"];
+        std::string goal_tile   = commp["-goal_t"];
+        std::string out_gif     = commp["-out_gif"];
+        std::string heuristic_t = commp["-h"];
+        std::string planner     = commp["-p"];
+        std::string out_maze_file = commp["-out"];
+        std::string stats_file  = commp["-stats"];
         
-#ifdef LIBPNG_DEFINED
-        // load tile images
-        std::map<wrap::tile_t, img::image> image_set;
-        image_set[wrap::Background] = img::image( back_tile );
-        image_set[wrap::Wall]       = img::image( wall_tile );
-        image_set[wrap::Agent]      = img::image( agent_tile );
-        image_set[wrap::Goal]       = img::image( goal_tile );
-#endif
         
         // load maze
         maze maze_;
-        maze_io::load_maze(maze_file, maze_);
+        if( !maze_file.empty() ){
+            maze_io::load_maze(maze_file, maze_);
+        }else{
+            throw custom::exception("Did not pass in a maze file. This is the commandline argument `-maze`. Try again.");
+        }
         
-        
-        // define path variable
-        path path1, path2, path3;
+        // define planners
+        bfs::planner bplanner;
+        dfs::planner dplanner;
+        astar::planner<transition::maze_model> aplanner;
+        path_planner* planner_ = nullptr;
         
         // define heuristic function
         astar::manhattan_dist   h_m;    h_m.setMaze(maze_);
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
-        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(1); // 2.5 leads to 207 cost for mediumSearch
+        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(2); // 2.5 leads to 207 cost for mediumSearch
+        astar::nearest          h_n;    h_n.setMaze(maze_);
+        astar::heuristic_func_base<multi::state>* heuristic = nullptr;
         
-        // define bfs planner
-        bfs::planner bplanner;
+        // set the planner method
+        bool usesHeuristic = false;
+        if( planner == "bfs" )          { planner_ = &bplanner; }
+        else if( planner == "dfs" )     { planner_ = &dplanner; }
+        else if( planner == "greedy" )  { planner_ = &aplanner; aplanner.beGreedy(true); usesHeuristic = true;}
+        else if( planner == "astar" )   { planner_ = &aplanner; usesHeuristic = true; }
+        else{
+            throw custom::exception("Did not specify valid planner type. This is the `-p` commandline argument. Options for argument value are:\nbfs: Breadth First Search\ndfs: Depth First Search\ngreedy: Greedy\nastar: A*");
+        }
         
-        //define dfs planner
-        dfs::planner dplanner;
+        if( usesHeuristic ){
+            if( heuristic_t == "mdist" )          {heuristic = &h_m;}
+            else if( heuristic_t == "edist" )     {heuristic = &h_e;}
+            else if( heuristic_t == "avg" )       {heuristic = &h_a;}
+            else if( heuristic_t == "chull" )     {heuristic = &h_ch;}
+            else if( heuristic_t == "nearest" )   {heuristic = &h_n;}
+            else{
+                throw custom::exception("Did not specify valid heuristic. This is the `-h` commandline argument. Options for argument value are:"
+                                        "\nmdist: Manhattan Distance Heuristic"
+                                        "\nedist: Euclidean Distance Heuristic"
+                                        "\navg  : Average Distance Heuristic"
+                                        "\nchull: Convex Hull Heuristic"
+                                        "\nnearest: Nearest Goal Heuristic");
+            }
+        }
         
-        // define planning algorithm and set heuristic function
-        astar::planner<transition::maze_model> aplanner;
-        aplanner.setHeuristic(h_ch);
+#ifdef LIBPNG_DEFINED
+        // load tile images
+        bool didLoadAllTiles = true;
+        std::map<wrap::tile_t, img::image> image_set;
+        image_set[wrap::Background] = img::image( back_tile );
+        image_set[wrap::Wall]       = img::image( wall_tile );
+        image_set[wrap::Agent]      = img::image( agent_tile );
+        image_set[wrap::Goal]       = img::image( goal_tile );
+        if( back_tile.empty() || wall_tile.empty() || agent_tile.empty() || goal_tile.empty() ){
+            printf("Did not pass in tiles so you can generate GIF. The tile inputs are:\n"
+                                    "wall_t : Wall barrier tile\n"
+                                    "back_t : Background/Floor tile\n"
+                                    "agent_t: AI Agent tile\n"
+                                    "goal_t : Goal point tile\n"
+                                    "Continuing...\n");
+            didLoadAllTiles = false;
+        }
         
-        //use greedy heuristic
-        //aplanner.setHeuristic(h, true);
+#endif
+        
+        // define path variable
+        path path;
         
         // compute maze solution using path planning algorithm
-        aplanner.computePath(maze_, path1);
-        //bplanner.computePath(maze_, path1);
-        //dplanner.computePath(maze_, path1);
-        path1.printResults();
+        planner_->computePath(maze_, path);
+        path.printResults();
         
+        // save statistics to file
+        if( stats_file.empty() ){ stats_file = "out_stats.txt"; }
+        path.writeResults(stats_file);
         
         // save solved maze to file
-        std::string out_maze_file = commp["-out"];
         if( out_maze_file.size() == 0 ){ out_maze_file = "out_maze.txt"; }
-        maze_io::save_maze(out_maze_file, maze_, &path1);
+        maze_io::save_maze(out_maze_file, maze_, &path);
         
 #ifdef LIBPNG_DEFINED
         // generate GIF of the maze
-        //if( out_gif.size() == 0 ){ out_gif = "out_gif.gif"; }
-        //writeGifSolution(image_set, out_gif, maze_, path1);
+        if( didLoadAllTiles ){
+            if( out_gif.size() == 0 ){ out_gif = "out_gif.gif"; }
+            writeGifSolution(image_set, out_gif, maze_, path);
+        }
 #endif
         
     

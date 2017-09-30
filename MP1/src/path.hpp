@@ -13,6 +13,7 @@
 
 #include "maze.hpp"
 #include <stdio.h>
+#include <string>
 
 // structure that will store information about a path after being
 // generated using some path planning algorithm
@@ -34,6 +35,14 @@ struct path {
     
     void printResults(){
         printf("The path cost is %u after %u expanded nodes.\n",path_cost,num_nodes_expanded);
+    }
+    
+    void writeResults(const std::string & filename){
+        FILE* file = fopen(filename.c_str(),"w");
+        if( file ){
+            fprintf(file,"The path cost is %u after %u expanded nodes.\n",path_cost,num_nodes_expanded);
+            fclose(file);
+        }
     }
 };
 

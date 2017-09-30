@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  16 SEP 2017 01:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  29 SEP 2017 21:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -131,30 +131,105 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \thm@topsep=\skip52
 \thm@topsepadd=\skip53
 )
-\c@lemma=\count99
-\c@result=\count100
+(/usr/local/texlive/2017/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count99
+\algocf@hangindent=\skip54
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(/usr/local/texlive/2017/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+********************************************************
+Package `algorithm2e' Release 5.1 -- october 19 2015 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
+********************************************************
+\skiptotal=\skip55
+\skiplinenumber=\skip56
+\skiprule=\skip57
+\skiphlne=\skip58
+\skiptext=\skip59
+\skiplength=\skip60
+\algomargin=\skip61
+\skipalgocfslide=\skip62
+\algowidth=\dimen116
+\inoutsize=\dimen117
+\inoutindent=\dimen118
+\interspacetitleruled=\dimen119
+\interspacealgoruled=\dimen120
+\interspacetitleboxruled=\dimen121
+\algocf@ruledwidth=\skip63
+\algocf@inoutbox=\box28
+\algocf@inputbox=\box29
+\AlCapSkip=\skip64
+\AlCapHSkip=\skip65
+\algoskipindent=\skip66
+\algocf@nlbox=\box30
+\algocf@hangingbox=\box31
+\algocf@untilbox=\box32
+\algocf@skipuntil=\skip67
+\algocf@capbox=\box33
+\algoheightruledefault=\skip68
+\algoheightrule=\skip69
+\algotitleheightruledefault=\skip70
+\algotitleheightrule=\skip71
+\c@algocfline=\count100
+\c@algocfproc=\count101
+\c@algocf=\count102
+\algocf@algoframe=\box34
+\algocf@algobox=\box35
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+
+(/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks37
+)
+\captionmargin=\dimen122
+\captionmargin@=\dimen123
+\captionwidth=\dimen124
+\caption@tempdima=\dimen125
+\caption@indent=\dimen126
+\caption@parindent=\dimen127
+\caption@hangindent=\dimen128
+)
+\c@ContinuedFloat=\count103
+)
+\c@lemma=\count104
+\c@result=\count105
 
 (./report_mp1.aux)
 \openout1 = `report_mp1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Try loading font information for U+msa on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 40.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 31.
+LaTeX Font Info:    Try loading font information for U+msb on input line 40.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -167,31 +242,55 @@ rt_mp1.toc)
 
 
 [2]
+Overfull \hbox (0.79999pt too wide) detected at line 96
+|[]|
+ []
+
+[3]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 104.
+
+ (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 104.
 \tf@thm=\write4
 \openout4 = `report_mp1.thm'.
 
- (./report_mp1.aux) ) 
+ [4] [5]
+(./report_mp1.aux) )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 1061 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 1479 strings out of 492995
- 17522 string characters out of 6132704
- 74871 words of memory out of 5000000
- 5050 multiletter control sequences out of 15000+600000
- 11687 words of font info for 45 fonts, out of 8000000 for 9000
+ 3539 strings out of 492995
+ 52814 string characters out of 6132704
+ 129627 words of memory out of 5000000
+ 7075 multiletter control sequences out of 15000+600000
+ 16319 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,6n,26p,352b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmbx9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6
-.pfb>
-Output written on report_mp1.pdf (2 pages, 77430 bytes).
+ 36i,15n,39p,428b,2156s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmbx9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib
+10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr
+/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/lo
+cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report_mp1.pdf (5 pages, 172276 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 84 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

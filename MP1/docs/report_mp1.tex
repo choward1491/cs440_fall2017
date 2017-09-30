@@ -4,6 +4,12 @@
 \usepackage{amssymb}
 \usepackage{cancel}
 \usepackage{ntheorem}
+\usepackage{algorithm2e}
+\usepackage{caption}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
 
 % redefine QED symbol
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
@@ -11,6 +17,9 @@
 % define lemma and result theorem-styled sections
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{result}{Result}[section]
+
+% Don't print the semicolon in algorithms
+\DontPrintSemicolon
 
 % define the title that will be used in the report
 \title{CS 440 MP1 \\ Section Q4}
@@ -39,7 +48,108 @@ Liuyi Shi \\ liuyis2@illinois.edu
    \newpage
    
    % start section covering work on Part 1.1
-   \section{Part 1}
+   \section{Part 1 - Multi-Goal Search}
+   Within this section, we investigate creating an agent based on search algorithms to tackle single-goal and multi-goal objectives. To handle this problem, the provided maze is processed into a graph that can be used to figure out what actions a given agent can take and when they reach some goal node. To model the motion of some agent, we define the state, $\boldsymbol{x}$, as the following:  
    
+   \begin{align*}
+   \boldsymbol{x} = \left( p, b_1, b_2, \cdots, b_n \right)
+   \end{align*}
+   
+   where $p$ is an index representing the graph node the agent is on and $b_k$ represents a Boolean variable that is $1$ (true) when the agent has passed through the $k$\textsuperscript{th} goal point at some point in the past, $0$ (false) otherwise. We know an agent has completed a maze when it reaches a state that satisfies the following:
+   
+   \begin{align*}
+   b_1 \wedge b_2 \wedge \cdots \wedge b_n = 1
+   \end{align*}
+   
+   This check will be what is performed in the software implementation of the search algorithms to know we have found a goal state. The transition function for this agent is also the following:
+   
+   \RestyleAlgo{boxruled}
+	\begin{algorithm}[H]
+	\caption{Transition Function}
+		 \KwData{State, $\boldsymbol{x}$ }
+		 \KwData{Action, $a$ }
+		 \KwData{Maze Graph, $G_m$ }
+		 \KwData{Goal Node Set, $V_g = \lbrace p_1, p_2, \cdots, p_n\rbrace$ }
+		 \KwResult{New State, $\boldsymbol{x}_n$}
+		 \;
+		 
+		 \tcp{Set the new state with the \\current state's boolean configuration}
+		 \For{$k \in \lbrace 1, 2, \cdots, |V_g| \rbrace$}{
+		 	$\boldsymbol{x}_n(b_k) = \boldsymbol{x}(b_k)$
+		 }
+		 \;
+		 
+		 \tcp{Update position in maze given the action $a$}
+		 $\boldsymbol{x}_n(p) = G_m\left(\boldsymbol{x}(p), a\right)$
+		 \;
+		 \;
+		 
+		 \tcp{Check if new position is in goal node set
+		 \\If so, find index associated with goal node and 
+		 \\set corresponding boolean to $1$}
+		 \If{ $\boldsymbol{x}(p) \in V_g$ }{
+		 	Get $m \ni \boldsymbol{x}(p) = p_m$\;
+		 	Set $\boldsymbol{x}(b_m) = 1$
+		 }
+		 \;
+		 \Return $\boldsymbol{x}_n$
+	\end{algorithm}
+	
+	Given the state representation and transition function described above, we are now able to implement and test our search-based agents. That said, we are now able to dive into solving each challenge of Part 1.
+	
+	\subsection{Part 1.1 - Basic Pathfinding}
+   In this first challenge for Part 1, the goal is to implement search algorithms for navigating through a maze environment to a single goal location. For this challenge, we have implemented the following search algorithms:
+   
+   \begin{itemize}
+   \item Depth-First Search
+   \item Breadth-First Search
+   \item Greedy Best-First Search
+   \item A\textsuperscript{*} Search
+   \end{itemize}
+   
+   For Greedy and A\textsuperscript{*}, we have also set their Heuristic Function as the Manhattan Distance metric, defined as the following:
+   
+   \begin{align*}
+   d_M(u,v) = |u - v|_1
+   \end{align*}
+   
+   where $u, v \in \mathbb{R}^2$ represent positions in the maze and $|\cdot|_1$ is the $L_1$ norm. Given the above search strategies and heuristic, Table \ref{tab:sol11} and Table \ref{tab:nnode11} show the stats between each method for each of the provided mazes:
+   
+   \begin{table}[ht]
+   \centering
+   \begin{tabular}[ht]{l | l | l | l  }
+   \hline
+    & Medium Maze & Big Maze & Open Maze\\
+    \hline \hline 
+   Depth-First Search & 0 & 0 & 0 \\
+   Breadth-First Search & 0 & 0 & 0 \\
+   Greedy Best-First Search & 0 & 0 & 0 \\
+   A\textsuperscript{*} Search & 0 & 0 & 0 \\
+   \hline
+   \end{tabular}
+   \caption{Solution Path Cost} \label{tab:sol11}
+   \end{table}
+   
+   \begin{table}[ht]
+   \centering
+   \begin{tabular}[ht]{l | l | l | l  }
+   \hline
+    & Medium Maze & Big Maze & Open Maze\\
+    \hline \hline 
+   Depth-First Search & 0 & 0 & 0 \\
+   Breadth-First Search & 0 & 0 & 0 \\
+   Greedy Best-First Search & 0 & 0 & 0 \\
+   A\textsuperscript{*} Search & 0 & 0 & 0 \\
+   \hline
+   \end{tabular}
+   \caption{Number of Nodes Expanded} \label{tab:nnode11}
+   \end{table}
+   
+   \subsection{Part 1.2 - Search with Multiple Dots}
+   
+   
+   \subsection{Part 1 Extra Credit - Suboptimal Search}
+   
+   \section{Part 2 - Sokoban}
    
 \end{document}

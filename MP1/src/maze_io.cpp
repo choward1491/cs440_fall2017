@@ -112,7 +112,7 @@ namespace maze_io {
             }// end while
         }// end if
         else{
-            throw custom::exception("No existing maze file has been passed into the executable. Revise your command line arguments.");
+            throw custom::exception("No existing maze file has been passed into the executable. Revise your command line arguments and pass in a valid maze path using the `-maze` argument.");
         }
     }
     void save_maze( const std::string & maze_file, const maze & in_maze, const path * nlist ) {
