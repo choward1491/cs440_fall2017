@@ -50,7 +50,6 @@ int main(int argc, char** argv){
     
     try {
         
-        
         // get command line inputs
         parser::commandline commp(argc,argv);
         std::string maze_file   = commp["-maze"];

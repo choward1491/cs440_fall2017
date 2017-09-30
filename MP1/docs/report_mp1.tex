@@ -113,18 +113,24 @@ Liuyi Shi \\ liuyis2@illinois.edu
    d_M(u,v) = |u - v|_1
    \end{align*}
    
-   where $u, v \in \mathbb{R}^2$ represent positions in the maze and $|\cdot|_1$ is the $L_1$ norm. Given the above search strategies and heuristic, Table \ref{tab:sol11} and Table \ref{tab:nnode11} show the stats between each method for each of the provided mazes:
+   where $u, v \in \mathbb{R}^2$ represent positions in the maze we want the distance between and $|\cdot|_1$ is the $L_1$ norm. Using this formula, the heuristic function will be:
+   
+   \begin{align*}
+   h(n) = d_M(n,g)
+\end{align*}      
+   
+   where $n$ is the 2-D position of the current agent's position and $g$ is the 2-D position of the goal point. Given the above search strategies and heuristic, Table \ref{tab:sol11} and Table \ref{tab:nnode11} show the stats between each method for each of the provided mazes:
    
    \begin{table}[ht]
    \centering
-   \begin{tabular}[ht]{l | l | l | l  }
+   \begin{tabular}{l | l | l | l  }
    \hline
     & Medium Maze & Big Maze & Open Maze\\
     \hline \hline 
-   Depth-First Search & 0 & 0 & 0 \\
-   Breadth-First Search & 0 & 0 & 0 \\
-   Greedy Best-First Search & 0 & 0 & 0 \\
-   A\textsuperscript{*} Search & 0 & 0 & 0 \\
+   Depth-First Search & 124 & 474 & 59 \\
+   Breadth-First Search & 68 & 148 & 45 \\
+   Greedy Best-First Search & 68 & 222 & 77 \\
+   A\textsuperscript{*} Search & 68 & 148 & 45 \\
    \hline
    \end{tabular}
    \caption{Solution Path Cost} \label{tab:sol11}
@@ -132,24 +138,30 @@ Liuyi Shi \\ liuyis2@illinois.edu
    
    \begin{table}[ht]
    \centering
-   \begin{tabular}[ht]{l | l | l | l  }
+   \begin{tabular}{l | l | l | l  }
    \hline
     & Medium Maze & Big Maze & Open Maze\\
     \hline \hline 
-   Depth-First Search & 0 & 0 & 0 \\
-   Breadth-First Search & 0 & 0 & 0 \\
-   Greedy Best-First Search & 0 & 0 & 0 \\
-   A\textsuperscript{*} Search & 0 & 0 & 0 \\
+   Depth-First Search & 198 & 1029 & 319 \\
+   Breadth-First Search & 345 & 1259 & 523 \\
+   Greedy Best-First Search & 77 & 311 & 27761 \\
+   A\textsuperscript{*} Search & 202 & 1495 & 667 \\
    \hline
    \end{tabular}
    \caption{Number of Nodes Expanded} \label{tab:nnode11}
    \end{table}
    
+   As we can see in the table, Depth-First Search (DFS) tended to arrive at a solution to a given maze quickly but at the expense of a sub-optimal path cost. We can note that Breadth First Search (BFS) and A* both, as expected, produced optimal path costs but it is interesting to note that for the Big Maze and Open Maze, BFS actually reached the optimal solution faster. It seems feasible that the Manhattan distance heuristic would, at times, take A* in a path that would lead to dead ends, in turn requiring A* to expand more nodes than BFS would have to. 
+   
+   One other thing to note was the interesting characteristics of the Greedy Search. We can see that on one end, it reached an optimal result in a very low number of expanded nodes for the Medium Maze. On the other end, it reaches a sub-optimal path cost after expanding a huge number of states in the Open Maze. Greedy obviously lacks robustness and this can be suspected due to the fact it does not take into account how far it has come but only thinks about how far away it thinks it is. Given this one sided thinking, the agent can get too excited being "close" to the goal even though they may be winding through a lot of poor sub-paths.
+   
+    \newpage
    \subsection{Part 1.2 - Search with Multiple Dots}
    
-   
+   \newpage
    \subsection{Part 1 Extra Credit - Suboptimal Search}
    
+   \newpage
    \section{Part 2 - Sokoban}
    
 \end{document}

@@ -32,6 +32,9 @@ namespace parser {
 
         }
         else if( num_args != 0 ){
+            for(unsigned int i = 0; i < argc; ++i){
+                printf("arg(%i) = %s\n",i,argv[i]);
+            }
             throw expn_odd_number_inputs();
         }
     }
