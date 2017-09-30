@@ -112,6 +112,7 @@ int main(int argc, char** argv){
                                         "\nchull: Convex Hull Heuristic"
                                         "\nnearest: Nearest Goal Heuristic");
             }
+            aplanner.setHeuristic(*heuristic);
         }
         
 #ifdef LIBPNG_DEFINED
