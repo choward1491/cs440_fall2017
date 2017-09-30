@@ -17,8 +17,8 @@ do
 		echo "Starting data collection for $maze using $planner..."
 		${bin}/./mp_exec -maze "${bin}/${maze}.txt" \
 			-agent_t "${tiledir}/vader.png" \
-			-wall_t "${tiledir}/background.png"\
-			-back_t "${tiledir}/obstacle.png"\
+			-wall_t "${tiledir}/obstacle.png"\
+			-back_t "${tiledir}/background.png"\
 			-goal_t "${tiledir}/goal.png"\
 			-out_gif "${out_dir}/${planner}_${maze}.gif"\
 			-out "${out_dir}/${planner}_${maze}_path.txt"\
