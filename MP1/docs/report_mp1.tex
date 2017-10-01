@@ -8,7 +8,16 @@
 \usepackage{caption}
 \usepackage{fancyvrb}
 \usepackage[dvipsnames]{xcolor}
-
+\usepackage[section]{placeins}
+\usepackage[toc,page]{appendix}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\urlstyle{same}
 
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
@@ -173,25 +182,10 @@ Liuyi Shi \\ liuyis2@illinois.edu
    \caption{Number of Nodes Expanded} \label{tab:nnode11}
    \end{table}
    
-   As we can see in the table, Depth-First Search (DFS) tended to arrive at a solution to a given maze quickly but at the expense of a sub-optimal path cost. We can note that Breadth First Search (BFS) and A* both, as expected, produced optimal path costs but it is interesting to note that for the Big Maze and Open Maze, BFS actually reached the optimal solution faster. It seems feasible that the Manhattan distance heuristic would, at times, take A* in a path that would lead to dead ends, in turn requiring A* to expand more nodes than BFS would have to. 
+   Note that Appendix \ref{appendix:p11} contains visuals for the solution paths for each case. Now as we can see in the tables, Depth-First Search (DFS) tended to arrive at a solution to a given maze quickly but at the expense of a sub-optimal path cost. We can note that Breadth First Search (BFS) and A* both, as expected, produced optimal path costs but it is interesting to note that for the Big Maze and Open Maze, BFS actually reached the optimal solution faster. It seems feasible that the Manhattan distance heuristic would, at times, take A* in a path that would lead to dead ends, in turn requiring A* to expand more nodes than BFS would have to. 
    
    One other thing to note was the interesting characteristics of the Greedy Search. We can see that on one end, it reached an optimal result in a very low number of expanded nodes for the Medium Maze. On the other end, it reaches a sub-optimal path cost after expanding a huge number of states in the Open Maze. Greedy obviously lacks robustness and this can be suspected due to the fact it does not take into account how far it has come but only thinks about how far away it thinks it is. Given this one sided thinking, the agent can get too excited being "close" to the goal even though they may be winding through a lot of poor sub-paths.
    
-   Some sample paths for the maze can be found in Figure \ref{fig:bfs_bigmaze} and Figure \ref{fig:as_openmaze}. The rest of the paths can be found in the appendix.
-   
-   \begin{figure}[!h]
-   \centering
-   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/bfs/bfs_bigMaze_path.txt} 
-   \caption{Solution to Big Maze using BFS}
-   \label{fig:bfs_bigmaze}
-   \end{figure}
-   
-   \begin{figure}[!h]
-   \centering
-   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/astar/astar_openMaze_path.txt} 
-   \caption{Solution to Open Maze using A*}
-   \label{fig:as_openmaze}
-   \end{figure}
     
    
     \newpage
@@ -304,6 +298,23 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
 	\end{algorithm}
 	
 	\newpage
+	\subsection{Solving Sokoban with Breadth First Search}
+	Using our state representation and the transition model for the agent, it becomes simple to apply BFS to tackling Sokoban problems. With this, the results of this BFS against the set of Sokoban puzzles provided can be found in Table \ref{tab:sokbfs}. Animations of their solution, in the form of GIFs, can be found in the project zip with their identifiers as \textbf{bfs\_sokoban*.gif}. As expected, BFS solved the Sokoban problems using how we modeled the state and environment, though Sokoban 4 did expand a considerable number of states.
+	
+	\begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l | l | l }
+   \hline
+    & Sokoban 1 & Sokoban 2 & Sokoban 3 & Sokoban 4\\
+    \hline \hline 
+   Number of Moves & 8 & 144 & 34 & 72 \\
+   Nodes Expanded & 46 & 2,038,936 & 2,076,600 & 176,495,868\\
+   Run Time & 0.13 s & 3.47 s & 4.70 s & 207.12 s\\
+   \hline
+   \end{tabular}
+   \caption{Sokoban solved by BFS} \label{tab:sokbfs}
+   \end{table}	
+	
 	\subsection{Solving Sokoban with A*}
 	To tackle Sokoban, we go over a heuristic for A* and the results we achieve solving Sokoban. To keep things simple, the heuristic is defined as the following:
 	
@@ -323,11 +334,127 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
     \hline \hline 
    Number of Moves & 10 & 148 & 36 & 72 \\
    Nodes Expanded & 36 & 517,584 & 146,259 & 11,404,258\\
-   Run Time & 0.14 s & 3.55 s & 1.54 s & 64.10 s\\
+   Run Time & 0.14 s & 2.49 s & 0.95 s & 40.16 s\\
    \hline
    \end{tabular}
    \caption{Sokoban solved by A* using $h_{\text{nearest}}(p)$} \label{tab:sokastar}
    \end{table}
+   
+   
+   \subsection{Comparison of Results}
+   By checking Table \ref{tab:sokbfs} and Table \ref{tab:sokastar}, we can draw some obvious comparisons. First, BFS always achieved an optimal result and A* was right near it, though it might have missed the absolute optimal solution due to the repeated state detection. Additionally, A* performed much faster than BFS in terms of number of nodes expanded. The run-time comparison between BFS and A* also followed that trend generally, though A* did not run as many multiples faster than BFS with respect to run-time as it did number of nodes expanded. This makes sense because the heuristic computation of A* is going to cost CPU time that BFS does not have to worry about.  
+   
+   \newpage
+\begin{appendices}
+
+\section{Maze Solutions for Part 1.1}
+   \label{appendix:p11}
+   
+   % solutions for BFS
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/bfs/bfs_mediumMaze_path.txt} 
+   \caption{Solution to Medium Maze using BFS}
+   \label{fig:bfs_medmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/bfs/bfs_bigMaze_path.txt} 
+   \caption{Solution to Big Maze using BFS}
+   \label{fig:bfs_bigmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/bfs/bfs_openMaze_path.txt} 
+   \caption{Solution to Open Maze using BFS}
+   \label{fig:bfs_openmaze}
+   \end{figure}
+   
+   % solutions for DFS
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/dfs/dfs_mediumMaze_path.txt} 
+   \caption{Solution to Medium Maze using DFS}
+   \label{fig:dfs_medmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/dfs/dfs_bigMaze_path.txt} 
+   \caption{Solution to Big Maze using DFS}
+   \label{fig:dfs_bigmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/dfs/dfs_openMaze_path.txt} 
+   \caption{Solution to Open Maze using DFS}
+   \label{fig:dfs_openmaze}
+   \end{figure}
+   
+   % solutions for greedy
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/greedy/greedy_mediumMaze_path.txt} 
+   \caption{Solution to Medium Maze using Greedy}
+   \label{fig:greedy_medmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/greedy/greedy_bigMaze_path.txt} 
+   \caption{Solution to Big Maze using Greedy}
+   \label{fig:greedy_bigmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/greedy/greedy_openMaze_path.txt} 
+   \caption{Solution to Open Maze using Greedy}
+   \label{fig:greedy_openmaze}
+   \end{figure}
+   
+   
+   % solutions for A*
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/astar/astar_mediumMaze_path.txt} 
+   \caption{Solution to Medium Maze using A*}
+   \label{fig:astar_medmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/astar/astar_bigMaze_path.txt} 
+   \caption{Solution to Big Maze using A*}
+   \label{fig:astar_bigmaze}
+   \end{figure}
+   
+   \begin{figure}[!htb]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/astar/astar_openMaze_path.txt} 
+   \caption{Solution to Open Maze using A*}
+   \label{fig:astar_openmaze}
+   \end{figure}
+   
+   \section{Maze Solutions for Part 1.2}
+   \label{appendix:p12}
+   
+   \section{Open Source Software Used}
+   The following list of Open Source software was used to help with this project:
+   
+   \begin{itemize}
+   \item \textbf{gif-h}
+   		\begin{itemize}
+   		\item A single header in C that allows for basic GIF processing
+   		\item \href{https://github.com/ginsweater/gif-h}{https://github.com/ginsweater/gif-h}
+   		\end{itemize}
+   \end{itemize}
+
+\end{appendices}   
+   
    
    
 \end{document}

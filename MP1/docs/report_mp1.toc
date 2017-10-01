@@ -1,7 +1,13 @@
-\contentsline {section}{\numberline {1}Part 1 - Multi-Goal Search}{3}
-\contentsline {subsection}{\numberline {1.1}Part 1.1 - Basic Pathfinding}{4}
-\contentsline {subsection}{\numberline {1.2}Part 1.2 - Search with Multiple Dots}{6}
-\contentsline {subsection}{\numberline {1.3}Part 1 Extra Credit - Suboptimal Search}{8}
-\contentsline {section}{\numberline {2}Part 2 - Sokoban}{9}
-\contentsline {subsection}{\numberline {2.1}State and Transition Model Definitions}{9}
-\contentsline {subsection}{\numberline {2.2}Solving Sokoban with A*}{12}
+\contentsline {section}{\numberline {1}Part 1 - Multi-Goal Search}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Part 1.1 - Basic Pathfinding}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Part 1.2 - Search with Multiple Dots}{6}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Part 1 Extra Credit - Suboptimal Search}{7}{subsection.1.3}
+\contentsline {section}{\numberline {2}Part 2 - Sokoban}{8}{section.2}
+\contentsline {subsection}{\numberline {2.1}State and Transition Model Definitions}{8}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Solving Sokoban with Breadth First Search}{10}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Solving Sokoban with A*}{10}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Comparison of Results}{11}{subsection.2.4}
+\contentsline {section}{Appendices}{12}{section*.6}
+\contentsline {section}{\numberline {A}Maze Solutions for Part 1.1}{12}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Maze Solutions for Part 1.2}{21}{Appendix.a.B}
+\contentsline {section}{\numberline {C}Open Source Software Used}{21}{Appendix.a.C}

@@ -4,7 +4,7 @@ bin="../bin"
 tiledir="${bin}/tiles"
 datadir="../data"
 
-methods=('astar')
+methods=('astar' 'bfs')
 mazes=('sokoban1' 'sokoban2' 'sokoban3' 'sokoban4')
 heuristic="nearest"
 
