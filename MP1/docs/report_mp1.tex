@@ -210,14 +210,71 @@ where $V_{ch}$ are the vertices on the convex hull of the input set and $E_{ch}$
 If $p \notin V_{ch}$, $\hat{E}_{ch}$ will be equivalent to $E_{ch}$ with the largest edge from $E_{ch}$ removed and then an edge of minimal distance between $p$ and some $v \in V_{ch}$ added. If $p \in V_{ch}$, $\hat{E}_{ch}$ will be equivalent to $E_{ch}$ with the largest edge that has the vertex $p$ on it being removed. Given we have produced this new edge set $\hat{E}_{ch}$, the heuristic is then computed as:
 
 \begin{align*}
-h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} d_{ch}(x,y, \beta) + \mu |V_I|
+h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} d_{ch}(x,y, \beta) + |V_I|
 \end{align*}
 
-where $V_I$ represents the set of goal points on the interior of the convex hull and $\mu = \min \lbrace 1, d \rbrace $ where $d$ is the smallest distance between any interior goal point and any other goal point within $V_u$. This heuristic is admissible because, looking at the first term, the convex hull based distance using the edge set $\hat{E}_{ch}$ represents the shortest distance possible between points on the convex hull. 
+where $V_I$ represents the set of goal points on the interior of the convex hull. This heuristic is admissible because, looking at the first term, the convex hull based distance using the edge set $\hat{E}_{ch}$ represents the shortest distance possible between points on the convex hull. 
 
-The secondary term is then just multiplying the number of goal points within the convex hull by the minimum distance $\mu$ to get to any neighboring goal point. This second term is a lower bound on the distance it will take to touch each of the interior goal points from any point along the convex hull. These two terms together in turn under estimate the minimal distance the agent will need to travel to touch each goal point, making the heuristic admissible. This
+The secondary term is then just multiplying the number of goal points within the convex hull by the minimum distance of 1 to get to any neighboring goal point. This second term is a lower bound on the distance it will take to touch each of the interior goal points from any point along the convex hull. These two terms together in turn under estimate the minimal distance the agent will need to travel to touch each goal point, making the heuristic admissible. The results using this heuristic can be found in Table \ref{tab:sol12} and Table \ref{tab:nnode12}.
+
+\begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l  }
+   \hline
+    Tiny Search & Small Search & Medium Search\\
+    \hline \hline 
+   36 & 147 & 207 \\
+   \hline
+   \end{tabular}
+   \caption{Solution Path Cost - A* with $h_{ch}(p)$} \label{tab:sol12}
+   \end{table}
+   
+   \begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l  }
+   \hline
+    Tiny Search & Small Search & Medium Search\\
+    \hline \hline 
+   2014 & 9,255,960 &  500,000,000\\
+   \hline
+   \end{tabular}
+   \caption{Number of Nodes Expanded - A* with $h_{ch}(p)$} \label{tab:nnode12}
+   \end{table}
+
    \newpage
    \subsection{Part 1 Extra Credit - Sub-optimal Heuristics}
+   \subsubsection{Fast Convex Hull Heuristic}
+   The heuristic in this section is another Convex Hull based Heuristic that modifies some of the logic used in the Part 1.2 definition that makes it not provably admissible. This heuristic can be defined as the following:
+   
+   \begin{align*}
+   h_{fch}(p) &= \left(1 + \beta_1 \right) \left( \sum_{ (x,y) \in E_{ch} } |x - y|_2 - \max_{ (x,y) \in E_{ch} } |x - y|_2 \right) + \beta_2 |V_I|
+   \end{align*}
+   
+   where $\beta_1, \beta_2 \geq 0$ are tuning parameters, $E_{ch}$ is the unmodified convex hull edge set, as defined earlier, and $V_I$ represents goal points within the convex hull. For testing, $\beta_1 = \frac{1}{\sqrt{2}}$ and $\beta_2 = 2$. Table \ref{tab:solfch} and Table \ref{tab:nnodefch} show this heuristic produces great results in much faster speeds, compared to the admissible Convex Hull Heuristic from Part 1.2, while still achieving near optimal cost.
+   
+\begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l  }
+   \hline
+    Tiny Search & Small Search & Medium Search\\
+    \hline \hline 
+   38 & 149 & 207 \\
+   \hline
+   \end{tabular}
+   \caption{Solution Path Cost - A* with $h_{fch}(p)$} \label{tab:solfch}
+   \end{table}
+   
+   \begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l  }
+   \hline
+    Tiny Search & Small Search & Medium Search\\
+    \hline \hline 
+   90 & 424,221 &  6,852,599\\
+   \hline
+   \end{tabular}
+   \caption{Number of Nodes Expanded - A* with $h_{fch}(p)$} \label{tab:nnodefch}
+   \end{table}   
    
    \newpage
    \section{Part 2 - Sokoban}
