@@ -49,19 +49,19 @@ Liuyi Shi \\ liuyis2@illinois.edu
    
    % start section covering work on Part 1.1
    \section{Part 1 - Multi-Goal Search}
-   Within this section, we investigate creating an agent based on search algorithms to tackle single-goal and multi-goal objectives. To handle this problem, the provided maze is processed into a graph that can be used to figure out what actions a given agent can take and when they reach some goal node. To model the motion of some agent, we define the state, $\boldsymbol{x}$, as the following:  
+   Within this section, we investigate using search algorithms to tackle single-goal and multi-goal objectives. To handle this problem, the provided maze is processed into a graph, $G_m$, that can be used to figure out what actions a given agent can take and when they reach some goal node. To model the motion of some agent, we define the state, $\boldsymbol{x}$, as the following:  
    
    \begin{align*}
    \boldsymbol{x} = \left( p, b_1, b_2, \cdots, b_n \right)
    \end{align*}
    
-   where $p$ is an index representing the graph node the agent is on and $b_k$ represents a Boolean variable that is $1$ (true) when the agent has passed through the $k$\textsuperscript{th} goal point at some point in the past, $0$ (false) otherwise. We know an agent has completed a maze when it reaches a state that satisfies the following:
+   where $p$ is an index representing the graph node the agent is on and $b_k$ represents a Boolean variable that is $1$ (true) when the agent has passed through the $k$\textsuperscript{th} goal point at some point prior and $0$ (false) otherwise. Note that this state is always implicitly dependent on the maze graph, $G_m$. We know an agent has completed a maze when it reaches a state that satisfies the following:
    
    \begin{align*}
    b_1 \wedge b_2 \wedge \cdots \wedge b_n = 1
    \end{align*}
    
-   This check will be what is performed in the software implementation of the search algorithms to know we have found a goal state. The transition function for this agent is also the following:
+   To model the step by step motion of an agent, the transition function is defined as the following:
    
    \RestyleAlgo{boxruled}
 	\begin{algorithm}[H]
@@ -157,6 +157,19 @@ Liuyi Shi \\ liuyis2@illinois.edu
    
     \newpage
    \subsection{Part 1.2 - Search with Multiple Dots}
+The goal of this part was to build heuristics for the A* algorithm that would allow an agent to tackle a set of multi-goal problems in a reasonable time frame. The heuristic being used for this section is one based on the Convex Hull. 
+
+Let us define $p$ as the current location of the agent and define $V_u = \lbrace \hat{g}_1, \hat{g}_2, \cdots, \hat{g}_m \rbrace$ as the set of $m$ unvisited goal points. Let us then compute the convex hull of $\lbrace p \rbrace \bigcup V_u$, defined as:
+
+\begin{align*}
+\left(V_{ch}, E_{ch} \right) = \text{ConvexHull}\left(\lbrace p \rbrace \bigcup V_u \right)
+\end{align*}
+
+where $V_{ch}$ are the vertices on the convex hull of the input set and $E_{ch}$ is the edge set of 2-tuples such that $E_{ch} = \lbrace (x,y): x,y \text{ are ordered vertices of some edge} \rbrace$. For convenience, let us remove the largest edge touching point $p$, if any such edges exist, within the edge set $E_{ch}$. We will define this resulting set as $\hat{E}_{ch}$. With these results, the heuristic we choose is then defined as:
+
+\begin{align*}
+h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right) d_{M}(x,y) + |V_u|
+\end{align*}
    
    \newpage
    \subsection{Part 1 Extra Credit - Suboptimal Search}
