@@ -83,7 +83,7 @@ int main(int argc, char** argv){
         astar::euclidean_dist   h_e;    h_e.setMaze(maze_);
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
-        astar::convexhull       h_ch;   h_ch.setMaze(maze_); h_ch.setScaleFactor(2); // 2.5 leads to 207 cost for mediumSearch
+        astar::convexhull       h_ch;   h_ch.setMaze(maze_);
         astar::nearest          h_n;    h_n.setMaze(maze_);
         astar::heuristic_func_base<multi::state>* heuristic = nullptr;
         
