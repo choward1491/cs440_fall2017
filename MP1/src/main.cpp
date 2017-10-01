@@ -25,6 +25,7 @@
 #include "dfs_planner.hpp"
 #include "bfs_planner.hpp"
 #include "astar_convexhull.hpp"
+#include "astar_convexhull_fast.hpp"
 #include <chrono>
 #include "gif_wrapper.hpp"
 #include "maze_transition_model.hpp"
@@ -84,6 +85,7 @@ int main(int argc, char** argv){
         astar::deviation        h_d;    h_d.setMaze(maze_); h_d.setScaleFactor(0.55);
         astar::average          h_a;    h_a.setMaze(maze_); h_a.setScaleFactor(1.0);
         astar::convexhull       h_ch;   h_ch.setMaze(maze_);
+        astar::fast::convexhull h_chf;  h_chf.setMaze(maze_);
         astar::nearest          h_n;    h_n.setMaze(maze_);
         astar::heuristic_func_base<multi::state>* heuristic = nullptr;
         
@@ -101,7 +103,7 @@ int main(int argc, char** argv){
             if( heuristic_t == "mdist" )          {heuristic = &h_m;}
             else if( heuristic_t == "edist" )     {heuristic = &h_e;}
             else if( heuristic_t == "avg" )       {heuristic = &h_a;}
-            else if( heuristic_t == "chull" )     {heuristic = &h_ch;}
+            else if( heuristic_t == "chull" )     {heuristic = &h_chf;}
             else if( heuristic_t == "nearest" )   {heuristic = &h_n;}
             else{
                 throw custom::exception("Did not specify valid heuristic. This is the `-h` commandline argument. Options for argument value are:"

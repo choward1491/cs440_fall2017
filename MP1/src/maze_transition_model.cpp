@@ -58,4 +58,8 @@ namespace transition {
         gplist_ref = &gplist;
     }
     
+    void maze_model::getActions( multi::state & x, const maze & maze_, std::vector<maze::Action> & action_set ) {
+        maze_.getActionSetForID(x.current_node, action_set);
+    }
+    
 }

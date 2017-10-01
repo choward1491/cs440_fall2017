@@ -134,7 +134,7 @@ namespace astar {
                 if( state.isFinished() ){ fstate = current_state_idx; break; }
                 
                 // get list of actions for current node
-                maze_.getActionSetForID(state.current_node, action_list);
+                transition_model::getActions( state, maze_, action_list );
                 
                 // loop through actions and compute necessary data for use in search
                 for( maze::Action a : action_list ){
