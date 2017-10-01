@@ -179,6 +179,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
    
    \newpage
    \section{Part 2 - Sokoban}
+   \subsection{State and Transition Model Definitions}
    Within this section, the goal is to develop an agent that is capable of solving the Sokoban puzzle problem for a set of input puzzles. To handle this problem, the state representation has been defined as the following:
    
    \begin{align*}
@@ -194,7 +195,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
    where $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ is the set of goal points within the puzzle we can place a box. The next step in formulating this problem is describing the Transition Model for the agent and what actions an agent can take based on its state. Algorithm \ref{algo:tmodel} describes the Transition Model for Sokoban given our state representation, while Algorithm \ref{algo:aset} refers to how we get the feasible action set for an agent given its current state. With these pieces described, we can readily approach solving Sokoban using the search methods discussed earlier.
    
    \RestyleAlgo{boxruled}
-	\begin{algorithm} 
+	\begin{algorithm}[H]
 		 \KwData{State, $\boldsymbol{x}$ }
 		 \KwData{Action, $a$, assumed to be valid }
 		 \KwData{Maze Graph, $G_m$ }
@@ -226,7 +227,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
 	\end{algorithm}	
 	
 	\RestyleAlgo{boxruled}
-	\begin{algorithm} 
+	\begin{algorithm}[H]
 		 \KwData{State, $\boldsymbol{x}$ }
 		 \KwData{Maze Graph, $G_m$ }
 		 \KwData{Goal Node Set, $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ }
@@ -265,5 +266,32 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
 		 \caption{Sokoban Action Set Retrieval Algorithm}
 		 \label{algo:aset}
 	\end{algorithm}
+	
+	\newpage
+	\subsection{Solving Sokoban with A*}
+	To tackle Sokoban, we go over a heuristic for A* and the results we achieve solving Sokoban. To keep things simple, the heuristic is defined as the following:
+	
+	\begin{align*}
+	h_{\text{nearest}}(p) &= \min_{b \in B_p} d_{M}(p, b) + \sum_{b \in B_p} \min_{g \in V_g} d_{M}(b,g)
+	\end{align*}
+	
+	where $B_p = \text{getBoxPositions}\left(\boldsymbol{x}\right)$ and $V_g$ represents the set of goal point locations for the boxes. This heuristic is admissible. The first term, representing the distance the agent has left to move to reach the boxes, is underestimating the distance the agent has to go since it is only looking at the distance to the nearest box. The second term also acts as a sum of the lower bounds to the distance the agent would have to push a given box $b$ to some goal $g$. This is a lower bound in the second term, as formulated, because the nearest goal point to some box $b$ is not necessarily a goal point the box can reach, nor is that goal point necessarily one that can be used to solve the overall puzzle. The sum of these components together in turn produces an underestimate of the distance the agent has left to travel before completion of the puzzle, making the heuristic admissible.
+	
+	With this, the results of this A* formulation against the set of Sokoban puzzles provided can be found in Table \ref{tab:sokastar}. Animations of their solution, in the form of GIFs, can be found in the project zip with their identifiers as \textbf{astar\_nearest\_sokoban*.gif}. Watching the animations, it is interesting to see how the agent tackled trickier puzzles like Sokoban 2 and Sokoban 4 where the solution requires more seemingly long term thinking, i.e. making sure moves you make now allow for you to make moves later on boxes that are more constrained. Fortunately, the heuristic managed to solve all these puzzles in a reasonable time frame, though we expect there are superior heuristics for managing Sokoban 2 and Sokoban 4.
+	
+	\begin{table}[ht]
+   \centering
+   \begin{tabular}{l | l | l | l | l }
+   \hline
+    & Sokoban 1 & Sokoban 2 & Sokoban 3 & Sokoban 4\\
+    \hline \hline 
+   Number of Moves & 10 & 148 & 36 & 72 \\
+   Nodes Expanded & 36 & 517,584 & 146,259 & 11,404,258\\
+   Run Time & 0.14 s & 3.55 s & 1.54 s & 64.10 s\\
+   \hline
+   \end{tabular}
+   \caption{Sokoban solved by A* using $h_{\text{nearest}}(p)$} \label{tab:sokastar}
+   \end{table}
+   
    
 \end{document}
