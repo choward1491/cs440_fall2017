@@ -123,6 +123,9 @@ namespace maze_io {
         // if output text file is open
         if( mazeFile.isOpen() ){
             
+            // specify flag for if this is a Sokoban problem
+            bool isSokoban = in_maze.numBoxes() > 0;
+            
             // get reference to underlying graph
             const auto & mgraph = in_maze.getGraph();
             
@@ -133,7 +136,10 @@ namespace maze_io {
             // loop through information from graph and populate char matrix
             for(unsigned int i = 0; i < mgraph.getNumNodes(); ++i){
                 if( in_maze.getValidityAtLocationID(i) ){
-                    if( in_maze.idIsGoalPoint(i) ){ graph_mat[i] = '.'; }
+                    if( in_maze.idIsGoalPoint(i) ){
+                        graph_mat[i] = '.';
+                        if( isSokoban ){graph_mat[i] = 'B';}
+                    }
                     else if( in_maze.getStartingLocationID() == i ) { graph_mat[i] = 'P'; }
                     else{ graph_mat[i] = ' '; }
                 }else{ graph_mat[i] = '%'; }

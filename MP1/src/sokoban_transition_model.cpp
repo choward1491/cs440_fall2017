@@ -87,7 +87,7 @@ namespace transition {
                     auto bn = transition::sokoban_model::newMazePos(pn, action, &maze_);
                     actionValid = maze_.getValidityAtLocationID(bn) && boxPos.find(bn) == boxPos.end();
                 }
-            }
+            }else{ continue; }
             
             if( actionValid ){ action_set.push_back(action); }
         }

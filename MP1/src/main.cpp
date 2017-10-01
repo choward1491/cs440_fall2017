@@ -110,6 +110,7 @@ int main(int argc, char** argv){
             throw custom::exception("Did not specify valid planner type. This is the `-p` commandline argument. Options for argument value are:\nbfs: Breadth First Search\ndfs: Depth First Search\ngreedy: Greedy\nastar: A*");
         }
         
+        // set the heuristic function, if necessary
         if( usesHeuristic ){
             if( heuristic_t == "mdist" )          {heuristic = &h_m;}
             else if( heuristic_t == "edist" )     {heuristic = &h_e;}
@@ -139,12 +140,14 @@ int main(int argc, char** argv){
         image_set[wrap::Wall]       = img::image( wall_tile );
         image_set[wrap::Agent]      = img::image( agent_tile );
         image_set[wrap::Goal]       = img::image( goal_tile );
-        if( back_tile.empty() || wall_tile.empty() || agent_tile.empty() || goal_tile.empty() ){
+        image_set[wrap::Box]        = img::image( box_tile );
+        if( back_tile.empty() || wall_tile.empty() || agent_tile.empty() || goal_tile.empty() || (isSokoban && box_tile.empty())){
             printf("Did not pass in tiles so you can generate GIF. The tile inputs are:\n"
                                     "wall_t : Wall barrier tile\n"
                                     "back_t : Background/Floor tile\n"
                                     "agent_t: AI Agent tile\n"
                                     "goal_t : Goal point tile\n"
+                                    "box_t  : Box tile\n"
                                     "Continuing...\n");
             didLoadAllTiles = false;
         }
@@ -196,11 +199,34 @@ int main(int argc, char** argv){
 }
 
 #ifdef LIBPNG_DEFINED
+
+bool inList( maze::id_type id, const std::vector<maze::id_type> & list ){
+    for(unsigned int i = 0; i < list.size(); ++i){
+        if( id == list[i] ){ return true; }
+    }
+    return false;
+}
+
+maze::Action figureOutAction( maze::id_type cid, maze::id_type lid, int ncols ){
+    int delta = static_cast<int>(cid) - static_cast<int>(lid);
+    if      ( delta == 1        )   { return maze::Right;   }
+    else if ( delta == -1       )   { return maze::Left;    }
+    else if ( delta == ncols    )   { return maze::Down;    }
+    else if ( delta == -ncols   )   { return maze::Up;      }
+    else{
+        return maze::Null;
+    }
+}
+
 void writeGifSolution( std::map<wrap::tile_t, img::image> & tile_set,
                        const std::string & gif_path,
                        const maze & maze_,
                        const path & path )
 {
+    // figure out if we solved a Sokoban problem
+    bool isSokoban = maze_.numBoxes() > 0;
+    std::vector<maze::id_type> box_positions = maze_.getBoxPositions();
+    
     // get size of maze
     unsigned int mw = maze_.getNumCols();
     unsigned int mh = maze_.getNumRows();
@@ -222,15 +248,43 @@ void writeGifSolution( std::map<wrap::tile_t, img::image> & tile_set,
     // loop through and create each frame
     auto path_list = path.path_list;
     std::map<unsigned int, bool> goal_visited;
+    bool firstImage = true;
+    unsigned int lid = 0; // last id
     while(!path_list.empty()) {
         auto current_id = path_list.front(); path_list.pop_front();
-        if( maze_.idIsGoalPoint(current_id) ){ goal_visited[current_id] = true; }
+        if( !isSokoban && maze_.idIsGoalPoint(current_id) ){ goal_visited[current_id] = true; }
+        
+        if( firstImage ){
+            firstImage = false;
+            lid = current_id;
+        }else{
+            
+            if( isSokoban ){
+                
+                // update an applicable box position if needed
+                for(unsigned int i = 0; i < box_positions.size(); ++i){
+                    if( box_positions[i] == current_id ){
+                        // figure out action based on last id and current id
+                        maze::Action a = figureOutAction(current_id, lid, mw);
+                        
+                        // update box position based on action
+                        box_positions[i] = transition::sokoban_model::newMazePos(current_id, a, &maze_);
+                        break;
+                    }
+                }// end for
+                
+            }// end if isSokoban
+            lid = current_id;
+        }
+        
         unsigned int id = 0;
         for(unsigned int i = 0; i < mw; ++i){
             for(unsigned int j = 0; j < mh; ++j){
                 id = i + j*mw;
                 if( id == current_id ){
                     img_.insertSubImage(i*iw, j*ih, tile_set[wrap::Agent]);
+                }else if( isSokoban && inList(id,box_positions) ){
+                        img_.insertSubImage(i*iw, j*ih, tile_set[wrap::Box]);
                 }else if( maze_.idIsGoalPoint(id) && goal_visited.find(id) == goal_visited.end() ){
                     img_.insertSubImage(i*iw, j*ih, tile_set[wrap::Goal]);
                 }else if( maze_.getValidityAtLocationID(id) ){

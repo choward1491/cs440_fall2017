@@ -17,7 +17,7 @@
 
 namespace wrap {
     
-    enum tile_t { Background = 0, Wall, Goal, Agent};
+    enum tile_t { Background = 0, Wall, Goal, Agent, Box};
     
     class gif {
     public:
