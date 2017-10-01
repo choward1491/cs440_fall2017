@@ -5,6 +5,7 @@
 \usepackage{cancel}
 \usepackage{ntheorem}
 \usepackage{algorithm2e}
+\usepackage{float}
 \usepackage{caption}
 \usepackage{fancyvrb}
 \usepackage[dvipsnames]{xcolor}
@@ -205,7 +206,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
 \end{align*}
    
    \newpage
-   \subsection{Part 1 Extra Credit - Suboptimal Search}
+   \subsection{Part 1 Extra Credit - Sub-optimal Heuristics}
    
    \newpage
    \section{Part 2 - Sokoban}
@@ -225,7 +226,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
    where $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ is the set of goal points within the puzzle we can place a box. The next step in formulating this problem is describing the Transition Model for the agent and what actions an agent can take based on its state. Algorithm \ref{algo:tmodel} describes the Transition Model for Sokoban given our state representation, while Algorithm \ref{algo:aset} refers to how we get the feasible action set for an agent given its current state. With these pieces described, we can readily approach solving Sokoban using the search methods discussed earlier.
    
    \RestyleAlgo{boxruled}
-	\begin{algorithm}[H]
+	\begin{algorithm}
 		 \KwData{State, $\boldsymbol{x}$ }
 		 \KwData{Action, $a$, assumed to be valid }
 		 \KwData{Maze Graph, $G_m$ }
@@ -257,7 +258,7 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
 	\end{algorithm}	
 	
 	\RestyleAlgo{boxruled}
-	\begin{algorithm}[H]
+	\begin{algorithm}
 		 \KwData{State, $\boldsymbol{x}$ }
 		 \KwData{Maze Graph, $G_m$ }
 		 \KwData{Goal Node Set, $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ }
@@ -343,6 +344,9 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
    
    \subsection{Comparison of Results}
    By checking Table \ref{tab:sokbfs} and Table \ref{tab:sokastar}, we can draw some obvious comparisons. First, BFS always achieved an optimal result and A* was right near it, though it might have missed the absolute optimal solution due to the repeated state detection. Additionally, A* performed much faster than BFS in terms of number of nodes expanded. The run-time comparison between BFS and A* also followed that trend generally, though A* did not run as many multiples faster than BFS with respect to run-time as it did number of nodes expanded. This makes sense because the heuristic computation of A* is going to cost CPU time that BFS does not have to worry about.  
+   
+\newpage
+   \subsection{Part 2 Extra Credit - Sub-optimal Heuristics}   
    
    \newpage
 \begin{appendices}

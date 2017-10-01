@@ -123,7 +123,8 @@ int main(int argc, char** argv){
             if( heuristic_t == "mdist" )          {heuristic = &h_m;}
             else if( heuristic_t == "edist" )     {heuristic = &h_e;}
             else if( heuristic_t == "avg" )       {heuristic = &h_a;}
-            else if( heuristic_t == "chull" )     {heuristic = &h_chf;}
+            else if( heuristic_t == "chull" )     {heuristic = &h_ch;}
+            else if( heuristic_t == "chullf" )     {heuristic = &h_chf;}
             else if( heuristic_t == "nearest" )   {
                 heuristic   = &h_n;
                 heuristic_s = &h_ns;
