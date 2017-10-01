@@ -290,7 +290,7 @@ namespace astar {
             // and between interior points to other interior points
             bool setDistance = false;
             double min_interior_dist = 1e30;
-            for(unsigned int i = 0; i < unvisited_pts.size(); ++i){
+            /*for(unsigned int i = 0; i < unvisited_pts.size(); ++i){
                 if( !on_hull[i] ){
                     for(unsigned int j = 0; j < unvisited_pts.size(); ++j){
                         if( on_hull[j] ){
@@ -306,7 +306,7 @@ namespace astar {
                         }
                     }// end for
                 }// end if
-            }// end for
+            }// end for*/
             
             if( !setDistance ){ min_interior_dist = 1.0; }
             
