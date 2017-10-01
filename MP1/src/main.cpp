@@ -78,7 +78,8 @@ int main(int argc, char** argv){
         bool isSokoban = maze_.numBoxes() > 0;
         
         // define planners
-        bfs::planner bplanner;
+        bfs::planner<transition::maze_model> bplanner;
+        bfs::planner<transition::sokoban_model> bplanner_s;
         dfs::planner dplanner;
         astar::planner<transition::maze_model> aplanner;
         astar::planner<transition::sokoban_model> aplanner_s;
@@ -98,7 +99,10 @@ int main(int argc, char** argv){
         
         // set the planner method
         bool usesHeuristic = false;
-        if( planner == "bfs" )          { planner_ = &bplanner; }
+        if( planner == "bfs" )          {
+            planner_ = &bplanner;
+            if( isSokoban ){ planner_ = &bplanner_s; }
+        }
         else if( planner == "dfs" )     { planner_ = &dplanner; }
         else if( planner == "greedy" )  { planner_ = &aplanner; aplanner.beGreedy(true); usesHeuristic = true;}
         else if( planner == "astar" )   {
