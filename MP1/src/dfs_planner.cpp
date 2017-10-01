@@ -57,7 +57,7 @@ namespace dfs {
         // define the transition model
         transition::maze_model F;
         F.setMaze(maze_);
-        F.setUnvisitedGoalPointList(goal_points);
+        F.setGoalPointList(goal_points);
         
         // define stack that will be used in traversal
         std::stack<state_t> stateStack;

@@ -77,6 +77,7 @@ const   maze::maze_graph & maze::getGraph() const {
 }
 void            maze::addGoalPoint( id_type goal_id ) {
     goal_points.push_back(goal_id);
+    goal_points_map[goal_id] = goal_id;
 }
 unsigned int    maze::numGoalPoints() const {
     return goal_points.size();
@@ -89,6 +90,10 @@ maze::id_type & maze::goalPointAt(unsigned int idx) {
 }
 const std::vector<maze::id_type> & maze::getGoalPoints() const {
     return goal_points;
+}
+
+const std::map<maze::id_type,maze::id_type> & maze::getGoalMap() const {
+    return goal_points_map;
 }
 
 void            maze::clearGoalPoints() {

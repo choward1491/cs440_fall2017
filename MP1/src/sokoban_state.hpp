@@ -27,8 +27,18 @@ namespace sokoban {
         // box locations
         std::vector<maze::id_type> box_locations;
         
+        // goal map of locations
+        const maze* mref;
+        
+        // init state with a maze
+        void initWithMaze( const maze & maze_ ){
+            box_locations = maze_.getBoxPositions();
+            mref = &maze_;
+        }
+        
         // method to see if the state has found a completed state
-        bool isFinished( const std::map<maze::id_type,maze::id_type> & goal_locations ) const {
+        bool isFinished() const {
+            const auto & goal_locations = mref->getGoalMap();
             bool isDone = true;
             for(auto it = box_locations.begin(); it != box_locations.end(); ++it){
                 isDone = isDone && goal_locations.find(*it) != goal_locations.end();

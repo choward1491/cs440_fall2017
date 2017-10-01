@@ -87,14 +87,14 @@ namespace astar {
             // define the transition model
             transition_model F;
             F.setMaze(maze_);
-            F.setUnvisitedGoalPointList(goal_points);
+            F.setGoalPointList(goal_points);
             
             // define min heap that will be used in traversal
             min_heap frontier;
             
             // define state variable
             state_t current_state;
-            current_state.hasSeenGoalPoint.resize(goal_points.size(),false);
+            current_state.initWithMaze(maze_);
             
             // define maps that store whether a state has been visited, the cost to that state,
             // and the previous state that lead to a current state

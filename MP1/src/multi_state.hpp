@@ -27,6 +27,10 @@ namespace multi {
         // a desired goal point
         std::vector<bool>   hasSeenGoalPoint;
         
+        void initWithMaze( const maze & maze_ ){
+            hasSeenGoalPoint.resize(maze_.getGoalPoints().size(),false);
+        }
+        
         // method to see if the state has found a completed state
         bool isFinished() const {
             bool isDone = true;

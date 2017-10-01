@@ -30,6 +30,8 @@
 #include "gif_wrapper.hpp"
 #include "maze_transition_model.hpp"
 #include "multi_state.hpp"
+#include "sokoban_transition_model.hpp"
+#include "astar_sokoban_nearest.hpp"
 
 
 #ifndef _WIN32
@@ -57,6 +59,7 @@ int main(int argc, char** argv){
         std::string agent_tile  = commp["-agent_t"];
         std::string wall_tile   = commp["-wall_t"];
         std::string back_tile   = commp["-back_t"];
+        std::string box_tile    = commp["-box_t"];
         std::string goal_tile   = commp["-goal_t"];
         std::string out_gif     = commp["-out_gif"];
         std::string heuristic_t = commp["-h"];
@@ -72,11 +75,13 @@ int main(int argc, char** argv){
         }else{
             throw custom::exception("Did not pass in a maze file. This is the commandline argument `-maze`. Try again.");
         }
+        bool isSokoban = maze_.numBoxes() > 0;
         
         // define planners
         bfs::planner bplanner;
         dfs::planner dplanner;
         astar::planner<transition::maze_model> aplanner;
+        astar::planner<transition::sokoban_model> aplanner_s;
         path_planner* planner_ = nullptr;
         
         // define heuristic function
@@ -87,14 +92,20 @@ int main(int argc, char** argv){
         astar::convexhull       h_ch;   h_ch.setMaze(maze_);
         astar::fast::convexhull h_chf;  h_chf.setMaze(maze_);
         astar::nearest          h_n;    h_n.setMaze(maze_);
+        sokoban::nearest        h_ns;   h_ns.setMaze(maze_);
         astar::heuristic_func_base<multi::state>* heuristic = nullptr;
+        astar::heuristic_func_base<sokoban::state>* heuristic_s = nullptr;
         
         // set the planner method
         bool usesHeuristic = false;
         if( planner == "bfs" )          { planner_ = &bplanner; }
         else if( planner == "dfs" )     { planner_ = &dplanner; }
         else if( planner == "greedy" )  { planner_ = &aplanner; aplanner.beGreedy(true); usesHeuristic = true;}
-        else if( planner == "astar" )   { planner_ = &aplanner; usesHeuristic = true; }
+        else if( planner == "astar" )   {
+            planner_ = &aplanner;
+            if( isSokoban ){ planner_ = &aplanner_s; }
+            usesHeuristic = true;
+        }
         else{
             throw custom::exception("Did not specify valid planner type. This is the `-p` commandline argument. Options for argument value are:\nbfs: Breadth First Search\ndfs: Depth First Search\ngreedy: Greedy\nastar: A*");
         }
@@ -104,7 +115,10 @@ int main(int argc, char** argv){
             else if( heuristic_t == "edist" )     {heuristic = &h_e;}
             else if( heuristic_t == "avg" )       {heuristic = &h_a;}
             else if( heuristic_t == "chull" )     {heuristic = &h_chf;}
-            else if( heuristic_t == "nearest" )   {heuristic = &h_n;}
+            else if( heuristic_t == "nearest" )   {
+                heuristic   = &h_n;
+                heuristic_s = &h_ns;
+            }
             else{
                 throw custom::exception("Did not specify valid heuristic. This is the `-h` commandline argument. Options for argument value are:"
                                         "\nmdist: Manhattan Distance Heuristic"
@@ -114,6 +128,7 @@ int main(int argc, char** argv){
                                         "\nnearest: Nearest Goal Heuristic");
             }
             aplanner.setHeuristic(*heuristic);
+            aplanner_s.setHeuristic(*heuristic_s);
         }
         
 #ifdef LIBPNG_DEFINED

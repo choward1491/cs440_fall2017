@@ -54,7 +54,7 @@ namespace transition {
     }
     
     
-    void maze_model::setUnvisitedGoalPointList( const std::vector<maze::id_type> & gplist){
+    void maze_model::setGoalPointList( const std::vector<maze::id_type> & gplist){
         gplist_ref = &gplist;
     }
     

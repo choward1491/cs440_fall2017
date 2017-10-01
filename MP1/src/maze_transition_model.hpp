@@ -33,7 +33,7 @@ namespace transition {
         void setMaze( const maze & maze);
         
         // set list of unvisited goal points
-        void setUnvisitedGoalPointList( const std::vector<maze::id_type> & gplist);
+        void setGoalPointList( const std::vector<maze::id_type> & gplist);
         static void getActions( multi::state & x, const maze & maze_, std::vector<maze::Action> & action_set );
         
     private:

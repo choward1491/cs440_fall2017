@@ -12,6 +12,7 @@
 #define maze_hpp
 
 #include "graph.hpp"
+#include <map>
 
 /* maze class for representing useful maze information, such as a graph representation of the maze, starting location(s), and goal point location(s) for use by an intelligent agent
  */
@@ -53,6 +54,7 @@ public:
     const id_type & goalPointAt(unsigned int idx) const;
           id_type & goalPointAt(unsigned int idx);
     const std::vector<id_type> & getGoalPoints() const;
+    const std::map<id_type,id_type> & getGoalMap() const;
     void            clearGoalPoints();
     bool idIsGoalPoint( id_type id ) const;
     
@@ -74,6 +76,7 @@ private:
     unsigned int rows, cols;
     id_type startID;
     std::vector<id_type> goal_points;
+    std::map<id_type,id_type> goal_points_map;
     std::vector<id_type> boxes;
     std::vector<bool>    valid_node;
     maze_graph mgraph;

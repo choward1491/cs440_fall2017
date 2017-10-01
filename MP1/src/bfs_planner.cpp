@@ -56,7 +56,7 @@ namespace bfs {
         // define the transition model
         transition::maze_model F;
         F.setMaze(maze_);
-        F.setUnvisitedGoalPointList(goal_points);
+        F.setGoalPointList(goal_points);
         
         // define fifo that will be used in traversal
         std::queue<state_t> fifo;
