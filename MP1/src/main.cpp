@@ -44,6 +44,10 @@ void writeGifSolution( std::map<wrap::tile_t, img::image> & tile_set,
                        const std::string & gif_path,
                        const maze & maze_,
                        const path & path );
+void writePNGSolution( std::map<wrap::tile_t, img::image> & tile_set,
+                      const std::string & png_path,
+                      const maze & maze_,
+                      const path & path );
 #endif
 
 
@@ -136,11 +140,7 @@ int main(int argc, char** argv){
         // load tile images
         bool didLoadAllTiles = true;
         std::map<wrap::tile_t, img::image> image_set;
-        image_set[wrap::Background] = img::image( back_tile );
-        image_set[wrap::Wall]       = img::image( wall_tile );
-        image_set[wrap::Agent]      = img::image( agent_tile );
-        image_set[wrap::Goal]       = img::image( goal_tile );
-        image_set[wrap::Box]        = img::image( box_tile );
+        
         if( back_tile.empty() || wall_tile.empty() || agent_tile.empty() || goal_tile.empty() || (isSokoban && box_tile.empty())){
             printf("Did not pass in tiles so you can generate GIF. The tile inputs are:\n"
                                     "wall_t : Wall barrier tile\n"
@@ -150,6 +150,17 @@ int main(int argc, char** argv){
                                     "box_t  : Box tile\n"
                                     "Continuing...\n");
             didLoadAllTiles = false;
+        }
+        
+        if( didLoadAllTiles ){
+            image_set[wrap::Background] = img::image( back_tile );
+            image_set[wrap::Wall]       = img::image( wall_tile );
+            image_set[wrap::Agent]      = img::image( agent_tile );
+            image_set[wrap::Goal]       = img::image( goal_tile );
+            
+            if( isSokoban ){
+            image_set[wrap::Box]        = img::image( box_tile );
+            }
         }
         
 #endif
@@ -299,4 +310,68 @@ void writeGifSolution( std::map<wrap::tile_t, img::image> & tile_set,
         gif_instance.addFrame(img_);
     }// end while
 }
+
+void writePNGSolution( std::map<wrap::tile_t, img::image> & tile_set,
+                      const std::string & png_path,
+                      const maze & maze_,
+                      const path & path )
+{
+    // figure out if we solved a Sokoban problem
+    bool isSokoban = maze_.numBoxes() > 0;
+    std::vector<maze::id_type> box_positions = maze_.getBoxPositions();
+    
+    // get size of maze
+    unsigned int mw = maze_.getNumCols();
+    unsigned int mh = maze_.getNumRows();
+    unsigned int iw = 50;
+    unsigned int ih = 50;
+    
+    // initialize image that frame will be drawn onto
+    img::image img_;
+    {
+        const auto & timg = tile_set[wrap::Background];
+        iw = timg.width(); ih = timg.height();
+        img_.setDims(mw*iw, mh*ih);
+    }
+    
+    // loop through environment and place the background and walls
+    unsigned int id = 0;
+    for(unsigned int i = 0; i < mw; ++i){
+        for(unsigned int j = 0; j < mh; ++j){
+            id = i + j*mw;
+            if( maze_.getValidityAtLocationID(id) ){
+                img_.insertSubImage(i*iw, j*ih, tile_set[wrap::Background]);
+            }else{
+                img_.insertSubImage(i*iw, j*ih, tile_set[wrap::Wall]);
+            }
+        }// end for j
+    }// end for i
+    
+    // loop through and create each frame
+    auto path_list = path.path_list;
+    bool isFirst = true;
+    unsigned int fid = 0, row = 0, col = 0;
+    while(!path_list.empty()) {
+        auto current_id = path_list.front(); path_list.pop_front();
+        if( isFirst ){ fid = current_id; isFirst = false; }
+        
+        auto pt = maze_.getCoordinateForID(current_id);
+        img_.insertSubImage(pt.first*iw, pt.second*ih, tile_set[wrap::Visit]);
+        
+    }// end while
+    
+    {   // paste the agent into the image at the starting location
+        auto pt = maze_.getCoordinateForID(fid);
+        img_.insertSubImage(pt.first*iw, pt.second*ih, tile_set[wrap::Agent]);
+    }
+    
+    {   // paste the goals into the image at their
+        auto pt = maze_.getCoordinateForID(fid);
+        img_.insertSubImage(pt.first*iw, pt.second*ih, tile_set[wrap::Goal]);
+    }
+    
+    // save the resulting png
+    img_.savePNG(png_path);
+}
+
 #endif

@@ -155,19 +155,21 @@ namespace maze_io {
                 graph_mat[in_maze.getStartingLocationID()] = 'P';
                 
                 // write out visited goal points in their appropriate order
-                std::map<unsigned int, unsigned int> visited_goals;
-                unsigned int idx = 0;
-                for( auto & node : nlist->goal_visit_list ){
-                    char character = '.';
-                    if( idx < 9 ){  character = '1' + idx; }
-                    else{           character = 'a' + (idx - 9); }
-                    
-                    if( visited_goals.find(node) == visited_goals.end() ){
-                        visited_goals[node] = node;
-                        graph_mat[node] = character;
-                        ++idx;
-                    }
-                }
+                if( nlist->goal_visit_list.size() > 1){
+                    std::map<unsigned int, unsigned int> visited_goals;
+                    unsigned int idx = 0;
+                    for( auto & node : nlist->goal_visit_list ){
+                        char character = '.';
+                        if( idx < 9 ){  character = '1' + idx; }
+                        else{           character = 'a' + (idx - 9); }
+                        
+                        if( visited_goals.find(node) == visited_goals.end() ){
+                            visited_goals[node] = node;
+                            graph_mat[node] = character;
+                            ++idx;
+                        }
+                    }// end for
+                }// end if
             }
             
             // write the char matrix to file

@@ -6,6 +6,9 @@
 \usepackage{ntheorem}
 \usepackage{algorithm2e}
 \usepackage{caption}
+\usepackage{fancyvrb}
+\usepackage[dvipsnames]{xcolor}
+
 
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
@@ -13,6 +16,22 @@
 
 % define Continue for algorithms
 \SetKw{Continue}{continue}
+
+% Define custome verbatim command to insert maze text file results
+\RecustomVerbatimCommand{\BVerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+ %
+ frame=lines,  % top and bottom rule only
+ framesep=2em, % separation between frame and text
+ rulecolor=\color{Black},
+ %
+ %label=\fbox{\color{Black}data.txt},
+ labelposition=topline,
+ %
+ %commandchars=\|\(\), % escape character and argument delimiters for
+                      % commands within the verbatim
+ %commentchar=*        % comment character
+}
 
 % redefine QED symbol
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
@@ -157,6 +176,23 @@ Liuyi Shi \\ liuyis2@illinois.edu
    As we can see in the table, Depth-First Search (DFS) tended to arrive at a solution to a given maze quickly but at the expense of a sub-optimal path cost. We can note that Breadth First Search (BFS) and A* both, as expected, produced optimal path costs but it is interesting to note that for the Big Maze and Open Maze, BFS actually reached the optimal solution faster. It seems feasible that the Manhattan distance heuristic would, at times, take A* in a path that would lead to dead ends, in turn requiring A* to expand more nodes than BFS would have to. 
    
    One other thing to note was the interesting characteristics of the Greedy Search. We can see that on one end, it reached an optimal result in a very low number of expanded nodes for the Medium Maze. On the other end, it reaches a sub-optimal path cost after expanding a huge number of states in the Open Maze. Greedy obviously lacks robustness and this can be suspected due to the fact it does not take into account how far it has come but only thinks about how far away it thinks it is. Given this one sided thinking, the agent can get too excited being "close" to the goal even though they may be winding through a lot of poor sub-paths.
+   
+   Some sample paths for the maze can be found in Figure \ref{fig:bfs_bigmaze} and Figure \ref{fig:as_openmaze}. The rest of the paths can be found in the appendix.
+   
+   \begin{figure}[!h]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/bfs/bfs_bigMaze_path.txt} 
+   \caption{Solution to Big Maze using BFS}
+   \label{fig:bfs_bigmaze}
+   \end{figure}
+   
+   \begin{figure}[!h]
+   \centering
+   \VerbatimInput[fontsize=\small, fontfamily=courier]{../data/astar/astar_openMaze_path.txt} 
+   \caption{Solution to Open Maze using A*}
+   \label{fig:as_openmaze}
+   \end{figure}
+    
    
     \newpage
    \subsection{Part 1.2 - Search with Multiple Dots}
