@@ -193,18 +193,29 @@ Liuyi Shi \\ liuyis2@illinois.edu
    \subsection{Part 1.2 - Search with Multiple Dots}
 The goal of this part was to build heuristics for the A* algorithm that would allow an agent to tackle a set of multi-goal problems in a reasonable time frame. The heuristic being used for this section is one based on the Convex Hull. 
 
-Let us define $p$ as the current location of the agent and define $V_u = \lbrace \hat{g}_1, \hat{g}_2, \cdots, \hat{g}_m \rbrace$ as the set of $m$ unvisited goal points. Let us then compute the convex hull of $\lbrace p \rbrace \bigcup V_u$, defined as:
+Let us first define the distance metric, $d_{ch}(\cdot,\cdot,\cdot)$, as the following:
+
+\begin{align*}
+d_{ch}(x,y, \beta) &= \beta |x-y|_2+ \left(1-\beta\right) |x-y|_1 
+\end{align*}
+
+where $|\cdot|_1$ is the $L_1$ norm, $|\cdot|_2$ is the $L_2$, norm, and $\beta \in [0,1]$ is a tuning parameter. Let us define $p$ as the current location of the agent and define $V_u = \lbrace \hat{g}_1, \hat{g}_2, \cdots, \hat{g}_m \rbrace$ as the set of $m$ unvisited goal points. Let us then compute the convex hull of $\lbrace p \rbrace \bigcup V_u$, defined as:
 
 \begin{align*}
 \left(V_{ch}, E_{ch} \right) = \text{ConvexHull}\left(\lbrace p \rbrace \bigcup V_u \right)
 \end{align*}
 
-where $V_{ch}$ are the vertices on the convex hull of the input set and $E_{ch}$ is the edge set of 2-tuples such that $E_{ch} = \lbrace (x,y): x,y \text{ are ordered vertices of some edge} \rbrace$. For convenience, let us remove the largest edge touching point $p$, if any such edges exist, within the edge set $E_{ch}$. We will define this resulting set as $\hat{E}_{ch}$. With these results, the heuristic we choose is then defined as:
+where $V_{ch}$ are the vertices on the convex hull of the input set and $E_{ch}$ is the edge set of 2-tuples such that $E_{ch} = \lbrace (x,y): x,y \text{ are ordered vertices of some edge} \rbrace$. For this heuristic, we will remove an edge from $E_{ch}$ to ensure we only touch each point on the convex hull once. We will call the resulting edge set as $\hat{E}_{ch}$ and will define it in the following way. 
+
+If $p \notin V_{ch}$, $\hat{E}_{ch}$ will be equivalent to $E_{ch}$ with the largest edge from $E_{ch}$ removed and then an edge of minimal distance between $p$ and some $v \in V_{ch}$ added. If $p \in V_{ch}$, $\hat{E}_{ch}$ will be equivalent to $E_{ch}$ with the largest edge that has the vertex $p$ on it being removed. Given we have produced this new edge set $\hat{E}_{ch}$, the heuristic is then computed as:
 
 \begin{align*}
-h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right) d_{M}(x,y) + |V_u|
+h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} d_{ch}(x,y, \beta) + \mu |V_I|
 \end{align*}
-   
+
+where $V_I$ represents the set of goal points on the interior of the convex hull and $\mu = \min \lbrace 1, d \rbrace $ where $d$ is the smallest distance between any interior goal point and any other goal point within $V_u$. This heuristic is admissible because, looking at the first term, the convex hull based distance using the edge set $\hat{E}_{ch}$ represents the shortest distance possible between points on the convex hull. 
+
+The secondary term is then just multiplying the number of goal points within the convex hull by the minimum distance $\mu$ to get to any neighboring goal point. This second term is a lower bound on the distance it will take to touch each of the interior goal points from any point along the convex hull. These two terms together in turn under estimate the minimal distance the agent will need to travel to touch each goal point, making the heuristic admissible. This
    \newpage
    \subsection{Part 1 Extra Credit - Sub-optimal Heuristics}
    
