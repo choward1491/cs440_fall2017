@@ -11,6 +11,9 @@
 \def\BState{\State\hskip-\ALG@thistlm}
 \makeatother
 
+% define Continue for algorithms
+\SetKw{Continue}{continue}
+
 % redefine QED symbol
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
 
@@ -65,7 +68,7 @@ Liuyi Shi \\ liuyis2@illinois.edu
    
    \RestyleAlgo{boxruled}
 	\begin{algorithm}[H]
-	\caption{Transition Function}
+	\caption{Transition Function - Multi-goal }
 		 \KwData{State, $\boldsymbol{x}$ }
 		 \KwData{Action, $a$ }
 		 \KwData{Maze Graph, $G_m$ }
@@ -80,16 +83,16 @@ Liuyi Shi \\ liuyis2@illinois.edu
 		 \;
 		 
 		 \tcp{Update position in maze given the action $a$}
-		 $\boldsymbol{x}_n(p) = G_m\left(\boldsymbol{x}(p), a\right)$
+		 $\boldsymbol{x}_n(p) = \text{getNextPosition}\left(\boldsymbol{x},a,G_m\right)$
 		 \;
 		 \;
 		 
 		 \tcp{Check if new position is in goal node set
 		 \\If so, find index associated with goal node and 
 		 \\set corresponding boolean to $1$}
-		 \If{ $\boldsymbol{x}(p) \in V_g$ }{
-		 	Get $m \ni \boldsymbol{x}(p) = p_m$\;
-		 	Set $\boldsymbol{x}(b_m) = 1$
+		 \If{ $\boldsymbol{x}_n(p) \in V_g$ }{
+		 	Get $m \ni \boldsymbol{x}_n(p) = p_m$\;
+		 	Set $\boldsymbol{x}_n(b_m) = 1$
 		 }
 		 \;
 		 \Return $\boldsymbol{x}_n$
@@ -176,5 +179,91 @@ h_{ch}(p) = \sum_{(x,y) \in \hat{E}_{ch}} \beta d_{E}(x,y) + \left(1-\beta\right
    
    \newpage
    \section{Part 2 - Sokoban}
+   Within this section, the goal is to develop an agent that is capable of solving the Sokoban puzzle problem for a set of input puzzles. To handle this problem, the state representation has been defined as the following:
+   
+   \begin{align*}
+   \boldsymbol{x} = \left( p, b_1, b_2, \cdots, b_n \right)
+   \end{align*}
+   
+   where in this case $p$ is the position of the agent, represented as a graph node index, and $b_k$ represents the position of the $k$\textsuperscript{th} box's position, represented as a graph node index, within the puzzle environment. Note that, as before, the input puzzle is processed to construct a graph representation which is in turn an implicit part of the state and environment representation for this problem. To know when the agent has found a Goal State, the following condition must be met:
+   
+   \begin{align*}
+   \left(b_1 \in V_g \right) \wedge \left(b_2 \in V_g \right) \wedge \cdots \wedge \left(b_n \in V_g \right) = 1
+   \end{align*}
+   
+   where $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ is the set of goal points within the puzzle we can place a box. The next step in formulating this problem is describing the Transition Model for the agent and what actions an agent can take based on its state. Algorithm \ref{algo:tmodel} describes the Transition Model for Sokoban given our state representation, while Algorithm \ref{algo:aset} refers to how we get the feasible action set for an agent given its current state. With these pieces described, we can readily approach solving Sokoban using the search methods discussed earlier.
+   
+   \RestyleAlgo{boxruled}
+	\begin{algorithm} 
+		 \KwData{State, $\boldsymbol{x}$ }
+		 \KwData{Action, $a$, assumed to be valid }
+		 \KwData{Maze Graph, $G_m$ }
+		 \KwResult{New State, $\boldsymbol{x}_n$}
+		 \;
+		 
+		 \tcp{Set the new state with the \\current state's box configuration}
+		 \For{$k \in \lbrace 1, 2, \cdots, |V_g| \rbrace$}{
+		 	$\boldsymbol{x}_n(b_k) = \boldsymbol{x}(b_k)$
+		 }
+		 \;
+		 
+		 \tcp{Update position in maze given the action $a$}
+		 $\boldsymbol{x}_n(p) =  \text{getNextPosition}\left(\boldsymbol{x},a,G_m\right)$
+		 \;
+		 \;
+		 
+		 \tcp{Check if new position is in equivalent to\\
+		 the position of one of the boxes. If so update\\
+		 the location of the box using the same action}
+		 \If{ $\boldsymbol{x}_n(p) \in \lbrace \boldsymbol{x}_n(b_1), \boldsymbol{x}_n(b_2), \cdots, \boldsymbol{x}_n(b_n) \rbrace$ }{
+		 	Get $i \ni \boldsymbol{x}_n(p) = \boldsymbol{x}_n(b_i)$\;
+		 	Set $\boldsymbol{x}_n(b_i) = \text{getNextPosition}\left(\boldsymbol{x}_n(b_i), a, G_m\right)$
+		 }
+		 \;
+		 \Return $\boldsymbol{x}_n$
+		 \caption{Sokoban Transition Model Algorithm}
+		 \label{algo:tmodel}
+	\end{algorithm}	
+	
+	\RestyleAlgo{boxruled}
+	\begin{algorithm} 
+		 \KwData{State, $\boldsymbol{x}$ }
+		 \KwData{Maze Graph, $G_m$ }
+		 \KwData{Goal Node Set, $V_g = \lbrace g_1, g_2, \cdots, g_n\rbrace$ }
+		 \KwResult{Action Set, $A$}
+		 \;
+		 
+		 \tcp{Get set of box positions}
+		 $B_p = \text{getBoxPositions}\left(\boldsymbol{x}\right)$\;\;
+		 
+		 \tcp{Initialize Action Set as the one based on the Connectivity}
+		 $A = \text{getActionsFromConnectivity}\left(\boldsymbol{x}(p), G_m\right)$ \;\;
+		 
+		 \tcp{Loop through possible actions and check they are valid\\
+		 given the rules of Sokoban}
+		 \For{$a \in A$}{
+		 	
+		 	\tcp{Get the next node in the graph the \\ agent would be going to}
+		 	$p_n = \text{getNextPosition}\left(\boldsymbol{x},a,G_m\right)$\;\;
+		 	
+		 	\tcp{Check if $p_n$ is the position of a box}
+		 	\If{$p_n \in B_p$}{
+		 		\tcp{Update position of matching box using action $a$ \\and check if it is a valid position}
+		 		$u =  \text{getNextPosition}\left(p_n,a,G_m\right)$\;\;
+		 		
+		 		\tcp{If new box position interferes with another box \\or the wall, remove $a$ from the action set $A$}
+		 		\If{ $u \in B_p$ or $\text{isWall}\left(u,G_m\right)$ }{
+		 			$A \leftarrow A \setminus \lbrace a\rbrace$
+		 		}
+		 	}
+		 }
+		 \;
+		 
+		 \tcp{Return the desired Action Set}
+		 \Return $A$
+		 
+		 \caption{Sokoban Action Set Retrieval Algorithm}
+		 \label{algo:aset}
+	\end{algorithm}
    
 \end{document}
