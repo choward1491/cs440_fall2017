@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 OCT 2017 10:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 OCT 2017 12:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -475,23 +475,23 @@ Overfull \hbox (17.1483pt too wide) in paragraph at lines 209--210
  []
 
 [6] [7] [8]
-Overfull \hbox (0.79999pt too wide) detected at line 367
+Overfull \hbox (0.79999pt too wide) detected at line 368
 |[]|
  []
 
 
-Overfull \hbox (0.79999pt too wide) detected at line 408
+Overfull \hbox (0.79999pt too wide) detected at line 409
 |[]|
  []
 
 [9] [10] [11] [12] [13]
-Overfull \hbox (1.24945pt too wide) in paragraph at lines 464--465
+Overfull \hbox (1.24945pt too wide) in paragraph at lines 465--466
 []\OT1/cmr/m/n/10 Built the OOP frame-work used to de-fine search al-go-rithms 
 and heuris-
  []
 
 [14] [15]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 504.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 505.
 
  (/usr/local/texlive/2017/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -502,15 +502,15 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 \tf@thm=\write6
 \openout6 = `report_mp1.thm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 635.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 636.
  [26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 635.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 636.
  (./report_mp1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 635.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 635.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 636.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 636.
 Package rerunfilecheck Info: File `report_mp1.out' has not changed.
 (rerunfilecheck)             Checksum: B2879F3F685EC602422714D39A08FBB6;1208.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 635.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 636.
  )
 (\end occurred inside a group at level 1)
 
@@ -545,7 +545,7 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2017/
 texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on report_mp1.pdf (26 pages, 265897 bytes).
+Output written on report_mp1.pdf (26 pages, 265979 bytes).
 PDF statistics:
  357 PDF objects out of 1000 (max. 8388607)
  305 compressed objects within 4 object streams
