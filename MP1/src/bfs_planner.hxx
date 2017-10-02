@@ -2,7 +2,7 @@
  *  bfs_planner.cpp
  *
  *  Project: MP1
- *  Author : Christian J Howard
+ *  Author : Liuyi Shi
  *  Date   : 9/16/17
  *  Purpose:
  *

@@ -1,0 +1,1 @@
+The path cost is 265 after 2295759 expanded nodes.

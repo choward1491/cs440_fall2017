@@ -16,6 +16,7 @@
 
 namespace astar {
     namespace fast {
+        
         // heuristic function for A* based on the manhatten distance
         class convexhull : public heuristic_func_base<multi::state> {
         public:

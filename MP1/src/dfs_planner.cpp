@@ -2,7 +2,7 @@
  *  dfs_planner.cpp
  *
  *  Project: MP1
- *  Author : Christian J Howard
+ *  Author : Luke Pitstick
  *  Date   : 9/16/17
  *  Purpose:
  *

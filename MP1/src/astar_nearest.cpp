@@ -60,6 +60,8 @@ namespace astar {
                 }
             }
             
+            cost += 20.0*(num_unvisited-1);
+            
         }else{ custom::exception("A* Nearest Goal Heuristic does not have a reference maze, cannot compute distance properly."); }
         return cost;
     }

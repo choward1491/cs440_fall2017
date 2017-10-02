@@ -189,7 +189,7 @@ namespace astar {
             if( !setDistance ){ min_interior_dist = 1.0; }
             
             // compute overall distance estimate based on convex hull and penalization of unvisited goals
-            cost = ( chull_dist + (scale_*min_interior_dist)*static_cast<double>(num_interior_goals) );
+            cost = ( chull_dist + (scale_*min_interior_dist)*static_cast<double>(num_interior_goals) - 20.0 / (double)len );
             
         }else{ custom::exception("A* Convex Hull Distance Heuristic does not have a reference maze, cannot compute distance properly."); }
         return cost;

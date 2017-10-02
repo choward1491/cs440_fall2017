@@ -3,13 +3,14 @@
 \contentsline {subsection}{\numberline {1.2}Part 1.2 - Search with Multiple Dots}{6}{subsection.1.2}
 \contentsline {subsection}{\numberline {1.3}Part 1 Extra Credit - Sub-optimal Heuristics}{7}{subsection.1.3}
 \contentsline {subsubsection}{\numberline {1.3.1}Fast Convex Hull Heuristic}{7}{subsubsection.1.3.1}
-\contentsline {section}{\numberline {2}Part 2 - Sokoban}{8}{section.2}
-\contentsline {subsection}{\numberline {2.1}State and Transition Model Definitions}{8}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Solving Sokoban with Breadth First Search}{11}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Solving Sokoban with A*}{11}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Comparison of Results}{12}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Part 2 Extra Credit - Sub-optimal Heuristics}{13}{subsection.2.5}
-\contentsline {section}{Appendices}{14}{section*.12}
-\contentsline {section}{\numberline {A}Maze Solutions for Part 1.1}{14}{Appendix.a.A}
-\contentsline {section}{\numberline {B}Maze Solutions for Part 1.2}{23}{Appendix.a.B}
-\contentsline {section}{\numberline {C}Open Source Software Used}{23}{Appendix.a.C}
+\contentsline {subsubsection}{\numberline {1.3.2}Blended Heuristic}{7}{subsubsection.1.3.2}
+\contentsline {section}{\numberline {2}Part 2 - Sokoban}{9}{section.2}
+\contentsline {subsection}{\numberline {2.1}State and Transition Model Definitions}{9}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Solving Sokoban with Breadth First Search}{12}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Solving Sokoban with A*}{12}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Comparison of Results}{13}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Part 2 Extra Credit - Sub-optimal Heuristics}{14}{subsection.2.5}
+\contentsline {section}{Appendices}{15}{section*.14}
+\contentsline {section}{\numberline {A}Maze Solutions for Part 1.1}{15}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Maze Solutions for Part 1.2}{24}{Appendix.a.B}
+\contentsline {section}{\numberline {C}Open Source Software Used}{25}{Appendix.a.C}

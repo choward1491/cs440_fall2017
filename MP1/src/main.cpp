@@ -32,6 +32,7 @@
 #include "multi_state.hpp"
 #include "sokoban_transition_model.hpp"
 #include "astar_sokoban_nearest.hpp"
+#include "astar_blend.hpp"
 
 
 #ifndef _WIN32
@@ -98,6 +99,7 @@ int main(int argc, char** argv){
         astar::fast::convexhull h_chf;  h_chf.setMaze(maze_);
         astar::nearest          h_n;    h_n.setMaze(maze_);
         sokoban::nearest        h_ns;   h_ns.setMaze(maze_);
+        astar::blend            h_b;    h_b.setMaze(maze_);
         astar::heuristic_func_base<multi::state>* heuristic = nullptr;
         astar::heuristic_func_base<sokoban::state>* heuristic_s = nullptr;
         
@@ -125,6 +127,7 @@ int main(int argc, char** argv){
             else if( heuristic_t == "avg" )       {heuristic = &h_a;}
             else if( heuristic_t == "chull" )     {heuristic = &h_ch;}
             else if( heuristic_t == "chullf" )     {heuristic = &h_chf;}
+            else if( heuristic_t == "blend"  )    {heuristic = &h_b; }
             else if( heuristic_t == "nearest" )   {
                 heuristic   = &h_n;
                 heuristic_s = &h_ns;

@@ -3,13 +3,14 @@
 \BOOKMARK [2][-]{subsection.1.2}{Part 1.2 - Search with Multiple Dots}{section.1}% 3
 \BOOKMARK [2][-]{subsection.1.3}{Part 1 Extra Credit - Sub-optimal Heuristics}{section.1}% 4
 \BOOKMARK [3][-]{subsubsection.1.3.1}{Fast Convex Hull Heuristic}{subsection.1.3}% 5
-\BOOKMARK [1][-]{section.2}{Part 2 - Sokoban}{}% 6
-\BOOKMARK [2][-]{subsection.2.1}{State and Transition Model Definitions}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.2}{Solving Sokoban with Breadth First Search}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.3}{Solving Sokoban with A*}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.4}{Comparison of Results}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.5}{Part 2 Extra Credit - Sub-optimal Heuristics}{section.2}% 11
-\BOOKMARK [1][-]{section*.12}{Appendices}{}% 12
-\BOOKMARK [1][-]{Appendix.a.A}{Maze Solutions for Part 1.1}{}% 13
-\BOOKMARK [1][-]{Appendix.a.B}{Maze Solutions for Part 1.2}{}% 14
-\BOOKMARK [1][-]{Appendix.a.C}{Open Source Software Used}{}% 15
+\BOOKMARK [3][-]{subsubsection.1.3.2}{Blended Heuristic}{subsection.1.3}% 6
+\BOOKMARK [1][-]{section.2}{Part 2 - Sokoban}{}% 7
+\BOOKMARK [2][-]{subsection.2.1}{State and Transition Model Definitions}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.2}{Solving Sokoban with Breadth First Search}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.3}{Solving Sokoban with A*}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.4}{Comparison of Results}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.5}{Part 2 Extra Credit - Sub-optimal Heuristics}{section.2}% 12
+\BOOKMARK [1][-]{section*.14}{Appendices}{}% 13
+\BOOKMARK [1][-]{Appendix.a.A}{Maze Solutions for Part 1.1}{}% 14
+\BOOKMARK [1][-]{Appendix.a.B}{Maze Solutions for Part 1.2}{}% 15
+\BOOKMARK [1][-]{Appendix.a.C}{Open Source Software Used}{}% 16
