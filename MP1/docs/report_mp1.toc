@@ -9,8 +9,9 @@
 \contentsline {subsection}{\numberline {2.2}Solving Sokoban with Breadth First Search}{12}{subsection.2.2}
 \contentsline {subsection}{\numberline {2.3}Solving Sokoban with A*}{12}{subsection.2.3}
 \contentsline {subsection}{\numberline {2.4}Comparison of Results}{13}{subsection.2.4}
-\contentsline {section}{\numberline {3}List of Potential Extra Credit}{14}{section.3}
-\contentsline {section}{Appendices}{15}{section*.14}
-\contentsline {section}{\numberline {A}Maze Solutions for Part 1.1}{15}{Appendix.a.A}
-\contentsline {section}{\numberline {B}Maze Solutions for Part 1.2}{24}{Appendix.a.B}
-\contentsline {section}{\numberline {C}Open Source Software Used}{25}{Appendix.a.C}
+\contentsline {section}{\numberline {3}Contributions}{14}{section.3}
+\contentsline {section}{\numberline {4}List of Potential Extra Credit}{15}{section.4}
+\contentsline {section}{Appendices}{16}{section*.14}
+\contentsline {section}{\numberline {A}Maze Solutions for Part 1.1}{16}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Maze Solutions for Part 1.2}{25}{Appendix.a.B}
+\contentsline {section}{\numberline {C}Open Source Software Used}{26}{Appendix.a.C}

@@ -71,7 +71,7 @@ Liuyi Shi \\ liuyis2@illinois.edu
    % create the title page 
    \maketitle
    \begin{abstract}
-   Within this report, we investigate creating agents that use different path planning algorithms and do an analysis of how they compare for a set of sample problems. \textbf{Insert summary of results}. We later apply $A^*$ algorithms to guide an agent to solving the  Sokoban puzzle. \textbf{Insert summary of results}.
+   Within this report, an analysis was performed to compare and contrast a set of search algorithms, Breadth-First Search (BFS), Depth-First Search (DFS), Greedy Search, and A*. The analysis showed Greedy Search was not very robust, BFS was reliable but slow, DFS was fast but non-optimal generally, and A* tended to perform well with respect to both run-time and path cost. Heuristics were also designed for A* such that an agent could tackle the problem of touching multiple goal points with minimal moves. The heuristics designed ranged from a couple based on the Convex Hulls of the goal points and agent's location to a heuristic that blended a non-admissible and admissible heuristic together to achieve a balance between optimality and efficiency. After investigating multiple goal case, search algorithms were used to guide an agent to solve the Sokoban puzzle. Using both BFS and A* with a suitable heuristic, a set of Sokoban puzzles were solved and the associated statistics for each method against each puzzle were produced. Both A* and BFS solved the puzzles in an optimal number of moves, but A* was significantly faster for the tougher puzzles.
    \end{abstract}
    \newpage
    
@@ -452,6 +452,33 @@ The secondary term is then just multiplying the number of goal points within the
    
    \subsection{Comparison of Results}
    By checking Table \ref{tab:sokbfs} and Table \ref{tab:sokastar}, we can draw some obvious comparisons. First, BFS always achieved an optimal result and A* was right near it, though it might have missed the absolute optimal solution due to the repeated state detection. Additionally, A* performed much faster than BFS in terms of number of nodes expanded. The run-time comparison between BFS and A* also followed that trend generally, though A* did not run as many multiples faster than BFS with respect to run-time as it did number of nodes expanded. This makes sense because the heuristic computation of A* is going to cost CPU time that BFS does not have to worry about.  
+
+\newpage
+\section{Contributions}
+\begin{itemize}
+\item Christian Howard
+	\begin{itemize}
+	\item Built all the utility code, including code for reading and writing mazes, custom GIF wrapper for animating solutions, convex hull code, custom data structures, etc.
+	\item Built the state representation and transition model codes for both parts of the assignment
+	\item Built the OOP framework used to define search algorithms and heuristic functions in a flexible way
+	\item Built A* using template meta-programming to generalize to many search problem
+	\item Designed and built all the heuristics, successful or not, for A* for both parts of the assignment
+	\item Wrote and ran scripts to compile all the statistical data and generate output solutions and GIFs for each test case
+	\item Made custom tiles for use in making the GIF animations
+	\item Wrote the report
+	\end{itemize}
+\item Luke Pitstick
+	\begin{itemize}
+	\item Built Depth-First Search code for Multi-Goal Search
+	\item Modified A* to have flag that can make A* into Greedy Search
+	\end{itemize}
+\item Liuyi Shi
+	\begin{itemize}
+	\item Built Breadth-First Search code for Multi-Goal Search
+	\item Built Breadth-First Search code for Sokoban
+	\end{itemize}
+\end{itemize}   
+   
    
 \newpage
    \section{List of Potential Extra Credit}
