@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 OCT 2017 10:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 OCT 2017 10:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -455,43 +455,43 @@ rt_mp1.toc)
 
 
 [2]
-Overfull \hbox (0.79999pt too wide) detected at line 128
+Overfull \hbox (0.79999pt too wide) detected at line 129
 |[]|
  []
 
 [3]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 136.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 137.
 
  (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 136.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 137.
  [4] [5]
-Overfull \hbox (17.1483pt too wide) in paragraph at lines 208--209
+Overfull \hbox (17.1483pt too wide) in paragraph at lines 209--210
 \OT1/cmr/m/n/10 edge set of 2-tuples such that $\OML/cmm/m/it/10 E[] \OT1/cmr/m
 /n/10 = \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10
  ) : \OML/cmm/m/it/10 x; y[]\OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 .
  []
 
 [6] [7] [8]
-Overfull \hbox (0.79999pt too wide) detected at line 366
+Overfull \hbox (0.79999pt too wide) detected at line 367
 |[]|
  []
 
 
-Overfull \hbox (0.79999pt too wide) detected at line 407
+Overfull \hbox (0.79999pt too wide) detected at line 408
 |[]|
  []
 
 [9] [10] [11] [12] [13]
-Overfull \hbox (1.24945pt too wide) in paragraph at lines 463--464
+Overfull \hbox (1.24945pt too wide) in paragraph at lines 464--465
 []\OT1/cmr/m/n/10 Built the OOP frame-work used to de-fine search al-go-rithms 
 and heuris-
  []
 
 [14] [15]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 503.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 504.
 
  (/usr/local/texlive/2017/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -502,25 +502,25 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 \tf@thm=\write6
 \openout6 = `report_mp1.thm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 634.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 635.
  [26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 634.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 635.
  (./report_mp1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 634.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 634.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 635.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 635.
 Package rerunfilecheck Info: File `report_mp1.out' has not changed.
 (rerunfilecheck)             Checksum: B2879F3F685EC602422714D39A08FBB6;1208.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 634.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 635.
  )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 9220 strings out of 492995
- 137372 string characters out of 6132704
- 289342 words of memory out of 5000000
- 12567 multiletter control sequences out of 15000+600000
+ 9221 strings out of 492995
+ 137386 string characters out of 6132704
+ 289390 words of memory out of 5000000
+ 12568 multiletter control sequences out of 15000+600000
  16892 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,16n,39p,1176b,7237s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -545,10 +545,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2017/
 texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on report_mp1.pdf (26 pages, 265736 bytes).
+Output written on report_mp1.pdf (26 pages, 265897 bytes).
 PDF statistics:
- 355 PDF objects out of 1000 (max. 8388607)
- 303 compressed objects within 4 object streams
+ 357 PDF objects out of 1000 (max. 8388607)
+ 305 compressed objects within 4 object streams
  78 named destinations out of 1000 (max. 500000)
  137 words of extra memory for PDF output out of 10000 (max. 10000000)
 

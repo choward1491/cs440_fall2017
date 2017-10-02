@@ -93,7 +93,7 @@ Liuyi Shi \\ liuyis2@illinois.edu
    b_1 \wedge b_2 \wedge \cdots \wedge b_n = 1
    \end{align*}
    
-   To model the step by step motion of an agent, the transition function is defined as the following:
+   To model the step by step motion of an agent, the transition function is defined by Algorithm \ref{algo:tmodel1}.
    
    \RestyleAlgo{boxruled}
 	\begin{algorithm}[H]
@@ -125,9 +125,10 @@ Liuyi Shi \\ liuyis2@illinois.edu
 		 }
 		 \;
 		 \Return $\boldsymbol{x}_n$
+		 \label{algo:tmodel1}
 	\end{algorithm}
 	
-	Given the state representation and transition function described above, we are now able to implement and test our search-based agents. That said, we are now able to dive into solving each challenge of Part 1.
+	Given the state representation and transition function described in Algorithm \ref{algo:tmodel1}, we are now able to implement and test our search-based agents. That said, we are now able to dive into solving each challenge of Part 1.
 	
 	\subsection{Part 1.1 - Basic Pathfinding}
    In this first challenge for Part 1, the goal is to implement search algorithms for navigating through a maze environment to a single goal location. For this challenge, we have implemented the following search algorithms:
