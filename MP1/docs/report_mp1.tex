@@ -54,7 +54,7 @@
 \DontPrintSemicolon
 
 % define the title that will be used in the report
-\title{CS 440 MP1 \\ Section Q4}
+\title{CS 440 MP1 \\ Section Q4 \\ 4 Credits}
 \author{
 Christian Howard \\ howard28@illinois.edu
 \and
@@ -454,7 +454,11 @@ The secondary term is then just multiplying the number of goal points within the
    By checking Table \ref{tab:sokbfs} and Table \ref{tab:sokastar}, we can draw some obvious comparisons. First, BFS always achieved an optimal result and A* was right near it, though it might have missed the absolute optimal solution due to the repeated state detection. Additionally, A* performed much faster than BFS in terms of number of nodes expanded. The run-time comparison between BFS and A* also followed that trend generally, though A* did not run as many multiples faster than BFS with respect to run-time as it did number of nodes expanded. This makes sense because the heuristic computation of A* is going to cost CPU time that BFS does not have to worry about.  
    
 \newpage
-   \subsection{Part 2 Extra Credit - Sub-optimal Heuristics}   
+   \section{List of Potential Extra Credit}
+   \begin{itemize}
+   \item Animations for all solutions throughout the report, including Sokoban problems
+   \item Extra sub-optimal heuristics for Part 1.2
+\end{itemize}      
    
    \newpage
 \begin{appendices}
