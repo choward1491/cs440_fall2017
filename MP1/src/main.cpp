@@ -83,12 +83,12 @@ int main(int argc, char** argv){
         bool isSokoban = maze_.numBoxes() > 0;
         
         // define planners
-        bfs::planner<transition::maze_model> bplanner;
-        bfs::planner<transition::sokoban_model> bplanner_s;
-        dfs::planner dplanner;
-        astar::planner<transition::maze_model> aplanner;
-        astar::planner<transition::sokoban_model> aplanner_s;
-        path_planner* planner_ = nullptr;
+        bfs::planner<transition::maze_model>        bplanner;
+        bfs::planner<transition::sokoban_model>     bplanner_s;
+        dfs::planner                                dplanner;
+        astar::planner<transition::maze_model>      aplanner;
+        astar::planner<transition::sokoban_model>   aplanner_s;
+        path_planner*                               planner_ = nullptr;
         
         // define heuristic function
         astar::manhattan_dist   h_m;    h_m.setMaze(maze_);
@@ -100,7 +100,7 @@ int main(int argc, char** argv){
         astar::nearest          h_n;    h_n.setMaze(maze_);
         sokoban::nearest        h_ns;   h_ns.setMaze(maze_);
         astar::blend            h_b;    h_b.setMaze(maze_);
-        astar::heuristic_func_base<multi::state>* heuristic = nullptr;
+        astar::heuristic_func_base<multi::state>*   heuristic   = nullptr;
         astar::heuristic_func_base<sokoban::state>* heuristic_s = nullptr;
         
         // set the planner method
@@ -210,6 +210,7 @@ int main(int argc, char** argv){
         return -2;
     }
     
+    // write out run time for everything
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto time_span = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
     printf("The code ran for %lf seconds\n", (double)(time_span.count()/1000.0) );

@@ -11,9 +11,11 @@ find ../data -type f | grep '.gif' | xargs -I arg cp arg ../bundle/GIF/.
 cp ../src/* ../bundle/code/.
 
 # add report to the directory and rename it
+header='howard_christian_a1'
 cp ../docs/report_mp1.pdf ../bundle/.
-mv ../bundle/report_mp1.pdf ../bundle/howard_christian_a1.pdf
+mv ../bundle/report_mp1.pdf ../bundle/${header}.pdf
 
 # create ZIP file of GIFs and code
-zip -r ../bundle/code.zip ../bundle/code
-zip -r ../bundle/animations.zip ../bundle/GIF
+cd ../bundle/.
+zip -r ${header}.zip code/*
+zip -r ${header}_animations.zip GIF/*
