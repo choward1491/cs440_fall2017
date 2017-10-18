@@ -1,0 +1,4 @@
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/bin/cmake-build-debug

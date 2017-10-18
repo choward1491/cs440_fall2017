@@ -9,6 +9,8 @@
  */
 
 
+
+
 // standard libs
 #include <stdio.h>
 #include <chrono>
@@ -46,7 +48,7 @@ int main(int argc, char** argv){
     // write out run time for everything
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto time_span = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-    printf("The code ran for %lf seconds\n", (double)(time_span.count()/1000.0) );
+    printf("The code ran for %lf seconds\n", (time_span.count()/1000.0) );
     
 	return 0;
 }

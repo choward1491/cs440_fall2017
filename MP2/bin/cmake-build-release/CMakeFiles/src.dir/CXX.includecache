@@ -1,0 +1,158 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/FileWrap.cpp
+FileWrap.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/FileWrap.hpp
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/FileWrap.hpp
+stdio.h
+-
+string
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/MessageException.hpp
+stdio.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.cpp
+commandline_parser.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp
+stdio.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp
+exception
+-
+string
+-
+map
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/custom_exception.hpp
+exception
+-
+string
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif.h
+stdio.h
+-
+string.h
+-
+stdint.h
+-
+stdlib.h
+-
+stdlib.h
+-
+stdlib.h
+-
+stdlib.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif_wrapper.cpp
+gif_wrapper.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif_wrapper.hpp
+gif.h
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif.h
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif_wrapper.hpp
+utility
+-
+string
+-
+image.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image.hpp
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image.cpp
+image.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image.hpp
+unistd.h
+-
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+stdarg.h
+-
+stdint.h
+-
+cmath
+-
+png.h
+-
+pngconf.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image.hpp
+image_pixel.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.hpp
+vector
+-
+string
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.cpp
+image_pixel.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.hpp
+cmath
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.hpp
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/main.cpp
+stdio.h
+-
+chrono
+-
+commandline_parser.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp
+MessageException.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/MessageException.hpp
+custom_exception.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/custom_exception.hpp
+text_color.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.hpp
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.cpp
+text_color.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.hpp
+stdio.h
+-
+stdarg.h
+-
+windows.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.hpp
+string
+-
+
+/usr/local/include/png.h
+pnglibconf.h
+/usr/local/include/pnglibconf.h
+pngconf.h
+/usr/local/include/pngconf.h
+
+/usr/local/include/pngconf.h
+limits.h
+-
+stddef.h
+-
+stdio.h
+-
+setjmp.h
+-
+time.h
+-
+
+/usr/local/include/pnglibconf.h
+
