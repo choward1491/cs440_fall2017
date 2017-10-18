@@ -25,7 +25,7 @@ namespace csp {
         typedef X variables;
         typedef D domains;
         typedef C constraints;
-        typedef std::map<size_t,X::value> assignment;
+        typedef std::map<size_t, typename X::value> assignment;
 
         // solver state
         struct csp_state {
@@ -46,7 +46,7 @@ namespace csp {
 #define meta(func) static_cast<impl*>(this)->func
 
         bool isValueConsistent( size_t var,
-                                const X::value & value,
+                                const typename X::value & value,
                                 const assignment & assignment_,
                                 csp_state & csp_ ) const
         {
@@ -62,7 +62,7 @@ namespace csp {
 
             // if the assignment has the same number of assignments as
             // the number of variables, we know we are done
-            if( assignment.size() == csp_.x.size() ){ return true; }
+            if( assignment_.size() == csp_.x.size() ){ return true; }
 
             // get the next state to assign
             size_t var = meta(selectUnassignedVariable)(csp_);
@@ -95,7 +95,7 @@ namespace csp {
 
                         // return success if it occurs
                         if( success ){ return success; }
-                        
+
                     }// end if
                 }// end if
 
@@ -117,7 +117,7 @@ namespace csp {
 
 
     template<typename X, typename D, typename C, typename impl>
-    solver<X,D,C,impl>::assignment solver<X,D,C,impl>::solve( csp_state & csp_ , bool & success ) {
+    typename solver<X,D,C,impl>::assignment solver<X,D,C,impl>::solve( csp_state & csp_ , bool & success ) {
         assignment a;
         success = recursiveBackTrack(a,csp_);
         return a;
