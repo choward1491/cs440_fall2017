@@ -17,14 +17,17 @@
 
 namespace csp {
 
-    template<typename X, typename D, typename C, typename impl>
+    template<   typename X,
+                typename D,
+                template<typename> typename C,
+                typename impl>
     class solver {
     public:
 
         // useful typedefs
         typedef X variables;
         typedef D domains;
-        typedef C constraints;
+        typedef C<X> constraints;
         typedef std::map<size_t, typename X::value> assignment;
 
         // solver state
@@ -62,13 +65,13 @@ namespace csp {
 
             // if the assignment has the same number of assignments as
             // the number of variables, we know we are done
-            if( assignment_.size() == csp_.x.size() ){ return true; }
+            if( assignment_.size() == X::size() ){ return true; }
 
             // get the next state to assign
             size_t var = meta(selectUnassignedVariable)(csp_);
 
             // loop through values in current var's domain list
-            for(auto & value: meta(orderDomainValues)(var, assignment_, csp_)){
+            for(const auto & value: meta(orderDomainValues)(var, assignment_, csp_)){
 
                 // clear the inference list
                 inference_list.clear();
@@ -80,7 +83,7 @@ namespace csp {
                     assignment_[var] = value;
 
                     // perform inference to see if we can stop early
-                    bool isEarlyFail = meta(inference)(value, var, csp_, inference_list);
+                    bool isEarlyFail = meta(inference)(var, value, csp_, inference_list);
 
                     // if we are not failing early
                     if( !isEarlyFail ){
@@ -100,7 +103,7 @@ namespace csp {
                 }// end if
 
                 // remove value added
-                auto it = assignment_.find(value);
+                auto it = assignment_.find(var);
                 if( it != assignment_.end() ){ assignment_.erase(it); }
 
                 // remove list of inference values
@@ -111,12 +114,12 @@ namespace csp {
             }// end for
         }
 
-#undef meta(func)
+#undef meta
 
     };
 
 
-    template<typename X, typename D, typename C, typename impl>
+    template<typename X, typename D, template<typename> typename C, typename impl>
     typename solver<X,D,C,impl>::assignment solver<X,D,C,impl>::solve( csp_state & csp_ , bool & success ) {
         assignment a;
         success = recursiveBackTrack(a,csp_);

@@ -20,6 +20,7 @@
 #include "MessageException.hpp"
 #include "custom_exception.hpp"
 #include "text_color.hpp"
+#include "test_csp.h"
 
 
 int main(int argc, char** argv){
@@ -30,6 +31,18 @@ int main(int argc, char** argv){
         
         // get command line inputs
         parser::commandline commp(argc,argv);
+
+
+#ifdef CSP_TEST_SOLVE
+        csp::test_csp tcsp;
+        csp::test_csp::csp_state csp_;
+        bool isSuccess = false;
+        csp::test_csp::assignment a = tcsp.solve(csp_,isSuccess);
+
+        for( auto it = a.begin(); it != a.end(); ++it ){
+            printf("Assignment(%zu) = %i\n",it->first, (int)it->second);
+        }
+#endif
         
     
     }catch( MessageException & msg ){

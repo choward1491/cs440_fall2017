@@ -93,19 +93,37 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/MessageException.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.cpp">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
-		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/csp_solver.cpp">
-			<Option target="mp_exec"/>
-		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/csp_solver.h">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/custom_exception.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif.h">
@@ -136,6 +154,9 @@
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/main.cpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/test_csp.h">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.cpp">

@@ -6,7 +6,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/mp_exec.dir/image_pixel.cpp.o"
   "CMakeFiles/mp_exec.dir/main.cpp.o"
   "CMakeFiles/mp_exec.dir/text_color.cpp.o"
-  "CMakeFiles/mp_exec.dir/csp_solver.cpp.o"
   "mp_exec.pdb"
   "mp_exec"
 )

@@ -177,33 +177,6 @@ commandline_parser.cpp.s:
 	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/commandline_parser.cpp.s
 .PHONY : commandline_parser.cpp.s
 
-csp_solver.o: csp_solver.cpp.o
-
-.PHONY : csp_solver.o
-
-# target to build an object file
-csp_solver.cpp.o:
-	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/csp_solver.cpp.o
-.PHONY : csp_solver.cpp.o
-
-csp_solver.i: csp_solver.cpp.i
-
-.PHONY : csp_solver.i
-
-# target to preprocess a source file
-csp_solver.cpp.i:
-	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/csp_solver.cpp.i
-.PHONY : csp_solver.cpp.i
-
-csp_solver.s: csp_solver.cpp.s
-
-.PHONY : csp_solver.s
-
-# target to generate assembly for a file
-csp_solver.cpp.s:
-	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/csp_solver.cpp.s
-.PHONY : csp_solver.cpp.s
-
 gif_wrapper.o: gif_wrapper.cpp.o
 
 .PHONY : gif_wrapper.o
@@ -354,9 +327,6 @@ help:
 	@echo "... commandline_parser.o"
 	@echo "... commandline_parser.i"
 	@echo "... commandline_parser.s"
-	@echo "... csp_solver.o"
-	@echo "... csp_solver.i"
-	@echo "... csp_solver.s"
 	@echo "... gif_wrapper.o"
 	@echo "... gif_wrapper.i"
 	@echo "... gif_wrapper.s"
