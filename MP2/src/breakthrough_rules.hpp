@@ -79,6 +79,7 @@ namespace bt {
             // get the number of rows and columns in grid
             int nr = state_t::numRows(), nc = state_t::numCols();
             int nd = nr*nc;
+            int other_team = (team_value - 1) < 0 ? 1 : 0;
 
             // loop through grid and add any valid moves
             for (int i = 0; i < nr; ++i) {
@@ -88,20 +89,28 @@ namespace bt {
                     if( notAtEnd(i,team_value,nr) && s.getStateAt(i,j) == team_value ){
 
                         // try to add action for forward move
-                        int a = actionHash(k,Forward,nd);
-                        if( F.getNodeTypeAtFuturePos(s, a) == None ){
-                            action_set.insert( a );
+                        int a1 = actionHash(k,Forward,nd);
+                        if( F.getNodeTypeAtFuturePos(s, a1) == None ){
+                            action_set.insert( a1 );
                         }
 
                         // try to add action for left move
-                        a = actionHash(k,LeftDiagonal,nd);
-                        if( j != 0 && F.getNodeTypeAtFuturePos(s,a) != team_value ){
+                        int a = actionHash(k,LeftDiagonal,nd);
+                        if( j != 0 &&
+                            ( F.getNodeTypeAtFuturePos(s,a) == None ||
+                            ( F.getNodeTypeAtFuturePos(s,a) == other_team
+                            && F.getNodeTypeAtFuturePos(s,a1) != other_team )) )
+                        {
                             action_set.insert( a );
                         }
 
                         // try to add action for right move
                         a = actionHash(k,RightDiagonal,nd);
-                        if( j != (nc-1) && F.getNodeTypeAtFuturePos(s,a) != team_value ){
+                        if( j != (nc-1) &&
+                             ( F.getNodeTypeAtFuturePos(s,a) == None ||
+                               ( F.getNodeTypeAtFuturePos(s,a) == other_team
+                                 && F.getNodeTypeAtFuturePos(s,a1) != other_team )))
+                        {
                             action_set.insert( a );
                         }
 

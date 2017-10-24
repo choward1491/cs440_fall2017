@@ -96,6 +96,9 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_alphabeta_agent.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp">
 			<Option target="mp_exec"/>
 		</Unit>

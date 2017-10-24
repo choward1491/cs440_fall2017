@@ -50,8 +50,8 @@ int main(int argc, char** argv){
 
         bt_game game;
         bt_minimax p1, p2;
-        p1.setMaxSearchDepth(2); p1.setUtilityEstimator(defensive_h);
-        p2.setMaxSearchDepth(2); p2.setUtilityEstimator(offensive_h);
+        p1.setMaxSearchDepth(3); p1.setUtilityEstimator(defensive_h);
+        p2.setMaxSearchDepth(3); p2.setUtilityEstimator(offensive_h);
         game.addPlayer1(&p1);
         game.addPlayer2(&p2);
 

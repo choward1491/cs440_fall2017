@@ -7,6 +7,12 @@
 
 #include "game_agent.hpp"
 
+#ifdef DEBUG
+#define DEBUG_PRINT() gameState.print()
+#else
+#define DEBUG_PRINT()
+#endif
+
 namespace game {
 
     template<typename Rules, typename num_val = double>
@@ -28,12 +34,12 @@ namespace game {
             size_t totalTurns = 0;
             while(!rules.isGameComplete( gameState )){
                 switch(turn){
-                    case team1: agentp = p1; turn = team2; break;
-                    case team2: agentp = p2; turn = team1; break;
+                    case team1: agentp = p1;break;
+                    case team2: agentp = p2;break;
                 }
+                turn = (turn+1) % 2;
                 gameState = F(gameState,agentp->getNextMove(gameState));
                 gameState.print();
-
             }
         }
         state_t getFinalGameState() const { return gameState; }

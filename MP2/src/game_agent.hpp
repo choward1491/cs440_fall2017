@@ -52,7 +52,7 @@ namespace game {
         // define pure virtual method for agent class
         agent():depth(1),team_assignment(0),evaluator_(nullptr){}
         virtual ~agent()                                        = default;
-        virtual action_t    getNextMove( const state_t & s )    = 0;
+        virtual int    getNextMove( const state_t & s )    = 0;
 
         // define other helpful methods
         void setUtilityEstimator( evaluator_t & e ){ evaluator_ = &e; }

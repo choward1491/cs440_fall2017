@@ -21,7 +21,7 @@ set(SOURCE_FILES
         main.cpp
         MessageException.hpp
         text_color.cpp
-        text_color.hpp csp_solver.h test_csp.h game_agent.hpp breakthrough_state.hpp breakthrough_actions.hpp breakthrough_rules.hpp breakthrough_transition_func.hpp breakthrough_piece_type.hpp breakthrough_minimax_agent.hpp breakthrough_provided_heuristics.hpp game_instance.hpp)
+        text_color.hpp csp_solver.h test_csp.h game_agent.hpp breakthrough_state.hpp breakthrough_actions.hpp breakthrough_rules.hpp breakthrough_transition_func.hpp breakthrough_piece_type.hpp breakthrough_minimax_agent.hpp breakthrough_provided_heuristics.hpp game_instance.hpp breakthrough_alphabeta_agent.hpp)
 
 
 include_directories(/usr/local/include /usr/include /usr/local/lib)
