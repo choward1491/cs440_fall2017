@@ -20,6 +20,56 @@ string
 stdio.h
 -
 
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp
+stdint.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp
+game_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp
+breakthrough_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+vector
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_provided_heuristics.hpp
+game_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp
+breakthrough_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+random
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+breakthrough_state.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp
+breakthrough_actions.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp
+breakthrough_transition_func.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp
+breakthrough_piece_type.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp
+limits
+-
+set
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp
+breakthrough_piece_type.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp
+stdint.h
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp
+breakthrough_state.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp
+breakthrough_actions.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp
+breakthrough_piece_type.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp
+
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.cpp
 commandline_parser.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp
@@ -43,6 +93,14 @@ exception
 -
 string
 -
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp
+limits
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_instance.hpp
+game_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp
 
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif.h
 stdio.h
@@ -127,6 +185,14 @@ text_color.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.hpp
 test_csp.h
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/test_csp.h
+breakthrough_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+breakthrough_provided_heuristics.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_provided_heuristics.hpp
+game_instance.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_instance.hpp
+breakthrough_minimax_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp
 
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/test_csp.h
 csp_solver.h

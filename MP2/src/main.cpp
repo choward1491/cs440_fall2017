@@ -22,6 +22,19 @@
 #include "text_color.hpp"
 #include "test_csp.h"
 
+// game playing agent stuff
+#include "breakthrough_rules.hpp"
+#include "breakthrough_provided_heuristics.hpp"
+#include "game_instance.hpp"
+#include "breakthrough_minimax_agent.hpp"
+
+#define NR 8
+#define NC 8
+
+typedef bt::baseline_rules<NR,NC> bt_rules;
+typedef game::agent<bt_rules>     bt_agent;
+typedef bt::minimax<bt_rules>     bt_minimax;
+typedef game::instance<bt_rules>  bt_game;
 
 int main(int argc, char** argv){
     
@@ -31,6 +44,20 @@ int main(int argc, char** argv){
         
         // get command line inputs
         parser::commandline commp(argc,argv);
+
+        bt::provided::defensive<NR,NC> defensive_h;
+        bt::provided::offensive<NR,NC> offensive_h;
+
+        bt_game game;
+        bt_minimax p1, p2;
+        p1.setMaxSearchDepth(2); p1.setUtilityEstimator(defensive_h);
+        p2.setMaxSearchDepth(2); p2.setUtilityEstimator(offensive_h);
+        game.addPlayer1(&p1);
+        game.addPlayer2(&p2);
+
+        game.play();
+        bt_game::state_t gs = game.getFinalGameState();
+        gs.print();
 
 
 #ifdef CSP_TEST_SOLVE

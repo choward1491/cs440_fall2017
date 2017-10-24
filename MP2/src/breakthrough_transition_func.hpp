@@ -7,6 +7,7 @@
 
 #include "breakthrough_state.hpp"
 #include "breakthrough_actions.hpp"
+#include "breakthrough_piece_type.hpp"
 
 namespace bt {
 
@@ -24,9 +25,9 @@ namespace bt {
             int d = 1 - 2*team;
 
             switch(move){
-                case Forward:       return s.getActionAt(r + d, c, team);
-                case LeftDiagonal:  return s.getActionAt(r + d, c-1, team);
-                case RightDiagonal: return s.getActionAt(r + d, c+1, team);
+                case Forward:       return s.getStateAt(r + d, c);
+                case LeftDiagonal:  return s.getStateAt(r + d, c-1);
+                case RightDiagonal: return s.getStateAt(r + d, c+1);
             }
         }
 
@@ -41,12 +42,12 @@ namespace bt {
             int d = 1 - 2*team;
 
             switch(move){
-                case Forward:       sn.setActionAt(r + d, c, team);  break;
-                case LeftDiagonal:  sn.setActionAt(r + d, c-1, team);break;
-                case RightDiagonal: sn.setActionAt(r + d, c+1, team);break;
+                case Forward:       sn.setStateAt(r + d, c, team);  break;
+                case LeftDiagonal:  sn.setStateAt(r + d, c-1, team);break;
+                case RightDiagonal: sn.setStateAt(r + d, c+1, team);break;
             }
 
-            sn.setActionAt(k,state::None);
+            sn.setStateAt(k,piece_t::None);
 
             return sn;
         }
@@ -62,14 +63,12 @@ namespace bt {
             int d = 1 - 2*team;
 
             switch(move){
-                case Forward:       sn.setActionAt(r + d, c, team);  break;
-                case LeftDiagonal:  sn.setActionAt(r + d, c-1, team);break;
-                case RightDiagonal: sn.setActionAt(r + d, c+1, team);break;
+                case Forward:       sn.setStateAt(r + d, c, team);  break;
+                case LeftDiagonal:  sn.setStateAt(r + d, c-1, team);break;
+                case RightDiagonal: sn.setStateAt(r + d, c+1, team);break;
             }
 
-            sn.setActionAt(k,state::None);
-
-            return sn;
+            sn.setStateAt(k,piece_t::None);
         }
     };
 

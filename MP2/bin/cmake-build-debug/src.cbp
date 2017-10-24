@@ -102,6 +102,9 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_provided_heuristics.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
@@ -124,6 +127,9 @@
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_instance.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/gif.h">

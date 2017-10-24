@@ -21,9 +21,20 @@ namespace bt { // breakthrough namespace
         static int hash(int row, int col){ return col + row*NC; }
         static std::pair<int,int> invhash(int k) { return std::pair<int,int>(k/NC, k%NC); };
 
+        void init(){
+            for(int c = 0; c < NC; ++c){
+                for(int r = 0; r < NR; ++r){
+                    if( r <= 1 )        {   setStateAt(r,c,piece_t::Team1); }
+                    else if(r >= NR-2 ) {   setStateAt(r,c,piece_t::Team2); }
+                    else{                   setStateAt(r,c,piece_t::None);  }
+                }// end for r
+            }// end for c
+        }
+
         //setters/getters
         uint8_t getStateAt(int row, int col) const { return s[hash(row,col)]; }
         uint8_t getStateAt(int k) const { return s[k]; }
+        void setStateAt(int row, int col, int val ) { s[hash(row,col)] = static_cast<uint8_t>(val); }
         void setStateAt(int row, int col, piece_t val ) { s[hash(row,col)] = static_cast<uint8_t>(val); }
         void setStateAt(int k, piece_t val ) { s[k] = static_cast<uint8_t>(val); }
 
@@ -34,6 +45,22 @@ namespace bt { // breakthrough namespace
             return isEqual;
         }
         bool operator!=(const state & os) const { return !this->operator==(os); }
+
+        void print() const {
+            for (int i = 0; i < NR; ++i) {
+                printf("|");
+                for (int j = 0; j < NC; ++j) {
+                    uint8_t value = getStateAt(i, j);
+                    switch (value) {
+                        case 0: printf("X"); break;
+                        case 1: printf("O"); break;
+                        case 2:
+                        default:printf(" "); break;
+                    }
+                }
+                printf("|\n");
+            }printf("\n");
+        }
 
     private:
         uint8_t s[NR*NC];
