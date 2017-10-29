@@ -20,7 +20,7 @@ namespace bt {
 
         // important typedefs for metaprogramming stuff
         typedef state<NR,NC>            state_t;
-        typedef action_t                action_t;
+        typedef enum action_t           action_t;
         typedef transition<state_t>     transition_t;
         typedef std::set<int>           actions;
 

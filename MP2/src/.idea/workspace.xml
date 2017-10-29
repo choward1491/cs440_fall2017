@@ -38,7 +38,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="212">
@@ -92,6 +92,30 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="breakthrough_rules.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/breakthrough_rules.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding>
+                <element signature="e#124#157#0" expanded="true" />
+                <element signature="e#339#363#0" expanded="true" />
+                <element signature="e#1739#1758#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="breakthrough_extended_rules.hpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/breakthrough_extended_rules.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="opt_solver.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/opt_solver.hpp">
           <provider selected="true" editor-type-id="text-editor">
@@ -136,18 +160,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="opt_callbacks.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/opt_callbacks.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="15" lean-forward="false" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
-              <folding>
-                <element signature="e#142#162#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="IdeDocumentHistory">
@@ -164,8 +176,6 @@
         <option value="$PROJECT_DIR$/breakthrough_transition_func.hpp" />
         <option value="$PROJECT_DIR$/breakthrough_utility_ab.hpp" />
         <option value="$PROJECT_DIR$/breakthrough_cone_heuristics.hpp" />
-        <option value="$PROJECT_DIR$/breakthrough_rules.hpp" />
-        <option value="$PROJECT_DIR$/breakthrough_extended_rules.hpp" />
         <option value="$PROJECT_DIR$/breakthrough_minimax_agent.hpp" />
         <option value="$PROJECT_DIR$/breakthrough_alphabeta_agent.hpp" />
         <option value="$PROJECT_DIR$/game_agent.hpp" />
@@ -185,6 +195,8 @@
         <option value="$PROJECT_DIR$/breakthrough_learned_heuristics.hpp" />
         <option value="$PROJECT_DIR$/breakthrough_costfunc.hpp.hpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/breakthrough_rules.hpp" />
+        <option value="$PROJECT_DIR$/breakthrough_extended_rules.hpp" />
       </list>
     </option>
   </component>
@@ -272,12 +284,12 @@
       <workItem from="1508812017498" duration="31788000" />
       <workItem from="1509034476186" duration="262000" />
       <workItem from="1509238547240" duration="13976000" />
-      <workItem from="1509255524562" duration="16336000" />
+      <workItem from="1509255524562" duration="16568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102824000" />
+    <option name="totallyTimeSpent" value="103056000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="22" y="22" width="1280" height="737" extended-state="0" />
@@ -482,36 +494,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/breakthrough_rules.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1875">
-          <caret line="125" column="74" lean-forward="false" selection-start-line="125" selection-start-column="74" selection-end-line="125" selection-end-column="74" />
-          <folding>
-            <element signature="e#124#157#0" expanded="true" />
-            <element signature="e#339#363#0" expanded="true" />
-            <element signature="e#1739#1758#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game_agent.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
           <caret line="66" column="40" lean-forward="false" selection-start-line="66" selection-start-column="40" selection-end-line="66" selection-end-column="40" />
           <folding>
             <element signature="e#172#189#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/breakthrough_extended_rules.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="111" column="52" lean-forward="false" selection-start-line="111" selection-start-column="52" selection-end-line="111" selection-end-column="52" />
-          <folding>
-            <element signature="e#142#175#0" expanded="false" />
-            <element signature="e#357#381#0" expanded="false" />
-            <element signature="e#1853#1872#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -770,6 +758,26 @@
             <element signature="e#1861#3985#0" expanded="true" />
             <element signature="e#4025#4322#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/breakthrough_rules.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#124#157#0" expanded="true" />
+            <element signature="e#339#363#0" expanded="true" />
+            <element signature="e#1739#1758#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/breakthrough_extended_rules.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
