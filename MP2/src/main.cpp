@@ -64,11 +64,20 @@ int main(int argc, char** argv){
         parser::commandline commp(argc,argv);
 
 #ifndef RUN_OPTIMIZATION
+
+        int numParticles = 90, miters = 10;
+        if( commp["-np"].size() != 0 ){
+            numParticles = commp.convert<int>("-np");
+        }
+        if( commp["-miter"].size() != 0){
+            miters = commp.convert<int>("-miter");
+        }
+
         cb_t iter_cb;
         pso_t pso_solver;
         pso_solver.addCallback(&iter_cb);
-        pso_solver.setNumParticles(90);
-        pso_solver.setMaxIterations(10);
+        pso_solver.setNumParticles(numParticles);
+        pso_solver.setMaxIterations(miters);
         pso_solver.setSearchBounds({0,0,0,0,0},{1,1,1,1,1});
         pso_solver.solve();
 #endif
