@@ -44,7 +44,7 @@ namespace bt {
             bt::learned::defensive<NR,NC>   dlearn_h;
             bt::learned::offensive<NR,NC>   olearn_h;
 
-            uint32_t numMC = 50;
+            uint32_t numMC = 5;
             bt_game game;
             bt_ab p1, p2;
 
