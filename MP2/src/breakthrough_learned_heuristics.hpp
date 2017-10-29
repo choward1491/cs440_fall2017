@@ -18,10 +18,14 @@ namespace bt {
             MeanDist1,
             StdDevDist1,
             AvgBarrier1,
+            Pieces1InGoal,
+            Pieces1InHome,
             Pieces2,
             MeanDist2,
             StdDevDist2,
-            AvgBarrier2
+            AvgBarrier2,
+            Pieces2InGoal,
+            Pieces2InHome,
         };
 
         template<int NR, int NC, typename state_t>
@@ -36,10 +40,11 @@ namespace bt {
                 - team1 average barrier size
                 - team2 average barrier size
              */
-            const int numFeatures = 8;
+            const int numFeatures = 12;
 
             // variables to store useful information for features
             int numPieces[2] = {0}, numBarriers[2] = {0};
+            int numPiecesGoal[2] = {0}, numPiecesHome[2] = {0};
             double meanDist[2] = {0}, stdDist[2] = {0};
             double avgBarrierSize[2] = {0};
 
@@ -64,6 +69,8 @@ namespace bt {
                         tv = r * invnr;
                         meanDist[team1] += tv;
                         stdDist[team1] += tv*tv;
+                        if( r == 0 ){ numPiecesHome[team1]++; }
+                        else if( r == NR-1 ){ numPiecesGoal[team1]++; }
                         if( type != team1 ){
                             if( type == team2 ){
                                 numBarriers[team2]++;
@@ -79,6 +86,8 @@ namespace bt {
                         tv = (NR - r - 1) * invnr;
                         meanDist[team2] += tv;
                         stdDist[team2] += tv*tv;
+                        if( r == 0 ){ numPiecesGoal[team2]++; }
+                        else if( r == NR-1 ){ numPiecesHome[team2]++; }
                         if( type != team2 ){
                             if( type == team1 ){
                                 numBarriers[team1]++;
@@ -115,10 +124,14 @@ namespace bt {
             feature_vec[MeanDist1]      = meanDist[team1];
             feature_vec[StdDevDist1]    = stdDist[team1];
             feature_vec[AvgBarrier1]    = avgBarrierSize[team1];
+            feature_vec[Pieces1InGoal]  = numPiecesGoal[team1];
+            feature_vec[Pieces1InHome]  = numPiecesHome[team1];
             feature_vec[Pieces2]        = numPieces[team2];
             feature_vec[MeanDist2]      = meanDist[team2];
             feature_vec[StdDevDist2]    = stdDist[team2];
             feature_vec[AvgBarrier2]    = avgBarrierSize[team2];
+            feature_vec[Pieces2InGoal]  = numPiecesGoal[team2];
+            feature_vec[Pieces2InHome]  = numPiecesHome[team2];
         }
 
         // defensive heuristic provided by the MP definition
@@ -139,18 +152,19 @@ namespace bt {
             }
 
             virtual eval_t utilityEstimate( const state_t & s, int team ){
-                double utility = 0, features[9] = {0.0}; features[0] = 1.0;
-                getFeatures<NR,NC,state_t>(&features[1],s);
-                for(int i = 0; i < 5; ++i){ utility += coefs[i]*features[i]; }
+                double utility = coefs[0], features[12] = {0.0};
+                getFeatures<NR,NC,state_t>(features,s);
+                int d = 6*(team==1);
+                for(int i = 0; i < 6; ++i){ utility += coefs[1+i]*features[d+i]; }
                 return utility;
             }
 
             void setCoefficient(int idx, double value ){ coefs[idx] = value; }
-            int numCoefficients() const { return 5; }
+            int numCoefficients() const { return 7; }
 
         private:
 
-            double coefs[5];
+            double coefs[7];
 
         };
 
@@ -173,18 +187,19 @@ namespace bt {
             }
 
             virtual eval_t utilityEstimate( const state_t & s, int team ){
-                double utility = coefs[0], features[8] = {0.0};
+                double utility = coefs[0], features[12] = {0.0};
                 getFeatures<NR,NC,state_t>(features,s);
-                for(int i = 0; i < 4; ++i){ utility += coefs[1+i]*features[4+i]; }
+                int d = 6*(team==0);
+                for(int i = 0; i < 6; ++i){ utility += coefs[1+i]*features[d+i]; }
                 return utility;
             }
 
             void setCoefficient(int idx, double value ){ coefs[idx] = value; }
-            int numCoefficients() const { return 5; }
+            int numCoefficients() const { return 7; }
 
         private:
 
-            double coefs[5];
+            double coefs[7];
         };
     }
 }

@@ -81,7 +81,7 @@ int main(int argc, char** argv){
         pso_solver.addCallback(&iter_cb);
         pso_solver.setNumParticles(numParticles);
         pso_solver.setMaxIterations(miters);
-        pso_solver.setSearchBounds({0,0,0,0,0},{1,1,1,1,1});
+        pso_solver.setSearchBounds({0,0,0,0,0,0,0},{1,1,1,1,1,1,1});
         pso_solver.solve();
 
         // write optimal solution to file

@@ -35,7 +35,7 @@ namespace bt {
     class costfunc {
     public:
         static uint32_t numDims() {
-            return 5;
+            return 7;
         }
 
         num_t operator()( const std::vector<num_t> & x ){
