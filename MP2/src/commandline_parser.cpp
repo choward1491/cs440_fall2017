@@ -44,7 +44,10 @@ namespace parser {
     float commandline::convert<float>(const std::string & key) const
     {
         float out = 0.0;
-        sscanf(key.c_str(), "%f", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%f", &out);
+        }
         return out;
     }
 
@@ -52,7 +55,10 @@ namespace parser {
     double commandline::convert<double>(const std::string & key) const
     {
         double out = 0.0;
-        sscanf(key.c_str(), "%lf", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%lf", &out);
+        }
         return out;
     }
 
@@ -60,7 +66,10 @@ namespace parser {
     int commandline::convert<int>(const std::string & key) const
     {
         int out = 0.0;
-        sscanf(key.c_str(), "%i", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%i", &out);
+        }
         return out;
     }
 
@@ -68,7 +77,10 @@ namespace parser {
     unsigned int commandline::convert<unsigned int>(const std::string & key) const
     {
         unsigned int out = 0.0;
-        sscanf(key.c_str(), "%u", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%u", &out);
+        }
         return out;
     }
 

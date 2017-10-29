@@ -42,6 +42,26 @@ cmath
 algorithm
 -
 
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_costfunc.hpp.hpp
+vector
+-
+breakthrough_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+breakthrough_extended_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_extended_rules.hpp
+breakthrough_provided_heuristics.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_provided_heuristics.hpp
+game_instance.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_instance.hpp
+breakthrough_minimax_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp
+breakthrough_alphabeta_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_alphabeta_agent.hpp
+breakthrough_utility_ab.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_utility_ab.hpp
+breakthrough_learned_heuristics.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_learned_heuristics.hpp
+
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_extended_rules.hpp
 breakthrough_state.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp
@@ -54,6 +74,16 @@ breakthrough_piece_type.hpp
 limits
 -
 set
+-
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_learned_heuristics.hpp
+game_agent.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/game_agent.hpp
+breakthrough_rules.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
+cmath
+-
+algorithm
 -
 
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp
@@ -107,6 +137,8 @@ breakthrough_alphabeta_agent.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_alphabeta_agent.hpp
 algorithm
 -
+
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/bt_heuristic_learning_costfunc.hpp
 
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.cpp
 commandline_parser.hpp
@@ -225,6 +257,8 @@ text_color.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/text_color.hpp
 test_csp.h
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/test_csp.h
+FileWrap.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/FileWrap.hpp
 breakthrough_rules.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_rules.hpp
 breakthrough_extended_rules.hpp
@@ -245,6 +279,10 @@ opt_pso.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_pso.hpp
 opt_test_rosenbrock2d.hpp
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_test_rosenbrock2d.hpp
+bt_heuristic_learning_costfunc.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/bt_heuristic_learning_costfunc.hpp
+breakthrough_costfunc.hpp.hpp
+/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_costfunc.hpp.hpp
 
 /Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_callbacks.hpp
 

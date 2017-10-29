@@ -23,11 +23,14 @@ CMakeFiles/mp_exec.dir/image.cpp.o: /usr/local/include/pnglibconf.h
 CMakeFiles/mp_exec.dir/image_pixel.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.cpp
 CMakeFiles/mp_exec.dir/image_pixel.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/image_pixel.hpp
 
+CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/FileWrap.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/MessageException.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_actions.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_alphabeta_agent.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_cone_heuristics.hpp
+CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_costfunc.hpp.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_extended_rules.hpp
+CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_learned_heuristics.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_piece_type.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_provided_heuristics.hpp
@@ -35,6 +38,7 @@ CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_utility_ab.hpp
+CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/bt_heuristic_learning_costfunc.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.hpp
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/csp_solver.h
 CMakeFiles/mp_exec.dir/main.cpp.o: /Users/cjh/Documents/UIUC/Fall\ 2017/cs440_ai/cs440_fall2017/MP2/src/custom_exception.hpp

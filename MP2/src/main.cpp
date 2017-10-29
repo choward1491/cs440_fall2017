@@ -22,6 +22,9 @@
 #include "text_color.hpp"
 #include "test_csp.h"
 
+// other helpful utility code
+#include "FileWrap.hpp"
+
 // game playing agent stuff
 #include "breakthrough_rules.hpp"
 #include "breakthrough_extended_rules.hpp"
@@ -65,7 +68,7 @@ int main(int argc, char** argv){
 
 #ifndef RUN_OPTIMIZATION
 
-        int numParticles = 90, miters = 10;
+        int numParticles = 5, miters = 1;
         if( commp["-np"].size() != 0 ){
             numParticles = commp.convert<int>("-np");
         }
@@ -80,6 +83,18 @@ int main(int argc, char** argv){
         pso_solver.setMaxIterations(miters);
         pso_solver.setSearchBounds({0,0,0,0,0},{1,1,1,1,1});
         pso_solver.solve();
+
+        // write optimal solution to file
+        auto soln = pso_solver.getBestSolution();
+        wrap::file optf("soln_8x8.txt",wrap::file::Write);
+        if( optf.isOpen() ){
+            fprintf(optf.ref(),"Best Cost: %lf\n",pso_solver.getBestCost());
+            for(auto val: soln){
+                fprintf(optf.ref(),"%lf, ",val);
+            }
+            fprintf(optf.ref(),"\n");
+        }
+
 #endif
 
 #ifdef TEST_BREAKTHROUGH
