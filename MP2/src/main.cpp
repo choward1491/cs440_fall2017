@@ -88,9 +88,11 @@ int main(int argc, char** argv){
         flowSolved = fsolver.solve();
         if(flowSolved) {
             std::cout << "Solved: " << std::endl;
+            printf("attempts: %d\n",fsolver.getAttempts());
             fsolver.saveFlow(out_file);
         } else {
             std::cout << "flow could not be solved" << std::endl;
+            printf("attempts: %d\n",fsolver.getAttempts());
         }
 
     }catch( MessageException & msg ){

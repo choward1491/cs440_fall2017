@@ -40,15 +40,21 @@ void flow_solver::loadFlow(const std::string& flow_file) {
         while( fscanf(fl,"%c",&c) != EOF && c != '\n' ){ cols++; }
         // get number of rows for grid
         while( fscanf(fl,"%*[^\n]\n") != EOF ){ rows++; }
-        std::cout << cols << " by " << rows << std::endl;
+//        std::cout << cols << " by " << rows << std::endl;
         
         // allocate storage
         ncol = cols; nrow = rows;
-        std::vector<char> grid(cols*rows, 0);
-        domainGrid.resize(cols*rows);
-        assignmentGrid.resize(cols*rows, NONE);
-        assigned.resize(cols*rows, false);
-        
+        int dimension = cols*rows;
+        std::vector<char> grid(dimension, 0);
+        domainGrid.resize(dimension);
+        assignmentGrid.resize(dimension);
+        assigned.resize(dimension);
+        isSource.resize(dimension);
+        for(int i = 0; i < dimension; i++) {
+            assigned[i] = false;
+            isSource[i] = false;
+            assignmentGrid[i] = NONE;
+        }
         // reset maze file and dump maze into char grid
         fl.resetFile();
         int ind = 0;
@@ -62,7 +68,6 @@ void flow_solver::loadFlow(const std::string& flow_file) {
                 ind++;
             }
         } // end while
-        
         // setup domains
         for(int j = 0; j < (int)grid.size(); j++) {
             if(grid[j] == '_') {
@@ -112,29 +117,100 @@ std::vector<flow_solver::domain_type> flow_solver::getOrderedDomain(int ind) {
     return ret;
 }
 
-bool flow_solver::isConsistent(int var, domain_type val) {
-    bool ret = true;
-    
-    // check adjacent
-    
+std::vector<int> flow_solver::getNeighbors(int var) {
+    std::vector<int> ret;
+    int a, b;
+    a = var/ncol;
+    b = var - (a*ncol);
+    if(b > 0) ret.push_back(a*ncol+(b-1));
+    if((b+1) < ncol) ret.push_back(a*ncol+(b+1));
+    if(a > 0) ret.push_back((a-1)*ncol + b);
+    if((a+1) < nrow) ret.push_back((a+1)*ncol + b);
     return ret;
 }
 
+bool flow_solver::checkNeighborOver(int var, domain_type val) {
+    std::vector<int> neighbors = getNeighbors(var);
+    int sameCount = 0;
+    for(int n : neighbors) {
+        if(assignmentGrid[n] == val) {
+            sameCount++;
+        }
+    }
+    int threshold = 1 - ((isSource[var])? 1 : 0);
+    return !(sameCount > threshold); // 3+ neighbors of same color
+}
+
+bool flow_solver::sourceCheck(int var, domain_type val, int ignorevar) {
+    std::vector<int> neighbors = getNeighbors(var);
+    int sameCount = 0;
+    int noneCount = 0;
+    if(assignmentGrid[var] == val) sameCount++;
+    for(int n : neighbors) {
+        if(assignmentGrid[n] == NONE && n != ignorevar) noneCount++;
+        if(assignmentGrid[n] == assignmentGrid[var]) {
+            sameCount++;
+        }
+    }
+    if(noneCount > 0) return true;
+    return (sameCount == 1); // Source must have 1 neighbor
+}
+
+
+bool flow_solver::isConsistent(int var, domain_type val) {
+
+    if(beSmart) {
+        
+    } else {
+        std::vector<int> neighbors = getNeighbors(var);
+        int sameCount = 0, noneCount = 0;
+        for(int n : neighbors) {
+            if(isSource[n]) if(sourceCheck(n,val,var) == false) return false;
+            if(assignmentGrid[n] == NONE) noneCount++;
+            if(assignmentGrid[n] == val) {
+                sameCount++;
+                if(checkNeighborOver(n, val) == false) return false;
+            }
+        }
+        if(sameCount > 2) return false; // 3+ neighbors of same color
+        if(noneCount == 0) {
+            if(sameCount != 2) return false;
+        }
+    }
+    
+    return true;
+}
+
+bool flow_solver::lastCheck() {
+//    printf("last: %d\n",attempts);
+    for(int i = 0; i < ncol*nrow; i++) {
+        std::vector<int> neighbors = getNeighbors(i);
+        int sameCount = 0;
+        for(int n : neighbors) {
+            if(assignmentGrid[n] == assignmentGrid[i]) {
+                sameCount++;
+            }
+        }
+        int threshold = 2 - ((isSource[i])? 1 : 0);
+        if(sameCount != threshold) return false;
+    }
+    return true;
+}
 
 bool flow_solver::solve() {
-//    std::cout << "recurse" << std::endl;
-    printCurrent();
+//    printCurrent();
     bool success = false;
     int var = getUnvisitedVariable();
-    std::cout << "var: " << var << std::endl;
-    if(var == -1) return true;
-    
+//    std::cout << "svar: " << var << std::endl;
+    if(var == -1) { //all assigned
+        return lastCheck();
+    }
     // try all possible values
     for(auto value : getOrderedDomain(var)) {
         if(isConsistent(var, value)) {
             assigned[var] = true;
             assignmentGrid[var] = value;
-            
+            attempts++;
             // TODO Perform inference and early fail here
             
             success = solve();
@@ -144,7 +220,7 @@ bool flow_solver::solve() {
         }
     }
     
-    return success; // ???
+    return success; // needed???
 }
 
 void flow_solver::setSmart(bool beSmart) {
@@ -181,6 +257,11 @@ flow_solver::flow_solver() {
     dmap[flow_solver::domain_type::Z] = 'Z';
     dmap[flow_solver::domain_type::NONE] = '-';
 }
+
+int flow_solver::getAttempts() {
+    return attempts;
+}
+
 
 flow_solver::flow_solver(const flow_solver& orig) {
 }

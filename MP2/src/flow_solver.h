@@ -23,8 +23,13 @@ public:
     void setSmart(bool beSmart);
     void printCurrent();
     int getUnvisitedVariable();
+    int getAttempts();
+    std::vector<int> getNeighbors(int var);
     std::vector<domain_type> getOrderedDomain(int ind);
     bool isConsistent(int var, domain_type val);
+    bool checkNeighborOver(int var, domain_type val);
+    bool sourceCheck(int var, domain_type val, int ignorevar);
+    bool lastCheck();
     bool solve();
     
     flow_solver();
@@ -36,9 +41,10 @@ public:
     
 private:
 //    var_domains vd;
-    int ncol, nrow;
+    int ncol, nrow, attempts;
     bool beSmart;
     std::vector<bool> assigned;
+    std::vector<bool> isSource;
     std::vector<std::set<enum domain_type>> domainGrid;
     std::vector<enum domain_type> assignmentGrid;
 };
