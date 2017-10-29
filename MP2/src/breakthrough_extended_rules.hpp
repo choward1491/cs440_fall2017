@@ -1,9 +1,9 @@
 //
-// Created by Christian J Howard on 10/21/17.
+// Created by Christian J Howard on 10/28/17.
 //
 
-#ifndef SRC_BREAKTHROUGH_RULES_HPP
-#define SRC_BREAKTHROUGH_RULES_HPP
+#ifndef SRC_BREAKTHROUGH_EXTENDED_RULES_HPP
+#define SRC_BREAKTHROUGH_EXTENDED_RULES_HPP
 
 #include "breakthrough_state.hpp"
 #include "breakthrough_actions.hpp"
@@ -15,7 +15,7 @@
 namespace bt {
 
     template<int NR = 8, int NC = 8>
-    class baseline_rules {
+    class extended_rules {
     public:
 
         // important typedefs for metaprogramming stuff
@@ -42,8 +42,9 @@ namespace bt {
             getValidActionSet( s, team1, aset ); totMoves += aset.size();
             getValidActionSet( s, team2, aset ); totMoves += aset.size();*/
 
-            return (teamCount[team1] == 0) || (teamCount[team2] == 0) /*|| (totMoves == 0)*/
-                   || (numTeam1inTeam2Base != 0) || (numTeam2inTeam1Base != 0);
+            // modify the rules such that the extended rules for `3 Workers to Base` are in place
+            return (teamCount[team1] < 3) || (teamCount[team2] < 3) /*|| (totMoves == 0)*/
+                   || (numTeam1inTeam2Base >= 3) || (numTeam2inTeam1Base >= 3);
         }
 
         template<typename num_type>
@@ -124,9 +125,9 @@ namespace bt {
                         // try to add action for right move
                         a = actionHash(k,RightDiagonal,nd);
                         if( j != (nc-1) && F.getNodeTypeAtFuturePos(s,a) != team_value
-                             /*( F.getNodeTypeAtFuturePos(s,a) == None ||
-                               ( F.getNodeTypeAtFuturePos(s,a) == other_team
-                                 && F.getNodeTypeAtFuturePos(s,a1) != other_team ))*/)
+                            /*( F.getNodeTypeAtFuturePos(s,a) == None ||
+                              ( F.getNodeTypeAtFuturePos(s,a) == other_team
+                                && F.getNodeTypeAtFuturePos(s,a1) != other_team ))*/)
                         {
                             action_set.insert( a );
                         }
@@ -150,4 +151,4 @@ namespace bt {
     };
 }
 
-#endif //SRC_BREAKTHROUGH_RULES_HPP
+#endif //SRC_BREAKTHROUGH_EXTENDED_RULES_HPP

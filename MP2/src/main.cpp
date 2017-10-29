@@ -24,17 +24,35 @@
 
 // game playing agent stuff
 #include "breakthrough_rules.hpp"
+#include "breakthrough_extended_rules.hpp"
 #include "breakthrough_provided_heuristics.hpp"
 #include "game_instance.hpp"
 #include "breakthrough_minimax_agent.hpp"
+#include "breakthrough_alphabeta_agent.hpp"
+#include "breakthrough_utility_ab.hpp"
+#include "breakthrough_cone_heuristics.hpp"
+
+// optimization related stuff
+#include "opt_pso.hpp"
+#include "opt_test_rosenbrock2d.hpp"
+#include "bt_heuristic_learning_costfunc.hpp"
+#include "breakthrough_costfunc.hpp.hpp"
 
 #define NR 8
 #define NC 8
 
+// game typedefs
 typedef bt::baseline_rules<NR,NC> bt_rules;
 typedef game::agent<bt_rules>     bt_agent;
 typedef bt::minimax<bt_rules>     bt_minimax;
+typedef bt::alphabeta<bt_rules>   bt_ab;
+typedef bt::utility_ab<bt_rules>  bt_uab;
 typedef game::instance<bt_rules>  bt_game;
+
+// optimization typedefs
+typedef opt::pso<bt::costfunc>       pso_t;
+typedef opt::pso_iter<bt::costfunc>  cb_t;
+
 
 int main(int argc, char** argv){
     
@@ -45,19 +63,60 @@ int main(int argc, char** argv){
         // get command line inputs
         parser::commandline commp(argc,argv);
 
+#ifndef RUN_OPTIMIZATION
+        cb_t iter_cb;
+        pso_t pso_solver;
+        pso_solver.addCallback(&iter_cb);
+        pso_solver.setNumParticles(90);
+        pso_solver.setMaxIterations(10);
+        pso_solver.setSearchBounds({0,0,0,0,0},{1,1,1,1,1});
+        pso_solver.solve();
+#endif
+
+#ifdef TEST_BREAKTHROUGH
         bt::provided::defensive<NR,NC> defensive_h;
         bt::provided::offensive<NR,NC> offensive_h;
+        bt::cone::defensive<NR,NC>     dcone_h;
+        bt::cone::offensive<NR,NC>     ocone_h;
 
         bt_game game;
         bt_minimax p1, p2;
-        p1.setMaxSearchDepth(3); p1.setUtilityEstimator(defensive_h);
-        p2.setMaxSearchDepth(3); p2.setUtilityEstimator(offensive_h);
-        game.addPlayer1(&p1);
-        game.addPlayer2(&p2);
+        bt_ab p3,p4;
+        bt_uab p5, p6;
+        p1.setMaxSearchDepth(4); p1.setUtilityEstimator(defensive_h);
+        p2.setMaxSearchDepth(4); p2.setUtilityEstimator(defensive_h);
+        p3.setMaxSearchDepth(5); p3.setUtilityEstimator(defensive_h);
+        p4.setMaxSearchDepth(4); p4.setUtilityEstimator(defensive_h);
+        p5.setMaxSearchDepth(3); p5.setUtilityEstimator(defensive_h);
+        p6.setMaxSearchDepth(3); p6.setUtilityEstimator(defensive_h);
+        game.addPlayer1(&p6);
+        game.addPlayer2(&p5);
 
         game.play();
         bt_game::state_t gs = game.getFinalGameState();
+
+        // print avg move time for players
+        printf("Avg move time for player 1 was: %lf ms\n",game.getAvgMoveTimeFor(0));
+        printf("Avg move time for player 2 was: %lf ms\n",game.getAvgMoveTimeFor(1));
+
+        // print avg expanded nodes per move for player
+        printf("Avg expanded nodes per move for player 1 was: %lf nodes\n",game.getAvgNumberNodesExpandedPerMoveFor(0));
+        printf("Avg expanded nodes per move for player 2 was: %lf nodes\n",game.getAvgNumberNodesExpandedPerMoveFor(1));
+
+        // get number of moves made by each player
+        printf("Number of moves to end of game by player 1 was %u\n",game.getNumMoves(0));
+        printf("Number of moves to end of game by player 2 was %u\n",game.getNumMoves(1));
+
+        // get total number of nodes expanded by each player
+        printf("Total nodes expanded by player 1 is %u\n",game.getTotalNodesExpandedFor(0));
+        printf("Total nodes expanded by player 2 is %u\n",game.getTotalNodesExpandedFor(1));
+
+        // total pieces captured by players
+        printf("Total pieces captured by player 1 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team1));
+        printf("Total pieces captured by player 2 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team2));
+
         gs.print();
+#endif
 
 
 #ifdef CSP_TEST_SOLVE

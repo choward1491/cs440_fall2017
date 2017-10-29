@@ -32,6 +32,19 @@ namespace bt { // breakthrough namespace
         }
 
         //setters/getters
+        uint32_t getNumPiecesCapturedBy( piece_t player ){
+            const uint32_t initNumber = NC*2;
+            uint32_t numPiecesLeft[2] = {0};
+            for(int k = 0; k < NC*NR; ++k){
+                if( s[k] == piece_t::Team1 ){
+                    numPiecesLeft[piece_t::Team1]++;
+                }else if( s[k] == piece_t::Team2 ){
+                    numPiecesLeft[piece_t::Team2]++;
+                }
+            }// end for c
+
+            return initNumber - numPiecesLeft[(player+1)%2];
+        }
         uint8_t getStateAt(int row, int col) const { return s[hash(row,col)]; }
         uint8_t getStateAt(int k) const { return s[k]; }
         void setStateAt(int row, int col, int val ) { s[hash(row,col)] = static_cast<uint8_t>(val); }
