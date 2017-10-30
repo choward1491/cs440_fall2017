@@ -31,6 +31,7 @@ public:
     bool checkNeighborOver(int var, domain_type val);
     bool sourceCheck(int var, domain_type val, int ignorevar);
     bool lastCheck();
+    bool fullCheck();
     bool solve();
     
     flow_solver();

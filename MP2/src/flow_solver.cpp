@@ -58,13 +58,13 @@ void flow_solver::loadFlow(const std::string& flow_file) {
         int rows = 1, cols = -1;
         std::set<enum domain_type> colors;
         char c;
-        
+
         // get number of columns
         while( fscanf(fl,"%c",&c) != EOF && c != '\n' ){ cols++; }
         // get number of rows for grid
         while( fscanf(fl,"%*[^\n]\n") != EOF ){ rows++; }
 //        std::cout << cols << " by " << rows << std::endl;
-        
+
         // allocate storage
         ncol = cols; nrow = rows;
         int dimension = cols*rows;
@@ -104,7 +104,7 @@ void flow_solver::loadFlow(const std::string& flow_file) {
                 isSource[j] = true;
             }
         }
-        
+
 //        for(int k = 0; k < domainGrid.size(); k++) {
 //            printf("%d: %d\n",k,domainGrid[k].size());
 //            for(auto d : domainGrid[k]) {
@@ -112,7 +112,7 @@ void flow_solver::loadFlow(const std::string& flow_file) {
 //            }
 //            printf("\n");
 //        }
-        
+
         // initial restriction
         firstRestrict();
     } else {
@@ -211,7 +211,7 @@ bool flow_solver::sourceCheck(int var, domain_type val, int ignorevar) {
 
 bool flow_solver::isConsistent(int var, domain_type val) {
 //    if(beSmart) {
-        
+
 //    } else {
         std::vector<int> neighbors = getNeighbors(var);
         int sameCount = 0, noneCount = 0;
@@ -228,7 +228,7 @@ bool flow_solver::isConsistent(int var, domain_type val) {
             if(sameCount != 2) return false;
         }
 //    }
-    
+
     return true;
 }
 
@@ -248,6 +248,31 @@ bool flow_solver::lastCheck() {
     return true;
 }
 
+bool flow_solver::fullCheck() {
+    for(int i = 0; i < ncol*nrow; i++) {
+        if(assigned[i]) {
+            std::vector<int> neighbors = getNeighbors(i);
+            int sameCount = 0;
+            int noneCount = 0;
+
+            for(int n : neighbors) {
+                if(assignmentGrid[n] == assignmentGrid[i]) {
+                    sameCount++;
+                }
+                if(!assigned[n]) noneCount++;
+            }
+            if(noneCount == 0) {
+//                printCurrent();
+//                printf("i: %d same: %d\n",i,sameCount);
+                int threshold = 2 - ((isSource[i])? 1 : 0);
+                if(sameCount != threshold) return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 bool flow_solver::solve() {
 //    printCurrent();
     bool success = false;
@@ -264,10 +289,10 @@ bool flow_solver::solve() {
             attempts++;
             
 //            if(attempts > 50) return true;
-            // TODO Perform inference and early fail here
-            
-            success = solve();
-            if(success) return success;
+            if(fullCheck()) {
+                success = solve();
+                if(success) return success;
+            }
             assigned[var] = false;
             assignmentGrid[var] = NONE;
         }
@@ -321,4 +346,3 @@ flow_solver::flow_solver(const flow_solver& orig) {
 
 flow_solver::~flow_solver() {
 }
-
