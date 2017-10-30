@@ -19,10 +19,10 @@ namespace bt {
 
 
         // defensive heuristic provided by the MP definition
-        template<int NR = 8, int NC = 8>
-        class defensive : public game::evaluator<bt::baseline_rules<NR,NC>>{
+        template<int NR = 8, int NC = 8, template<int,int> typename Rules = bt::baseline_rules>
+        class defensive : public game::evaluator<Rules<NR,NC>>{
         public:
-            typedef game::evaluator<bt::baseline_rules<NR,NC>> parent;
+            typedef game::evaluator<Rules<NR,NC>> parent;
             typedef typename parent::state_t state_t;
             typedef typename parent::eval_t eval_t;
 
@@ -47,11 +47,11 @@ namespace bt {
 
 
         // offensive heuristic provided by the MP definition
-        template<int NR = 8, int NC = 8>
-        class offensive : public game::evaluator<bt::baseline_rules<NR,NC>>{
+        template<int NR = 8, int NC = 8, template<int,int> typename Rules = bt::baseline_rules>
+        class offensive : public game::evaluator<Rules<NR,NC>>{
         public:
 
-            typedef game::evaluator<bt::baseline_rules<NR,NC>> parent;
+            typedef game::evaluator<Rules<NR,NC>> parent;
             typedef typename parent::state_t state_t;
             typedef typename parent::eval_t eval_t;
 

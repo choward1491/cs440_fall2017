@@ -41,6 +41,7 @@
 #include "bt_heuristic_learning_costfunc.hpp"
 #include "breakthrough_costfunc.hpp.hpp"
 
+#ifndef NR
 #define NR 8
 #define NC 8
 
@@ -51,6 +52,7 @@ typedef bt::minimax<bt_rules>     bt_minimax;
 typedef bt::alphabeta<bt_rules>   bt_ab;
 typedef bt::utility_ab<bt_rules>  bt_uab;
 typedef game::instance<bt_rules>  bt_game;
+#endif
 
 // optimization typedefs
 typedef opt::pso<bt::costfunc>       pso_t;
@@ -81,7 +83,8 @@ int main(int argc, char** argv){
         pso_solver.addCallback(&iter_cb);
         pso_solver.setNumParticles(numParticles);
         pso_solver.setMaxIterations(miters);
-        pso_solver.setSearchBounds({0,0,0,0,0,0,0},{1,1,1,1,1,1,1});
+        std::vector<double> lb(13,-100), ub(13,100);
+        pso_solver.setSearchBounds(lb, ub);
         pso_solver.solve();
 
         // write optimal solution to file
@@ -100,8 +103,8 @@ int main(int argc, char** argv){
 #ifdef TEST_BREAKTHROUGH
         bt::provided::defensive<NR,NC> defensive_h;
         bt::provided::offensive<NR,NC> offensive_h;
-        bt::cone::defensive<NR,NC>     dcone_h;
-        bt::cone::offensive<NR,NC>     ocone_h;
+        bt::learned::defensive<NR,NC> dlearn_h;
+        bt::learned::offensive<NR,NC> olearn_h;
 
         bt_game game;
         bt_minimax p1, p2;
@@ -109,15 +112,22 @@ int main(int argc, char** argv){
         bt_uab p5, p6;
         p1.setMaxSearchDepth(4); p1.setUtilityEstimator(defensive_h);
         p2.setMaxSearchDepth(4); p2.setUtilityEstimator(defensive_h);
-        p3.setMaxSearchDepth(5); p3.setUtilityEstimator(defensive_h);
-        p4.setMaxSearchDepth(4); p4.setUtilityEstimator(defensive_h);
-        p5.setMaxSearchDepth(3); p5.setUtilityEstimator(defensive_h);
-        p6.setMaxSearchDepth(3); p6.setUtilityEstimator(defensive_h);
-        game.addPlayer1(&p6);
-        game.addPlayer2(&p5);
+        p3.setMaxSearchDepth(2); p3.setUtilityEstimator(offensive_h);
+        p4.setMaxSearchDepth(2); p4.setUtilityEstimator(dlearn_h);
+        p5.setMaxSearchDepth(2); p5.setUtilityEstimator(defensive_h);
+        p6.setMaxSearchDepth(2); p6.setUtilityEstimator(olearn_h);
+        game.addPlayer1(&p5);
+        game.addPlayer2(&p6);
 
-        game.play();
-        bt_game::state_t gs = game.getFinalGameState();
+        int nwin = 0;
+        for(int i = 0; i < 100; ++i) {
+            game.play();
+            bt_game::state_t gs = game.getFinalGameState();
+            nwin += game.getPlayerWhoWon();
+        }
+
+        printf("Won %i out of 100 games\n",nwin);
+
 
         // print avg move time for players
         printf("Avg move time for player 1 was: %lf ms\n",game.getAvgMoveTimeFor(0));
@@ -139,7 +149,7 @@ int main(int argc, char** argv){
         printf("Total pieces captured by player 1 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team1));
         printf("Total pieces captured by player 2 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team2));
 
-        gs.print();
+        //gs.print();
 #endif
 
 

@@ -32,7 +32,7 @@ namespace bt { // breakthrough namespace
         }
 
         //setters/getters
-        uint32_t getNumPiecesCapturedBy( piece_t player ){
+        uint32_t getNumPiecesCapturedBy( int player ) const {
             const uint32_t initNumber = NC*2;
             uint32_t numPiecesLeft[2] = {0};
             for(int k = 0; k < NC*NR; ++k){
