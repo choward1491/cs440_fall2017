@@ -75,6 +75,8 @@ int main(int argc, char** argv){
         bool beSmart = false;
         if(flow_type == "smart") beSmart = true;
         fsolver.setSmart(beSmart);
+        if(flow_type == "smarter") fsolver.setSmarter(true);
+        
         
         if( !flow_file.empty() ){
             fsolver.loadFlow(flow_file);
@@ -84,7 +86,7 @@ int main(int argc, char** argv){
         
         // solve flow problem
         bool flowSolved = false;
-        flowSolved = fsolver.solve();
+        flowSolved = fsolver.solve(fsolver.domainGrid);
         if(flowSolved) {
             std::cout << "Solved: " << std::endl;
             printf("attempts: %d\n",fsolver.getAttempts());

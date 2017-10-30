@@ -21,19 +21,22 @@ public:
     void loadFlow(const std::string& flow_file);
     void saveFlow(const std::string & flow_file);
     void setSmart(bool beSmart);
+    void setSmarter(bool beSmarter);
     void printCurrent();
     void firstRestrict();
-    int getUnvisitedVariable();
+    std::vector<std::set<enum domain_type>> constrainNeighbors(std::vector<std::set<enum domain_type>> dGrid);
+    int getUnvisitedVariable(std::vector<std::set<enum domain_type>> dGrid);
     int getAttempts();
+    int mostNeighbors(std::vector<int> mins);
     std::vector<int> getNeighbors(int var);
-    std::vector<domain_type> getOrderedDomain(int ind);
+    std::vector<domain_type> getOrderedDomain(int ind, std::vector<std::set<enum domain_type>> dGrid);
     bool isConsistent(int var, domain_type val);
     bool checkNeighborOver(int var, domain_type val);
     bool sourceCheck(int var, domain_type val, int ignorevar);
     bool lastCheck();
     bool fullCheck();
-    bool solve();
-    
+    bool solve(std::vector<std::set<enum domain_type>> dGrid);
+    std::vector<std::set<enum domain_type>> domainGrid;
     flow_solver();
     flow_solver(const flow_solver& orig);
     virtual ~flow_solver();
@@ -45,9 +48,9 @@ private:
 //    var_domains vd;
     int ncol, nrow, attempts;
     bool beSmart;
+    bool beSmarter;
     std::vector<bool> assigned;
     std::vector<bool> isSource;
-    std::vector<std::set<enum domain_type>> domainGrid;
     std::vector<enum domain_type> assignmentGrid;
 };
 

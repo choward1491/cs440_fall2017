@@ -14,7 +14,6 @@
 #include "FileWrap.hpp"
 
 
-
 void flow_solver::printCurrent() {
     std::cout << "Assignment: " << std::endl;
     for(int i = 0; i < ncol; i++) {
@@ -105,14 +104,6 @@ void flow_solver::loadFlow(const std::string& flow_file) {
             }
         }
 
-//        for(int k = 0; k < domainGrid.size(); k++) {
-//            printf("%d: %d\n",k,domainGrid[k].size());
-//            for(auto d : domainGrid[k]) {
-//                printf("%d, ",d);
-//            }
-//            printf("\n");
-//        }
-
         // initial restriction
         firstRestrict();
     } else {
@@ -120,22 +111,55 @@ void flow_solver::loadFlow(const std::string& flow_file) {
     }
 }
 
-int flow_solver::getUnvisitedVariable() {
+int flow_solver::mostNeighbors(std::vector<int> mins) {
+    int ret = -1, mostN = -1;
+    for(int min : mins) {
+        int currN;
+        std::vector<int> neighbors = getNeighbors(min);
+        for(int n : neighbors) {
+            if(assigned[n]) currN++;
+        }
+        if(currN > mostN) {
+            mostN = currN;
+            ret = min;
+            if(currN == 4) return ret;
+        }
+    }
+    return ret;
+}
+
+int flow_solver::getUnvisitedVariable(std::vector<std::set<enum domain_type>> dGrid) {
     if(!beSmart) {
         for(int i = 0; i < assigned.size(); i++) {
             if(assigned[i] == false) {
                 return i;
             }
         }
+//    } else if(beSmarter) {
+//        int min = 1000;
+//        int current = -1;
+//        std::vector<int> mins;
+//        for(int i = 0; i < assigned.size(); i++) {
+//            if(assigned[i] == false) {
+//                int remaining = domainGrid[i].size();
+//                if(remaining <= min) {
+//                    if (remaining < min) mins.clear();
+//                    mins.push_back(i);
+//                    min = remaining;
+//                    current = i;
+//                }
+//            }
+//        }
+//        current = mostNeighbors(mins);
+//        return current;
     } else { // MRV
         int min = 1000;
         int current = -1;
         for(int i = 0; i < assigned.size(); i++) {
             if(assigned[i] == false) {
-                int remaining = domainGrid[i].size();
+                int remaining = dGrid[i].size();
                 if(remaining < min) {
                     min = remaining;
-//                    printf("min: %d, var: %d\n",min,i);
                     current = i;
                 }
             }
@@ -158,13 +182,13 @@ void flow_solver::saveFlow(const std::string& flow_file) {
     }
 }
 
-std::vector<flow_solver::domain_type> flow_solver::getOrderedDomain(int ind) {
+std::vector<flow_solver::domain_type> flow_solver::getOrderedDomain(int ind, std::vector<std::set<enum domain_type>> dGrid) {
     std::vector<domain_type> ret;
-    if(beSmart) {
-        std::set<enum domain_type> subDom = domainGrid[ind];
+    if(beSmart || beSmarter) {
+        std::set<enum domain_type> subDom = dGrid[ind];
         std::copy(subDom.begin(), subDom.end(), std::back_inserter(ret));
     } else {
-        std::set<enum domain_type> subDom = domainGrid[ind];
+        std::set<enum domain_type> subDom = dGrid[ind];
         std::copy(subDom.begin(), subDom.end(), std::back_inserter(ret));
     }
     return ret;
@@ -209,6 +233,31 @@ bool flow_solver::sourceCheck(int var, domain_type val, int ignorevar) {
     return (sameCount == 1); // Source must have 1 neighbor
 }
 
+std::vector<std::set<enum flow_solver::domain_type>> flow_solver::constrainNeighbors(std::vector<std::set<enum domain_type>> dGrid) {
+    for(int i = 0; i < ncol*nrow; i++) {
+        if(assigned[i]) {
+            std::vector<int> neighbors = getNeighbors(i);
+            int sameCount = 0;
+
+            for(int n : neighbors) {
+                if(assignmentGrid[n] == assignmentGrid[i]) {
+                    sameCount++;
+                }
+            }
+            int threshold = 2 - ((isSource[i])? 1 : 0);
+            if(sameCount == threshold) {
+                for(int n : neighbors) {
+                    if(!assigned[n]) {
+                        domain_type dm = static_cast<domain_type>(assignmentGrid[i]);
+                        dGrid[n].erase(dm);
+                    }
+                }
+            }
+        }
+    }
+    return dGrid;
+}
+
 bool flow_solver::isConsistent(int var, domain_type val) {
 //    if(beSmart) {
 
@@ -224,11 +273,19 @@ bool flow_solver::isConsistent(int var, domain_type val) {
             }
         }
         if(sameCount > 2) return false; // 3+ neighbors of same color
+//        if(sameCount == 2) {
+//            if(beSmarter) {
+//                constrainNeighbors(var, val);
+//            }
+//        }
         if(noneCount == 0) {
-            if(sameCount != 2) return false;
+            if(sameCount == 2) {
+                //nothing
+            } else {
+                return false;
+            }
         }
 //    }
-
     return true;
 }
 
@@ -273,16 +330,16 @@ bool flow_solver::fullCheck() {
 }
 
 
-bool flow_solver::solve() {
+bool flow_solver::solve(std::vector<std::set<enum domain_type>> dGrid) {
 //    printCurrent();
     bool success = false;
-    int var = getUnvisitedVariable();
+    int var = getUnvisitedVariable(dGrid);
 //    std::cout << "svar: " << var << std::endl;
     if(var == -1) { //all assigned
         return lastCheck();
     }
     // try all possible values
-    for(auto value : getOrderedDomain(var)) {
+    for(auto value : getOrderedDomain(var, dGrid)) {
         if(isConsistent(var, value)) {
             assigned[var] = true;
             assignmentGrid[var] = value;
@@ -290,19 +347,26 @@ bool flow_solver::solve() {
             
 //            if(attempts > 50) return true;
             if(fullCheck()) {
-                success = solve();
+                std::vector<std::set<enum domain_type>> dGrid2 = dGrid;
+                if(beSmarter) {
+                    dGrid2 = constrainNeighbors(dGrid2);
+                }
+                success = solve(dGrid2);
                 if(success) return success;
             }
             assigned[var] = false;
             assignmentGrid[var] = NONE;
         }
     }
-//    printf("why\n");
     return success; // needed???
 }
 
 void flow_solver::setSmart(bool beSmart) {
     this->beSmart = beSmart;
+}
+
+void flow_solver::setSmarter(bool beSmarter) {
+    this->beSmarter = beSmarter;
 }
 
 
