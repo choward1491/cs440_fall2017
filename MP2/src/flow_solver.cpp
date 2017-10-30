@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "stdio.h"
 #include "flow_solver.h"
 #include "FileWrap.hpp"
@@ -22,6 +23,28 @@ void flow_solver::printCurrent() {
             std::cout << dmap[dd] << " ";
         }
         std::cout << std::endl;
+    }
+}
+
+void flow_solver::firstRestrict() {
+    for(int i = 0; i < ncol*nrow; i++) {
+        if(isSource[i]) {
+            std::vector<int> neighbors = getNeighbors(i);
+            int noneCount = 0, noneInd = -1;
+            for(int n : neighbors) {
+                if(assigned[n] == false) {
+                    noneCount++;
+                    noneInd = n;
+                }
+            }
+            if(noneCount == 1) {
+                auto dkeep = assignmentGrid[i];
+//                printf("ind:ind %d keep: %d\n",noneInd,dkeep);
+                domainGrid[noneInd].clear();
+                domainGrid[noneInd].insert(dkeep);
+//                printf("restricted: %d, s: %d\n",noneInd,domainGrid[noneInd].size());
+            }
+        }
     }
 }
 
@@ -82,6 +105,16 @@ void flow_solver::loadFlow(const std::string& flow_file) {
             }
         }
         
+//        for(int k = 0; k < domainGrid.size(); k++) {
+//            printf("%d: %d\n",k,domainGrid[k].size());
+//            for(auto d : domainGrid[k]) {
+//                printf("%d, ",d);
+//            }
+//            printf("\n");
+//        }
+        
+        // initial restriction
+        firstRestrict();
     } else {
         std::cout << "Bad flow file" << std::endl;
     }
@@ -94,22 +127,42 @@ int flow_solver::getUnvisitedVariable() {
                 return i;
             }
         }
-    } else {
-        // TODO: better var selection
+    } else { // MRV
+        int min = 1000;
+        int current = -1;
+        for(int i = 0; i < assigned.size(); i++) {
+            if(assigned[i] == false) {
+                int remaining = domainGrid[i].size();
+                if(remaining < min) {
+                    min = remaining;
+//                    printf("min: %d, var: %d\n",min,i);
+                    current = i;
+                }
+            }
+        }
+        return current;
     }
-    
     return -1; // no more to assign
 }
 
-
 void flow_solver::saveFlow(const std::string& flow_file) {
     printCurrent();
+    std::ofstream outFile;
+    outFile.open(flow_file);
+    for(int i = 0; i < ncol; i++) {
+        for(int j = 0; j < nrow; j++) {
+            domain_type dd = assignmentGrid[i*ncol + j];
+            outFile << dmap[dd];
+        }
+        outFile << "\r\n";
+    }
 }
 
 std::vector<flow_solver::domain_type> flow_solver::getOrderedDomain(int ind) {
     std::vector<domain_type> ret;
     if(beSmart) {
-        // TODO better domain ordering
+        std::set<enum domain_type> subDom = domainGrid[ind];
+        std::copy(subDom.begin(), subDom.end(), std::back_inserter(ret));
     } else {
         std::set<enum domain_type> subDom = domainGrid[ind];
         std::copy(subDom.begin(), subDom.end(), std::back_inserter(ret));
@@ -156,12 +209,10 @@ bool flow_solver::sourceCheck(int var, domain_type val, int ignorevar) {
     return (sameCount == 1); // Source must have 1 neighbor
 }
 
-
 bool flow_solver::isConsistent(int var, domain_type val) {
-
-    if(beSmart) {
+//    if(beSmart) {
         
-    } else {
+//    } else {
         std::vector<int> neighbors = getNeighbors(var);
         int sameCount = 0, noneCount = 0;
         for(int n : neighbors) {
@@ -176,7 +227,7 @@ bool flow_solver::isConsistent(int var, domain_type val) {
         if(noneCount == 0) {
             if(sameCount != 2) return false;
         }
-    }
+//    }
     
     return true;
 }
@@ -211,6 +262,8 @@ bool flow_solver::solve() {
             assigned[var] = true;
             assignmentGrid[var] = value;
             attempts++;
+            
+//            if(attempts > 50) return true;
             // TODO Perform inference and early fail here
             
             success = solve();
@@ -219,7 +272,7 @@ bool flow_solver::solve() {
             assignmentGrid[var] = NONE;
         }
     }
-    
+//    printf("why\n");
     return success; // needed???
 }
 
@@ -229,6 +282,7 @@ void flow_solver::setSmart(bool beSmart) {
 
 
 flow_solver::flow_solver() {
+    attempts = 0;
     dmap[flow_solver::domain_type::A] = 'A';
     dmap[flow_solver::domain_type::B] = 'B';
     dmap[flow_solver::domain_type::C] = 'C';
@@ -261,7 +315,6 @@ flow_solver::flow_solver() {
 int flow_solver::getAttempts() {
     return attempts;
 }
-
 
 flow_solver::flow_solver(const flow_solver& orig) {
 }

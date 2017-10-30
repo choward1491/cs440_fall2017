@@ -22,6 +22,7 @@ public:
     void saveFlow(const std::string & flow_file);
     void setSmart(bool beSmart);
     void printCurrent();
+    void firstRestrict();
     int getUnvisitedVariable();
     int getAttempts();
     std::vector<int> getNeighbors(int var);
