@@ -26,16 +26,33 @@ namespace game {
         void addPlayer1( agent_t* agent) { agent->setTeam(0); p1 = agent; }
         void addPlayer2( agent_t* agent) { agent->setTeam(1); p2 = agent; }
         void play() {
+
+            // define enum type for use in internal game loop
             enum team_type { team1 = 0, team2, none};
+
+            // initialize game state
             gameState.init();
+
+            // initialize players
             p1->initPlayer();
             p2->initPlayer();
             //gameState.print();
+
+            // define pointer for agent and counter that will be flipped from
+            // one player to another
             agent_t* agentp = nullptr;
             uint32_t* counter_p = nullptr;
+
+            // turn flag for knowing which agent's turn it is
             int turn = 0;
+
+            // value to compute the total number of turns
             size_t totalTurns = 0;
+
+            // initializing the number of moves for each player to 0
             numP1Moves = numP2Moves = 0;
+
+            // game loop
             while(!rules.isGameComplete( gameState )){
                 switch(turn){
                     case team1: agentp = p1; counter_p = &numP1Moves; break;
@@ -46,6 +63,9 @@ namespace game {
                 (*counter_p)++;
                 //gameState.print();
             }
+
+            // get the player who won based on whoever was
+            // the last to make a move
             playerWhoWon = (turn+1) % 2;
         }
         state_t getFinalGameState() const { return gameState; }

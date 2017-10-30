@@ -47,7 +47,7 @@ namespace bt {
     class costfunc {
     public:
         static uint32_t numDims() {
-            return 13;
+            return 15;
         }
 
         num_t operator()( const std::vector<num_t> & x ){
@@ -56,7 +56,7 @@ namespace bt {
             bt::learned::defensive<NR,NC,rules_t>   dlearn_h;
             bt::learned::offensive<NR,NC,rules_t>   olearn_h;
 
-            uint32_t numMC = 10;
+            uint32_t numMC = 30;
             game_t game;
             ab_t p1, p2;
 
@@ -66,13 +66,13 @@ namespace bt {
 
             // initialize player 1 (baseline)
             // first optimization will be using defensive heuristic
-            p1.setMaxSearchDepth(4);
-            p1.setUtilityEstimator(offensive_h);
+            p1.setMaxSearchDepth(2);
+            p1.setUtilityEstimator(defensive_h);
 
             // initialize player 2 (learned)
             // first optimization will be using offensive heuristic
-            p2.setMaxSearchDepth(4);
-            p2.setUtilityEstimator(dlearn_h);
+            p2.setMaxSearchDepth(2);
+            p2.setUtilityEstimator(olearn_h);
             for(int i =0; i < numDims(); ++i) {
                 olearn_h.setCoefficient(i, x[i]);
                 dlearn_h.setCoefficient(i, x[i]);

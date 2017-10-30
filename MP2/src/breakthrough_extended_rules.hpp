@@ -36,14 +36,8 @@ namespace bt {
                 }// end for c
             }// end for r
 
-            /*// see if the game has a draw
-            int totMoves = 0;
-            actions aset;
-            getValidActionSet( s, team1, aset ); totMoves += aset.size();
-            getValidActionSet( s, team2, aset ); totMoves += aset.size();*/
-
             // modify the rules such that the extended rules for `3 Workers to Base` are in place
-            return (teamCount[team1] < 3) || (teamCount[team2] < 3) /*|| (totMoves == 0)*/
+            return (teamCount[team1] < 3) || (teamCount[team2] < 3)
                    || (numTeam1inTeam2Base >= 3) || (numTeam2inTeam1Base >= 3);
         }
 
@@ -60,18 +54,13 @@ namespace bt {
                 }// end for c
             }// end for r
 
-            /*// see if the game has a draw
-            int totMoves = 0;
-            actions aset;
-            getValidActionSet( s, team1, aset ); totMoves += aset.size();
-            getValidActionSet( s, team2, aset ); totMoves += aset.size();*/
-
-            // if game has a draw, return 0 utility
-            if( numTeam1inTeam2Base == 0 && numTeam2inTeam1Base == 0 /*&& totMoves == 0*/ ){
-                return 0;
+            // if game won by removing enemies, then return utility
+            if( numTeam1inTeam2Base == 0 && numTeam2inTeam1Base == 0  ){
+                if( teamCount[team] >= 3 ){     return 1e9; }
+                else{                           return -1e9;}
             }
 
-            // if no draw, return utility based on who has won
+            // if game won by having team in goal point of board
             bool moreTeam2 = numTeam2inTeam1Base > numTeam1inTeam2Base;
             if( moreTeam2 ){
                 switch(team){

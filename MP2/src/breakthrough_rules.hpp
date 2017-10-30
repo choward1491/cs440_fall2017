@@ -36,13 +36,7 @@ namespace bt {
                 }// end for c
             }// end for r
 
-            /*// see if the game has a draw
-            int totMoves = 0;
-            actions aset;
-            getValidActionSet( s, team1, aset ); totMoves += aset.size();
-            getValidActionSet( s, team2, aset ); totMoves += aset.size();*/
-
-            return (teamCount[team1] == 0) || (teamCount[team2] == 0) /*|| (totMoves == 0)*/
+            return (teamCount[team1] == 0) || (teamCount[team2] == 0)
                    || (numTeam1inTeam2Base != 0) || (numTeam2inTeam1Base != 0);
         }
 
@@ -59,18 +53,14 @@ namespace bt {
                 }// end for c
             }// end for r
 
-            /*// see if the game has a draw
-            int totMoves = 0;
-            actions aset;
-            getValidActionSet( s, team1, aset ); totMoves += aset.size();
-            getValidActionSet( s, team2, aset ); totMoves += aset.size();*/
 
-            // if game has a draw, return 0 utility
-            if( numTeam1inTeam2Base == 0 && numTeam2inTeam1Base == 0 /*&& totMoves == 0*/ ){
-                return 0;
+            // if game won by removing enemies, then return utility
+            if( numTeam1inTeam2Base == 0 && numTeam2inTeam1Base == 0  ){
+                if( teamCount[team] != 0 ){     return 1e9; }
+                else{                           return -1e9;}
             }
 
-            // if no draw, return utility based on who has won
+            // if game won by having team in goal point of board
             bool moreTeam2 = numTeam2inTeam1Base > numTeam1inTeam2Base;
             if( moreTeam2 ){
                 switch(team){
@@ -113,20 +103,14 @@ namespace bt {
 
                         // try to add action for left move
                         int a = actionHash(k,LeftDiagonal,nd);
-                        if( j != 0 && F.getNodeTypeAtFuturePos(s,a) != team_value
-                            /*( F.getNodeTypeAtFuturePos(s,a) == None ||
-                            ( F.getNodeTypeAtFuturePos(s,a) == other_team
-                            && F.getNodeTypeAtFuturePos(s,a1) != other_team ))*/ )
+                        if( j != 0 && F.getNodeTypeAtFuturePos(s,a) != team_value)
                         {
                             action_set.insert( a );
                         }
 
                         // try to add action for right move
                         a = actionHash(k,RightDiagonal,nd);
-                        if( j != (nc-1) && F.getNodeTypeAtFuturePos(s,a) != team_value
-                             /*( F.getNodeTypeAtFuturePos(s,a) == None ||
-                               ( F.getNodeTypeAtFuturePos(s,a) == other_team
-                                 && F.getNodeTypeAtFuturePos(s,a1) != other_team ))*/)
+                        if( j != (nc-1) && F.getNodeTypeAtFuturePos(s,a) != team_value)
                         {
                             action_set.insert( a );
                         }

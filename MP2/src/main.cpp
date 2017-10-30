@@ -80,16 +80,17 @@ int main(int argc, char** argv){
 
         cb_t iter_cb;
         pso_t pso_solver;
+        int ndims = pso_solver.getCostFunction().numDims();
         pso_solver.addCallback(&iter_cb);
         pso_solver.setNumParticles(numParticles);
         pso_solver.setMaxIterations(miters);
-        std::vector<double> lb(13,-100), ub(13,100);
+        std::vector<double> lb(ndims,-100), ub(ndims,100);
         pso_solver.setSearchBounds(lb, ub);
         pso_solver.solve();
 
         // write optimal solution to file
         auto soln = pso_solver.getBestSolution();
-        wrap::file optf("soln_8x8.txt",wrap::file::Write);
+        wrap::file optf("soln_coefs.txt",wrap::file::Write);
         if( optf.isOpen() ){
             fprintf(optf.ref(),"Best Cost: %lf\n",pso_solver.getBestCost());
             for(auto val: soln){
@@ -114,19 +115,19 @@ int main(int argc, char** argv){
         p2.setMaxSearchDepth(4); p2.setUtilityEstimator(defensive_h);
         p3.setMaxSearchDepth(2); p3.setUtilityEstimator(offensive_h);
         p4.setMaxSearchDepth(2); p4.setUtilityEstimator(dlearn_h);
-        p5.setMaxSearchDepth(2); p5.setUtilityEstimator(defensive_h);
-        p6.setMaxSearchDepth(2); p6.setUtilityEstimator(olearn_h);
+        p5.setMaxSearchDepth(4); p5.setUtilityEstimator(offensive_h);
+        p6.setMaxSearchDepth(4); p6.setUtilityEstimator(dlearn_h);
         game.addPlayer1(&p5);
         game.addPlayer2(&p6);
 
         int nwin = 0;
-        for(int i = 0; i < 100; ++i) {
+        for(int i = 0; i < 20; ++i) {
             game.play();
             bt_game::state_t gs = game.getFinalGameState();
+            gs.print();
             nwin += game.getPlayerWhoWon();
+            printf("Won %i out of %i games\n",nwin,i+1);
         }
-
-        printf("Won %i out of 100 games\n",nwin);
 
 
         // print avg move time for players

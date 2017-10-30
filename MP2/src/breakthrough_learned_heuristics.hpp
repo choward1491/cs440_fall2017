@@ -21,31 +21,23 @@ namespace bt {
             AvgBarrier1,
             Pieces1InGoal,
             Pieces1InHome,
+            Pieces1Almost,
             Pieces2,
             MeanDist2,
             StdDevDist2,
             AvgBarrier2,
             Pieces2InGoal,
             Pieces2InHome,
+            Pieces2Almost
         };
 
         template<int NR, int NC, typename state_t>
         void getFeatures( double* feature_vec, const state_t & s ){
-            /* Features being extracted will be the following:
-                - Number of team1 pieces on board
-                - Number of team2 pieces on board
-                - avg distance of team1 to end of board
-                - standard deviation of team1 distance to end of board
-                - avg distance of team2 to end of board
-                - standard deviation of team2 distance to end of board
-                - team1 average barrier size
-                - team2 average barrier size
-             */
-            const int numFeatures = 12;
+            const int numFeatures = 14;
 
             // variables to store useful information for features
             int numPieces[2] = {0}, numBarriers[2] = {0};
-            int numPiecesGoal[2] = {0}, numPiecesHome[2] = {0};
+            int numPiecesGoal[2] = {0}, numPiecesAlmostGoal[2] = {0}, numPiecesHome[2] = {0};
             double meanDist[2] = {0}, stdDist[2] = {0};
             double avgBarrierSize[2] = {0};
 
@@ -71,6 +63,7 @@ namespace bt {
                         meanDist[team1] += tv;
                         stdDist[team1] += tv*tv;
                         if( r == 0 ){ numPiecesHome[team1]++; }
+                        else if( r == 1){ numPiecesAlmostGoal[team1]++; }
                         else if( r == NR-1 ){ numPiecesGoal[team1]++; }
                         if( type != team1 ){
                             if( type == team2 ){
@@ -88,6 +81,7 @@ namespace bt {
                         meanDist[team2] += tv;
                         stdDist[team2] += tv*tv;
                         if( r == 0 ){ numPiecesGoal[team2]++; }
+                        else if( r == NR-2 ){ numPiecesAlmostGoal[team2]++; }
                         else if( r == NR-1 ){ numPiecesHome[team2]++; }
                         if( type != team2 ){
                             if( type == team1 ){
@@ -127,12 +121,15 @@ namespace bt {
             feature_vec[AvgBarrier1]    = avgBarrierSize[team1];
             feature_vec[Pieces1InGoal]  = numPiecesGoal[team1];
             feature_vec[Pieces1InHome]  = numPiecesHome[team1];
+            feature_vec[Pieces1Almost]  = numPiecesAlmostGoal[team1];
+
             feature_vec[Pieces2]        = numPieces[team2];
             feature_vec[MeanDist2]      = meanDist[team2];
             feature_vec[StdDevDist2]    = stdDist[team2];
             feature_vec[AvgBarrier2]    = avgBarrierSize[team2];
             feature_vec[Pieces2InGoal]  = numPiecesGoal[team2];
             feature_vec[Pieces2InHome]  = numPiecesHome[team2];
+            feature_vec[Pieces2Almost]  = numPiecesAlmostGoal[team2];
         }
 
         // defensive heuristic provided by the MP definition
@@ -148,22 +145,23 @@ namespace bt {
             defensive();
 
             virtual eval_t utilityEstimate( const state_t & s, int team ){
-                double utility = coefs[0], features[12] = {0.0};
+                const int N = 7;
+                double utility = coefs[0], features[2*N] = {0.0};
                 getFeatures<NR,NC,state_t>(features,s);
-                int d1 = 6*team;
-                int d2 = 6*((team+1)%2);
+                int d1 = N*team;
+                int d2 = N*((team+1)%2);
                 double* f1 = &features[d1];
                 double* f2 = &features[d2];
-                for(int i = 0; i < 6; ++i){ utility += (coefs[1+d1+i]*f1[i] + coefs[1+d2+i]*f2[i]); }
+                for(int i = 0; i < N; ++i){ utility += (coefs[1+i]*f1[i] + coefs[1+N+i]*f2[i]); }
                 return utility;
             }
 
             void setCoefficient(int idx, double value ){ coefs[idx] = value; }
-            int numCoefficients() const { return 13; }
+            int numCoefficients() const { return 15; }
 
         private:
 
-            double coefs[13];
+            double coefs[15];
 
         };
 
@@ -171,9 +169,13 @@ namespace bt {
         defensive<8,8,bt::baseline_rules>::defensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            std::vector<double> values{-8.438238, -62.449733, 37.233679, 41.052877, 26.838459,
+            /*std::vector<double> values{-8.438238, -62.449733, 37.233679, 41.052877, 26.838459,
                                        100.000000, -14.954589, 44.555133, -29.786572, -19.200262,
-                                       -81.270441, 50.560994, 83.499648};
+                                       -81.270441, 50.560994, 83.499648};*/
+            std::vector<double> values{-18.814703, 14.236619, -45.741210, -26.183898, -14.083740,
+                                       12.354255, -78.577085, -41.583292, 79.885905, 83.836588,
+                                       63.092259, -4.400330, 49.595914, 32.286748, -55.406393};
+
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
@@ -181,9 +183,12 @@ namespace bt {
         defensive<5,10,bt::baseline_rules>::defensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            std::vector<double> values{73.748279, -71.315236, 14.795486, 58.455757, -5.976192,
+            /*std::vector<double> values{73.748279, -71.315236, 14.795486, 58.455757, -5.976192,
                                        -24.939519, -5.069100, 91.270803, 36.565936, -35.422453,
-                                       12.725626, -3.771359, -21.700270};
+                                       12.725626, -3.771359, -21.700270};*/
+            std::vector<double> values{93.767809, 93.445915, 45.903635, 26.950024, 2.747143,
+                                       44.775770, 4.630077, -19.372543, -70.625754, -100.000000,
+                                       38.720460, -5.559336, 55.754503, -16.739796, -1.328566};
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
@@ -213,31 +218,35 @@ namespace bt {
             offensive();
 
             virtual eval_t utilityEstimate( const state_t & s, int team ){
-                double utility = coefs[0], features[12] = {0.0};
+                const int N = 7;
+                double utility = coefs[0], features[2*N] = {0.0};
                 getFeatures<NR,NC,state_t>(features,s);
-                int d1 = 6*team;
-                int d2 = 6*((team+1)%2);
+                int d1 = N*team;
+                int d2 = N*((team+1)%2);
                 double* f1 = &features[d1];
                 double* f2 = &features[d2];
-                for(int i = 0; i < 6; ++i){ utility += (coefs[1+d1+i]*f1[i] + coefs[1+d2+i]*f2[i]); }
+                for(int i = 0; i < N; ++i){ utility += (coefs[1+i]*f1[i] + coefs[1+N+i]*f2[i]); }
                 return utility;
             }
 
             void setCoefficient(int idx, double value ){ coefs[idx] = value; }
-            int numCoefficients() const { return 13; }
+            int numCoefficients() const { return 15; }
 
         private:
 
-            double coefs[13];
+            double coefs[15];
         };
 
         template<>
         offensive<8,8,bt::baseline_rules>::offensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            std::vector<double> values{11.445962, -80.638975, 79.559753, 87.647953, -3.245963,
+            /*std::vector<double> values{11.445962, -80.638975, 79.559753, 87.647953, -3.245963,
                                        -10.052899, 88.242197, 5.039622, -2.314645, -32.941403,
-                                       -93.925248, 20.782016, 19.502144};
+                                       -93.925248, 20.782016, 19.502144};*/
+            std::vector<double> values{-100.000000, 100.000000, 3.592512, 72.069529, 4.621437,
+                                       -14.976874, -100.000000, -5.394708, 28.109406, -2.585058,
+                                       100.000000, -20.830452, -100.000000, 100.000000, 6.943234};
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
@@ -245,9 +254,12 @@ namespace bt {
         offensive<5,10,bt::baseline_rules>::offensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            std::vector<double> values{43.092594, 12.118083, -43.216656, -4.666741, 9.937200,
+            /*std::vector<double> values{43.092594, 12.118083, -43.216656, -4.666741, 9.937200,
                                        33.517220, 4.101216, 50.988403, -0.922866, 50.918149,
-                                       -43.044770, -70.381146, 100.000000};
+                                       -43.044770, -70.381146, 100.000000};*/
+            std::vector<double> values{100.000000, -70.850311, 46.228667, -48.654741, -82.243332,
+                                       -92.828715, -0.146113, -67.027329, -23.364958, -75.223831,
+                                       -17.540243, 40.405425, 26.671813, 100.000000, -26.285879};
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
