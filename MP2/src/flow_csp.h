@@ -1,29 +1,36 @@
-//
-// Created by Christian J Howard on 10/18/17.
-//
 
-#ifndef SRC_TEST_CSP_H
-#define SRC_TEST_CSP_H
+/* 
+ * File:   flow_csp.h
+ * Author: lukep
+ * Copyright 2017 Luke Pitstick
+ * Created on October 24, 2017, 1:35 AM
+ */
+
+#ifndef FLOW_CSP_H
+#define FLOW_CSP_H
 
 #include "csp_solver.h"
 #include <set>
 #include <vector>
 
 namespace csp {
-    namespace test {
+    namespace flow {
 
         class Domains {
         public:
-            enum domain_type {A=0,B,C,D};
+            enum domain_type {A=0,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
             typedef std::map<size_t, std::set<enum domain_type>> var_domains;
 
-            Domains(){
-                
-                std::set<enum domain_type> dset {A, B, C, D};
-                vd[0] = dset;
-                vd[1] = dset;
-                vd[2] = dset;
-                vd[3] = dset;
+            Domains(){};
+            
+            Domains(std::set<enum domain_type> colors){
+//                std::set<enum domain_type> dset = colors;
+//                std::set<enum domain_type> dset {A, B, C, D};
+//                vd[0] = dset;
+//                vd[1] = dset;
+//                vd[2] = dset;
+//                vd[3] = dset;
+                vd[0] = colors;
             }
 
             var_domains vd;
@@ -124,12 +131,12 @@ namespace csp {
     }
 
 
-    class test_csp : public csp::solver<test::X, test::Domains, test::Constraints, test_csp> {
+    class flow_csp : public csp::solver<flow::X, flow::Domains, flow::Constraints, flow_csp> {
     public:
-        typedef enum test::Domains::domain_type domain_type;
-        typedef test::X::value val_type;
+        typedef enum flow::Domains::domain_type domain_type;
+        typedef flow::X::value val_type;
         typedef size_t var_type;
-
+        
         size_t selectUnassignedVariable( csp_state & csp_ ){
             return csp_.x.getUnvisitedVariable();
         }
@@ -145,4 +152,5 @@ namespace csp {
 
 }
 
-#endif //SRC_TEST_CSP_H
+#endif /* FLOW_CSP_H */
+
