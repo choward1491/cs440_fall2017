@@ -13,6 +13,7 @@
 
 #include <limits>
 #include <chrono>
+#include <string>
 
 namespace game {
 
@@ -32,6 +33,7 @@ namespace game {
         // compute estimated state utility
         virtual ~evaluator()                                = default;
         virtual eval_t utilityEstimate( const state_t & s, int team ) = 0;
+        virtual std::string name() const { return "base_evaluator"; }
     };
 
 
@@ -55,6 +57,7 @@ namespace game {
                 numNodesExpanded(0),moveNum(0),avgExpandedNodes(0),avgMoveTimeMilliseconds(0){}
         virtual ~agent()                                        = default;
         virtual int    getNextMove( const state_t & s )    = 0;
+        virtual std::string name() const { return "base_agent"; }
 
         // define other helpful methods
         void setUtilityEstimator( evaluator_t & e ){ evaluator_ = &e; }

@@ -29,6 +29,7 @@ namespace bt {
 
             defensive(){ generator.seed(17); }
 
+            virtual std::string name() const { return "Defensive Heuristics 1"; }
             virtual eval_t utilityEstimate( const state_t & s, int team ){
                 enum teams: int { team1 = 0, team2 };
                 int teamCount[3] = {0}, numTeam2inTeam1Base = 0, numTeam1inTeam2Base = 0;
@@ -57,6 +58,7 @@ namespace bt {
 
             offensive(){ generator.seed(17); }
 
+            virtual std::string name() const { return "Offensive Heuristics 1"; }
             virtual eval_t utilityEstimate( const state_t & s, int team ){
                 enum teams: int { team1 = 0, team2 };
                 int teamCount[3] = {0}, numTeam2inTeam1Base = 0, numTeam1inTeam2Base = 0;

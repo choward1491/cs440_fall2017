@@ -23,6 +23,8 @@ namespace bt {
         typedef typename parent::evaluator_t  evaluator_t;
         typedef std::pair<utility_t,int>      ua_t;
 
+        virtual std::string name() const { return "Alpha-Beta"; }
+
         virtual int    getNextMove( const state_t & s ) {
 
             // update the index for this move

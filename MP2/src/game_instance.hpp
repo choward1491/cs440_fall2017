@@ -36,7 +36,6 @@ namespace game {
             // initialize players
             p1->initPlayer();
             p2->initPlayer();
-            //gameState.print();
 
             // define pointer for agent and counter that will be flipped from
             // one player to another

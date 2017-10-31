@@ -1,0 +1,1074 @@
+|  X  XXX X|
+|         X|
+|          |
+|    O O  O|
+| O  X O  O|
+
+
+
+|X X X    X|
+|       O X|
+|         O|
+|    O     |
+|OOO O   XO|
+
+
+
+|    XX    |
+| XX      X|
+|     O    |
+|          |
+|O  OO O OX|
+
+
+
+|    XX X X|
+| XX       |
+|          |
+|    O OO  |
+|OO O    OX|
+
+
+
+|X     X X |
+|    X X XX|
+|     O    |
+|         O|
+|O   X OOOO|
+
+
+
+|XXX      X|
+|   X   X  |
+|          |
+|O O     O |
+| O     XO |
+
+
+
+| O X XX X |
+|X         |
+|         X|
+|  O OX   O|
+|   O  OO O|
+
+
+
+|X    XX O |
+|   X     X|
+|          |
+|    X     |
+|OO  OOO O |
+
+
+
+|   XXXX X |
+|O         |
+|   OO    X|
+|       O  |
+|   O X  OO|
+
+
+
+|XXXX     X|
+|      X   |
+| O OO   X |
+|         X|
+|O      OXO|
+
+
+
+|X     O  X|
+|  X       |
+|    X    X|
+|     O  O |
+|OO  O     |
+
+
+
+|X X  X    |
+|XX X   X  |
+|          |
+|   OO     |
+|OOO   OXOO|
+
+
+
+|X         |
+| X     XX |
+| O    X   |
+|          |
+| OO  XOO  |
+
+
+
+|X X XX X X|
+|X X    O X|
+|          |
+|O    O    |
+|OOOO OOOXO|
+
+
+
+| XX       |
+| X    XX X|
+|          |
+| O    O   |
+|OO O  X  O|
+
+
+
+|XXX XX    |
+|         O|
+|     O    |
+|O  O  O   |
+|O     X   |
+
+
+
+| X XXXXXXX|
+|          |
+| X  O     |
+|O       OO|
+| O  XOOO O|
+
+
+
+|XX XXX X X|
+| X  XX XXO|
+|    O     |
+|     O    |
+|OOOXOOOOOO|
+
+
+
+|X  XXX    |
+|  O      O|
+|         X|
+|O   O     |
+|    O O X |
+
+
+
+| X XOX   X|
+|XX X      |
+|       O  |
+|O        X|
+|OOOO O  O |
+
+
+
+|| Matchup for Minimax (Offensive Heuristics 1) vs Utility Alpha-Beta (Offensive Heuristics 1) ||
+------------------
+Win rate for player 1 was: 80.000000%
+Win rate for player 2 was: 20.000000%
+Avg move time for player 1 was: 6.094454 ms
+Avg move time for player 2 was: 15.608847 ms
+Avg expanded nodes per move for player 1 was: 16913.291120 nodes
+Avg expanded nodes per move for player 2 was: 6211.036968 nodes
+Number of moves to end of game by player 1 was 21.850000
+Number of moves to end of game by player 2 was 21.050000
+Total nodes expanded by player 1 is 362695.850000
+Total nodes expanded by player 2 is 129911.200000
+Total pieces captured by player 1 is 12.750000
+Total pieces captured by player 2 is 12.550000
+
+
+
+
+
+|  XXXOX   |
+|     X    |
+| OO  O   X|
+|X OOXO   O|
+| O   OO   |
+
+
+
+| XXXXXXXO |
+|XX X XX   |
+|OX  X    X|
+| OOOOOOO  |
+|OOO OO OO |
+
+
+
+|      OXX |
+| O  X O OX|
+|  XOO  OX |
+|OX OO OOOX|
+|     O   O|
+
+
+
+|  X   XO  |
+|X XO XX  X|
+|O   X     |
+|   X OOOOO|
+|   OO O   |
+
+
+
+|      XO  |
+| OO      O|
+|X    XO   |
+|OXXOOOX X |
+|   O  OOO |
+
+
+
+|XXX XXX  O|
+|X X  O    |
+|O OO    O |
+|OX OOXOOX |
+|OOO O O   |
+
+
+
+|XXOXXXX   |
+| X  X    O|
+|OX  OOX X |
+| OOXOXOOXO|
+|OO OO O   |
+
+
+
+| O  XX  X |
+|    X X X |
+|     X OO |
+|X   OOOO  |
+|O O OO    |
+
+
+
+|  OX X XXX|
+| O    OXO |
+| O   X XO |
+| XO OXOO O|
+|O    OOO O|
+
+
+
+|    OXXXXX|
+|  O  XXXXX|
+|X         |
+| OXXOOOOOO|
+|O     OOOO|
+
+
+
+|XXXOXX    |
+| X  XX    |
+|XOOO X  OX|
+|OO XOOOO X|
+| O OOO   O|
+
+
+
+|XXXXXX XO |
+|X O    X  |
+|OX O OXO  |
+|OXOOXO O X|
+|OOO O  O O|
+
+
+
+|  O XX    |
+|X X O    O|
+| OX OO    |
+| O  OO XOX|
+|    O  O  |
+
+
+
+| XXXXOX   |
+|X XX X    |
+| X   X    |
+|OOOO OOO X|
+|O OOOO O  |
+
+
+
+| O XXXX  X|
+|   O  OXXX|
+| O  O  OO |
+| XX OOXOOX|
+|     OOOOO|
+
+
+
+|   OX X XX|
+|  OO XO X |
+|   OO X XX|
+| XX OXOOXO|
+|  O  OO OO|
+
+
+
+|XXXXX   O |
+|X XX X    |
+|XO  X  X  |
+|OOOOOOO OX|
+|OO O O    |
+
+
+
+| OXXXXXXXX|
+|   X XX XX|
+| XO    XO |
+|O X OOOOO |
+|  OOOOOOOO|
+
+
+
+|X XXX XX O|
+|XXX  O    |
+|OOX OX O  |
+|OOOOO  XXO|
+|O O  OOO  |
+
+
+
+|  OX XXX X|
+|X    X   X|
+|OO  OO OXX|
+| XXO X OOO|
+|    OOOOOO|
+
+
+
+|| Matchup for Utility Alpha-Beta (Offensive Heuristics 2) vs Utility Alpha-Beta (Defensive Heuristics 1) ||
+------------------
+Win rate for player 1 was: 0.000000%
+Win rate for player 2 was: 100.000000%
+Avg move time for player 1 was: 19.131142 ms
+Avg move time for player 2 was: 10.949377 ms
+Avg expanded nodes per move for player 1 was: 4209.396237 nodes
+Avg expanded nodes per move for player 2 was: 5305.334290 nodes
+Number of moves to end of game by player 1 was 19.050000
+Number of moves to end of game by player 2 was 19.050000
+Total nodes expanded by player 1 is 77380.450000
+Total nodes expanded by player 2 is 97463.750000
+Total pieces captured by player 1 is 5.350000
+Total pieces captured by player 2 is 8.550000
+
+
+
+
+
+|          |
+|XXX   X   |
+| O        |
+|      O   |
+|  O     X |
+
+
+
+|X XXXXX X |
+|OX XX O XX|
+|          |
+|    O   OO|
+|OOOOOOXOO |
+
+
+
+|X XXXXXXXX|
+|O  X X X X|
+|     O    |
+|O  O   O O|
+|O  OOOOXOO|
+
+
+
+|XXXXX X   |
+|X X XX  OX|
+|  O       |
+|OO  O  O  |
+| OOOXO   O|
+
+
+
+|       X X|
+|   X XX XX|
+|O         |
+|O  OO  O  |
+|  X O  O O|
+
+
+
+| X X X X X|
+| O   X X  |
+|          |
+|O        O|
+|    X OO O|
+
+
+
+|    X     |
+| X X X XX |
+| X        |
+| O       O|
+|O   X O O |
+
+
+
+|         X|
+|X  X  XX  |
+|    O     |
+|  O       |
+|       X  |
+
+
+
+|   X XXX X|
+|         O|
+|  X       |
+| OO   OO  |
+|    X     |
+
+
+
+|XXXXX X   |
+|OX XXX   O|
+|       X  |
+| OOOO O   |
+|OO OOO OX |
+
+
+
+|  X  X X  |
+| XX XXX OX|
+|         O|
+|O  O   OO |
+|O OXOO O  |
+
+
+
+|     X XXX|
+|XO  XXX X |
+|         O|
+|O         |
+|     OOOXO|
+
+
+
+|XXXXXXXX X|
+|  XO  X X |
+|X   X   O |
+|OO OO OOO |
+| O OXO  OO|
+
+
+
+|    X X   |
+|    X XXXX|
+|  X      O|
+|          |
+|OX   O OO |
+
+
+
+|XXXX    O |
+| X XX     |
+| O        |
+|   O X    |
+|OOOO O    |
+
+
+
+|      X   |
+|X      XXX|
+|         O|
+|     O    |
+|  X O   OO|
+
+
+
+|X XXX   X |
+|X   XXX X |
+|          |
+| OOO    O |
+|O   O OOXO|
+
+
+
+|    X XXXX|
+| X    XOX |
+|   OO     |
+|O     O   |
+|  O OOX OO|
+
+
+
+|X XX XX XX|
+|   X    X |
+|    O     |
+| OO   O O |
+|O      OXO|
+
+
+
+| X  X     |
+|XX XX X XX|
+| O        |
+| O    O   |
+| OOOO  X O|
+
+
+
+|| Matchup for Utility Alpha-Beta (Defensive Heuristics 2) vs Utility Alpha-Beta (Offensive Heuristics 1) ||
+------------------
+Win rate for player 1 was: 95.000000%
+Win rate for player 2 was: 5.000000%
+Avg move time for player 1 was: 26.304721 ms
+Avg move time for player 2 was: 15.946205 ms
+Avg expanded nodes per move for player 1 was: 5352.079770 nodes
+Avg expanded nodes per move for player 2 was: 6854.521747 nodes
+Number of moves to end of game by player 1 was 21.700000
+Number of moves to end of game by player 2 was 20.750000
+Total nodes expanded by player 1 is 115719.850000
+Total nodes expanded by player 2 is 141405.350000
+Total pieces captured by player 1 is 11.800000
+Total pieces captured by player 2 is 10.450000
+
+
+
+
+
+|    X     |
+| O  X  O  |
+|          |
+|      X   |
+|X         |
+
+
+
+|  OXXX    |
+|O   X     |
+|    O     |
+|XXO   OXX |
+|   O      |
+
+
+
+| O X  X   |
+|   O  X   |
+|         X|
+|X        O|
+|     O   O|
+
+
+
+|   XX    O|
+| X   O    |
+|     O    |
+| O O  XXX |
+|        O |
+
+
+
+|    X   O |
+|         X|
+| OX O     |
+|OX X XXOOX|
+|    O    O|
+
+
+
+|   XOX    |
+|     X   X|
+|X     O  O|
+|XOXX   O  |
+| O        |
+
+
+
+|  X O     |
+|      X  X|
+|      X  O|
+|OXX       |
+|O       O |
+
+
+
+| O  X     |
+|X         |
+|     X  O |
+| OOX XOXX |
+|      O   |
+
+
+
+|  XXO     |
+|          |
+|        OX|
+|       XX |
+|O   O     |
+
+
+
+|     X XOX|
+|X  X      |
+|   X      |
+|O   O  XX |
+|O OO   O  |
+
+
+
+|X  OXX    |
+|      XX X|
+|          |
+| XXO OOO  |
+|O O     OO|
+
+
+
+|    X  O  |
+|   X     X|
+|  OXO    O|
+|X  XO   XO|
+|   O      |
+
+
+
+|  O       |
+|    X    X|
+|          |
+|   X  O   |
+|    O   OO|
+
+
+
+|    O XX  |
+|O   XOOO  |
+|          |
+|XXXX     X|
+| O     OOO|
+
+
+
+|   XXO    |
+|  X   X   |
+|XO        |
+|OX     X O|
+|          |
+
+
+
+|  X  OX   |
+|    X     |
+|   O      |
+|   X    OX|
+|O   O     |
+
+
+
+|O  X  X   |
+|X         |
+|          |
+|      O X |
+| O    O O |
+
+
+
+|       O  |
+|      X   |
+|O  OX     |
+|X   XXO   |
+|          |
+
+
+
+| O  X X   |
+|  X     O |
+|     O   X|
+|XXXOX    O|
+| O      O |
+
+
+
+|O  XXX    |
+|    X X   |
+|X        X|
+|     O O  |
+|O OO O   O|
+
+
+
+|| Matchup for Utility Alpha-Beta (Offensive Heuristics 2) vs Utility Alpha-Beta (Offensive Heuristics 1) ||
+------------------
+Win rate for player 1 was: 5.000000%
+Win rate for player 2 was: 95.000000%
+Avg move time for player 1 was: 19.104260 ms
+Avg move time for player 2 was: 16.075426 ms
+Avg expanded nodes per move for player 1 was: 2829.728986 nodes
+Avg expanded nodes per move for player 2 was: 5243.070333 nodes
+Number of moves to end of game by player 1 was 28.100000
+Number of moves to end of game by player 2 was 28.050000
+Total nodes expanded by player 1 is 78825.900000
+Total nodes expanded by player 2 is 146395.750000
+Total pieces captured by player 1 is 14.100000
+Total pieces captured by player 2 is 13.650000
+
+
+
+
+
+|XXX    X  |
+|XO X XXXX |
+|   O O    |
+|OO  O O OO|
+| OO   OX O|
+
+
+
+|    X     |
+|XX XXXXXOX|
+|  O       |
+|  OOOOOO  |
+| XOOOO    |
+
+
+
+| X   X  XX|
+|  X OX X X|
+|    O  O O|
+|O OO  OO O|
+|X     O   |
+
+
+
+| XXX  X   |
+| XOX XOX  |
+|   O O   X|
+| OOO O  O |
+|   O OO X |
+
+
+
+|     X  XX|
+|O XXXXXXXX|
+|          |
+|  OOOOOOOO|
+| X  O O OO|
+
+
+
+|         X|
+|XXX  XOX X|
+|    O    O|
+|OOOO   O O|
+|O  XO     |
+
+
+
+|XXXXXXX  X|
+|XXXXXOXX  |
+|          |
+|OOOO OOO O|
+|OOOOOOOXO |
+
+
+
+|XXXX X    |
+|XXX XXXXOX|
+|      O   |
+|O OOOOO   |
+|OOXO OOO  |
+
+
+
+|  XO XX   |
+|X X  XXXXX|
+|O        O|
+|O X OOOO O|
+| O  OOO  O|
+
+
+
+|  X       |
+| XXX  X XX|
+|  O   O   |
+|OO  O   OO|
+|     X  O |
+
+
+
+| X  XXXX X|
+|OXXXXXX XX|
+|O  O      |
+|  O O OOOO|
+|   OXOO OO|
+
+
+
+|  OXXX X X|
+|X X XXXX X|
+|         O|
+|O OOXOOO  |
+|  OOOOOO  |
+
+
+
+| XX   X   |
+|XXX  XXXXX|
+|O         |
+|O O O OOOO|
+|   OX    O|
+
+
+
+|    XXX X |
+|  XXXXXXXX|
+|   O O    |
+|O O  OOOOO|
+|  X OOOO O|
+
+
+
+|X   XXX  X|
+|XXXXXXX  O|
+| O        |
+| OOOOOO  O|
+| O  OOO XO|
+
+
+
+|          |
+|  XXXXXXXX|
+| O        |
+|  OOOOOOO |
+| X   OO   |
+
+
+
+|X     X X |
+|X  OX X XO|
+|O     O   |
+|O   O OOO |
+| O X O    |
+
+
+
+|  X XX  O |
+|X XXXXXX X|
+|          |
+|OOXOOOOO  |
+|  OOOOO   |
+
+
+
+|    XX X  |
+|XOXXX XX X|
+|         O|
+|OOOOOO OOO|
+|    O OX  |
+
+
+
+|XXXXXX X  |
+| X X  X XO|
+| OO       |
+|OO O OO O |
+|O  O XO O |
+
+
+
+|| Matchup for Utility Alpha-Beta (Defensive Heuristics 2) vs Utility Alpha-Beta (Defensive Heuristics 1) ||
+------------------
+Win rate for player 1 was: 85.000000%
+Win rate for player 2 was: 15.000000%
+Avg move time for player 1 was: 35.124478 ms
+Avg move time for player 2 was: 15.815729 ms
+Avg expanded nodes per move for player 1 was: 5540.407667 nodes
+Avg expanded nodes per move for player 2 was: 5850.101847 nodes
+Number of moves to end of game by player 1 was 18.450000
+Number of moves to end of game by player 2 was 17.600000
+Total nodes expanded by player 1 is 102706.000000
+Total nodes expanded by player 2 is 101179.350000
+Total pieces captured by player 1 is 7.450000
+Total pieces captured by player 2 is 8.650000
+
+
+
+
+
+|  OX  X   |
+|XX  XX    |
+|       X  |
+|OO   O  OX|
+|O  OOOO  O|
+
+
+
+|  X X XO  |
+|   X     X|
+|          |
+| OOOX  OOO|
+|   OO   O |
+
+
+
+| O     X  |
+|    XXX   |
+|          |
+|X   OO  OO|
+|O   OO   O|
+
+
+
+|      O   |
+|      X XX|
+|   X      |
+|XO O   X O|
+|   O  OO  |
+
+
+
+|  X OXXXXX|
+|   X X XXX|
+|     X    |
+|XO  O OOOO|
+|O  OOOOOOO|
+
+
+
+|   X  X O |
+|   XXX   X|
+|      X   |
+|XO  OO O  |
+|O O OOOO  |
+
+
+
+|O  X   X  |
+|X   X    X|
+|   X      |
+| OOOX  XOO|
+|    OOO  O|
+
+
+
+|  XXX XO  |
+|     X   X|
+|          |
+|OOXO O OOO|
+|O   O  O  |
+
+
+
+|  OX   X  |
+|    X X  X|
+|          |
+|XO   XO OO|
+|  OOO OO  |
+
+
+
+|O XXXXXXXX|
+|    XXXXXX|
+|          |
+| X OOOOOOO|
+|  OOOOOOOO|
+
+
+
+|  X O     |
+|      X  X|
+|          |
+| OOXO  O  |
+|     OO OO|
+
+
+
+|  X  XOX  |
+|   XX X  X|
+|        O |
+|XO   OO OX|
+|O  OOOOO O|
+
+
+
+| X XOX    |
+|X XXX     |
+|X         |
+| OOO O   X|
+|OO OOOO   |
+
+
+
+|  XOX  X  |
+|XX XXX    |
+|       X  |
+|OO  OO  OX|
+|O OOOO O O|
+
+
+
+|  OX XXX  |
+|X    XX   |
+|   X     X|
+|  O OOO OO|
+|O   OOO  O|
+
+
+
+|XXXXXOX   |
+|XXXX X    |
+|          |
+|OOOOXO O  |
+|OOOOOO   O|
+
+
+
+|  XXX X O |
+| X XX X  X|
+|      X   |
+|XO OOO O  |
+|O OOOO OO |
+
+
+
+|O         |
+|X         |
+|       X X|
+|     O OOO|
+|  O       |
+
+
+
+| OX       |
+|   XX    X|
+|      X X |
+|O   OO O  |
+|  O OO   O|
+
+
+
+|   X OX   |
+|X         |
+|          |
+|OO  O  OOX|
+| O  O O O |
+
+
+
+|| Matchup for Utility Alpha-Beta (Offensive Heuristics 2) vs Utility Alpha-Beta (Defensive Heuristics 2) ||
+------------------
+Win rate for player 1 was: 0.000000%
+Win rate for player 2 was: 100.000000%
+Avg move time for player 1 was: 27.271481 ms
+Avg move time for player 2 was: 26.815799 ms
+Avg expanded nodes per move for player 1 was: 4558.665620 nodes
+Avg expanded nodes per move for player 2 was: 3873.866384 nodes
+Number of moves to end of game by player 1 was 20.250000
+Number of moves to end of game by player 2 was 20.250000
+Total nodes expanded by player 1 is 90624.350000
+Total nodes expanded by player 2 is 78623.250000
+Total pieces captured by player 1 is 9.000000
+Total pieces captured by player 2 is 12.000000
+
+
+
+
+

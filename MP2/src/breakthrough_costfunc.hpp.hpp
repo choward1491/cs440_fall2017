@@ -5,6 +5,7 @@
 #ifndef SRC_BREAKTHROUGH_COSTFUNC_HPP_HPP
 #define SRC_BREAKTHROUGH_COSTFUNC_HPP_HPP
 
+#ifdef RUN_OPTIMIZATION
 // standard library stuff
 #include <vector>
 
@@ -37,9 +38,16 @@ typedef bt::alphabeta<bt_rules>   bt_ab;
 typedef bt::utility_ab<bt_rules>  bt_uab;
 typedef game::instance<bt_rules>  bt_game;
 
+
+#define rules_t bt::extended_rules
+#define game_t ex_game
+#define ab_t ex_uab
+
+/*
 #define rules_t bt::baseline_rules
 #define game_t bt_game
 #define ab_t bt_uab
+ */
 
 namespace bt {
 
@@ -99,5 +107,5 @@ namespace bt {
     };
 
 }
-
+#endif
 #endif //SRC_BREAKTHROUGH_COSTFUNC_HPP_HPP

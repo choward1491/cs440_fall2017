@@ -129,6 +129,12 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_test_games.cpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_test_games.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp">
 			<Option target="mp_exec"/>
 		</Unit>

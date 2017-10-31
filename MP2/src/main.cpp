@@ -25,38 +25,27 @@
 // other helpful utility code
 #include "FileWrap.hpp"
 
-// game playing agent stuff
-#include "breakthrough_rules.hpp"
-#include "breakthrough_extended_rules.hpp"
-#include "breakthrough_provided_heuristics.hpp"
-#include "game_instance.hpp"
-#include "breakthrough_minimax_agent.hpp"
-#include "breakthrough_alphabeta_agent.hpp"
-#include "breakthrough_utility_ab.hpp"
-#include "breakthrough_cone_heuristics.hpp"
-
 // optimization related stuff
 #include "opt_pso.hpp"
 #include "opt_test_rosenbrock2d.hpp"
 #include "bt_heuristic_learning_costfunc.hpp"
 #include "breakthrough_costfunc.hpp.hpp"
 
-#ifndef NR
-#define NR 8
-#define NC 8
+// include testing related stuff and stuff to output data
+#include "breakthrough_test_games.hpp"
 
-// game typedefs
-typedef bt::baseline_rules<NR,NC> bt_rules;
-typedef game::agent<bt_rules>     bt_agent;
-typedef bt::minimax<bt_rules>     bt_minimax;
-typedef bt::alphabeta<bt_rules>   bt_ab;
-typedef bt::utility_ab<bt_rules>  bt_uab;
-typedef game::instance<bt_rules>  bt_game;
-#endif
+
+#ifdef RUN_OPTIMIZATION
+// optimization related stuff
+#include "opt_pso.hpp"
+#include "opt_test_rosenbrock2d.hpp"
+#include "bt_heuristic_learning_costfunc.hpp"
+#include "breakthrough_costfunc.hpp.hpp"
 
 // optimization typedefs
 typedef opt::pso<bt::costfunc>       pso_t;
 typedef opt::pso_iter<bt::costfunc>  cb_t;
+#endif
 
 
 int main(int argc, char** argv){
@@ -68,7 +57,16 @@ int main(int argc, char** argv){
         // get command line inputs
         parser::commandline commp(argc,argv);
 
-#ifndef RUN_OPTIMIZATION
+        printf("Starting 8x8 Nominal\n");
+        bt::test::matchups_8x8nominal();
+
+        printf("Starting 5x10 Nominal\n");
+        bt::test::matchups_5x10nominal();
+
+        printf("Starting 8x8 Extended\n");
+        bt::test::matchups_8x8modified();
+
+#ifdef RUN_OPTIMIZATION
 
         int numParticles = 5, miters = 1;
         if( commp["-np"].size() != 0 ){
@@ -99,70 +97,6 @@ int main(int argc, char** argv){
             fprintf(optf.ref(),"\n");
         }
 
-#endif
-
-#ifdef TEST_BREAKTHROUGH
-        bt::provided::defensive<NR,NC> defensive_h;
-        bt::provided::offensive<NR,NC> offensive_h;
-        bt::learned::defensive<NR,NC> dlearn_h;
-        bt::learned::offensive<NR,NC> olearn_h;
-
-        bt_game game;
-        bt_minimax p1, p2;
-        bt_ab p3,p4;
-        bt_uab p5, p6;
-        p1.setMaxSearchDepth(4); p1.setUtilityEstimator(defensive_h);
-        p2.setMaxSearchDepth(4); p2.setUtilityEstimator(defensive_h);
-        p3.setMaxSearchDepth(2); p3.setUtilityEstimator(offensive_h);
-        p4.setMaxSearchDepth(2); p4.setUtilityEstimator(dlearn_h);
-        p5.setMaxSearchDepth(4); p5.setUtilityEstimator(offensive_h);
-        p6.setMaxSearchDepth(4); p6.setUtilityEstimator(dlearn_h);
-        game.addPlayer1(&p5);
-        game.addPlayer2(&p6);
-
-        int nwin = 0;
-        for(int i = 0; i < 20; ++i) {
-            game.play();
-            bt_game::state_t gs = game.getFinalGameState();
-            gs.print();
-            nwin += game.getPlayerWhoWon();
-            printf("Won %i out of %i games\n",nwin,i+1);
-        }
-
-
-        // print avg move time for players
-        printf("Avg move time for player 1 was: %lf ms\n",game.getAvgMoveTimeFor(0));
-        printf("Avg move time for player 2 was: %lf ms\n",game.getAvgMoveTimeFor(1));
-
-        // print avg expanded nodes per move for player
-        printf("Avg expanded nodes per move for player 1 was: %lf nodes\n",game.getAvgNumberNodesExpandedPerMoveFor(0));
-        printf("Avg expanded nodes per move for player 2 was: %lf nodes\n",game.getAvgNumberNodesExpandedPerMoveFor(1));
-
-        // get number of moves made by each player
-        printf("Number of moves to end of game by player 1 was %u\n",game.getNumMoves(0));
-        printf("Number of moves to end of game by player 2 was %u\n",game.getNumMoves(1));
-
-        // get total number of nodes expanded by each player
-        printf("Total nodes expanded by player 1 is %u\n",game.getTotalNodesExpandedFor(0));
-        printf("Total nodes expanded by player 2 is %u\n",game.getTotalNodesExpandedFor(1));
-
-        // total pieces captured by players
-        printf("Total pieces captured by player 1 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team1));
-        printf("Total pieces captured by player 2 is %u\n",game.getNumPiecesCapturedBy(bt::piece_t::Team2));
-
-        //gs.print();
-#endif
-
-
-#ifdef CSP_TEST_SOLVE
-        csp::test_csp tcsp;
-        csp::test_csp::csp_state csp_;
-        bool isSuccess = false;
-        csp::test_csp::assignment a = tcsp.solve(csp_,isSuccess);
-
-        for( auto it = a.begin(); it != a.end(); ++it ){
-            printf("Assignment(%zu) = %i\n",it->first, (int)it->second);
-        }
 #endif
         
     

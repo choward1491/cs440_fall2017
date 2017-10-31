@@ -75,6 +75,22 @@ namespace bt { // breakthrough namespace
             }printf("\n");
         }
 
+        void fprint( FILE* file ) const {
+            for (int i = 0; i < NR; ++i) {
+                fprintf(file,"|");
+                for (int j = 0; j < NC; ++j) {
+                    uint8_t value = getStateAt(i, j);
+                    switch (value) {
+                        case 0: fprintf(file,"X"); break;
+                        case 1: fprintf(file,"O"); break;
+                        case 2:
+                        default:fprintf(file," "); break;
+                    }
+                }
+                fprintf(file,"|\n");
+            }fprintf(file,"\n");
+        }
+
     private:
         uint8_t s[NR*NC];
     };

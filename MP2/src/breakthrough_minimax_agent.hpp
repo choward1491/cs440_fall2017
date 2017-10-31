@@ -21,6 +21,8 @@ namespace bt {
         typedef typename parent::actions_t    actions_t;
         typedef typename parent::transition_t transition_t;
 
+        virtual std::string name() const { return "Minimax"; }
+
         virtual int    getNextMove( const state_t & s ) {
 
             // update the index for this move

@@ -32,6 +32,8 @@ namespace bt {
 
         static std::vector<utility_t>* uref;
 
+        virtual std::string name() const { return "Utility Alpha-Beta"; }
+
         void prioritizeActions( const state_t & s, const actions_t & actions, std::vector<int> & pactions, bool isAgentsTeam ) {
 
             evaluator_t* eval = this->getEvaluator();

@@ -144,6 +144,7 @@ namespace bt {
 
             defensive();
 
+            virtual std::string name() const { return "Defensive Heuristics 2"; }
             virtual eval_t utilityEstimate( const state_t & s, int team ){
                 const int N = 7;
                 double utility = coefs[0], features[2*N] = {0.0};
@@ -169,12 +170,9 @@ namespace bt {
         defensive<8,8,bt::baseline_rules>::defensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            /*std::vector<double> values{-8.438238, -62.449733, 37.233679, 41.052877, 26.838459,
-                                       100.000000, -14.954589, 44.555133, -29.786572, -19.200262,
-                                       -81.270441, 50.560994, 83.499648};*/
-            std::vector<double> values{-18.814703, 14.236619, -45.741210, -26.183898, -14.083740,
-                                       12.354255, -78.577085, -41.583292, 79.885905, 83.836588,
-                                       63.092259, -4.400330, 49.595914, 32.286748, -55.406393};
+            std::vector<double> values{59.939448, 90.290037, 77.960057, 27.668301, -55.565314,
+                                       59.075213, 93.351355, -2.669065, -2.191130, -100.000000,
+                                       -99.220344, 18.349018, -55.175475, -44.249640, -18.005058};
 
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
@@ -183,9 +181,6 @@ namespace bt {
         defensive<5,10,bt::baseline_rules>::defensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            /*std::vector<double> values{73.748279, -71.315236, 14.795486, 58.455757, -5.976192,
-                                       -24.939519, -5.069100, 91.270803, 36.565936, -35.422453,
-                                       12.725626, -3.771359, -21.700270};*/
             std::vector<double> values{93.767809, 93.445915, 45.903635, 26.950024, 2.747143,
                                        44.775770, 4.630077, -19.372543, -70.625754, -100.000000,
                                        38.720460, -5.559336, 55.754503, -16.739796, -1.328566};
@@ -217,6 +212,7 @@ namespace bt {
 
             offensive();
 
+            virtual std::string name() const { return "Offensive Heuristics 2"; }
             virtual eval_t utilityEstimate( const state_t & s, int team ){
                 const int N = 7;
                 double utility = coefs[0], features[2*N] = {0.0};
@@ -241,12 +237,9 @@ namespace bt {
         offensive<8,8,bt::baseline_rules>::offensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            /*std::vector<double> values{11.445962, -80.638975, 79.559753, 87.647953, -3.245963,
-                                       -10.052899, 88.242197, 5.039622, -2.314645, -32.941403,
-                                       -93.925248, 20.782016, 19.502144};*/
-            std::vector<double> values{-100.000000, 100.000000, 3.592512, 72.069529, 4.621437,
-                                       -14.976874, -100.000000, -5.394708, 28.109406, -2.585058,
-                                       100.000000, -20.830452, -100.000000, 100.000000, 6.943234};
+            std::vector<double> values{-100.000000, 40.302898, 16.032058, -50.924189, -2.850118,
+                                       67.479011, -14.159257, -100.000000, -22.158032, 5.310339,
+                                       -48.294387, 62.885468, 23.657457, 9.835322, -6.849803};
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
@@ -254,12 +247,9 @@ namespace bt {
         offensive<5,10,bt::baseline_rules>::offensive(){
             // place to specify coefficient values for training
             // via some optimization algorithm
-            /*std::vector<double> values{43.092594, 12.118083, -43.216656, -4.666741, 9.937200,
-                                       33.517220, 4.101216, 50.988403, -0.922866, 50.918149,
-                                       -43.044770, -70.381146, 100.000000};*/
-            std::vector<double> values{100.000000, -70.850311, 46.228667, -48.654741, -82.243332,
-                                       -92.828715, -0.146113, -67.027329, -23.364958, -75.223831,
-                                       -17.540243, 40.405425, 26.671813, 100.000000, -26.285879};
+            std::vector<double> values{-100.000000, 95.621605, 18.949259, -99.041519, 0.044186,
+                                       -19.937606, 57.287289, -92.232369, -61.344184, -53.504748,
+                                       -41.049456, -31.538069, -58.726937, 97.742120, -17.973088};
             for (int i = 0; i < values.size(); ++i) { coefs[i] = values[i]; }
         }
 
