@@ -150,6 +150,33 @@ FileWrap.cpp.s:
 	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/FileWrap.cpp.s
 .PHONY : FileWrap.cpp.s
 
+breakthrough_test_games.o: breakthrough_test_games.cpp.o
+
+.PHONY : breakthrough_test_games.o
+
+# target to build an object file
+breakthrough_test_games.cpp.o:
+	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/breakthrough_test_games.cpp.o
+.PHONY : breakthrough_test_games.cpp.o
+
+breakthrough_test_games.i: breakthrough_test_games.cpp.i
+
+.PHONY : breakthrough_test_games.i
+
+# target to preprocess a source file
+breakthrough_test_games.cpp.i:
+	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/breakthrough_test_games.cpp.i
+.PHONY : breakthrough_test_games.cpp.i
+
+breakthrough_test_games.s: breakthrough_test_games.cpp.s
+
+.PHONY : breakthrough_test_games.s
+
+# target to generate assembly for a file
+breakthrough_test_games.cpp.s:
+	$(MAKE) -f CMakeFiles/mp_exec.dir/build.make CMakeFiles/mp_exec.dir/breakthrough_test_games.cpp.s
+.PHONY : breakthrough_test_games.cpp.s
+
 commandline_parser.o: commandline_parser.cpp.o
 
 .PHONY : commandline_parser.o
@@ -324,6 +351,9 @@ help:
 	@echo "... FileWrap.o"
 	@echo "... FileWrap.i"
 	@echo "... FileWrap.s"
+	@echo "... breakthrough_test_games.o"
+	@echo "... breakthrough_test_games.i"
+	@echo "... breakthrough_test_games.s"
 	@echo "... commandline_parser.o"
 	@echo "... commandline_parser.i"
 	@echo "... commandline_parser.s"

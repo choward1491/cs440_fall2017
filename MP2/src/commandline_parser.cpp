@@ -41,34 +41,46 @@ namespace parser {
 
 
     template<>
-    inline float commandline::convert(const std::string & key) const
+    float commandline::convert<float>(const std::string & key) const
     {
         float out = 0.0;
-        sscanf(key.c_str(), "%f", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%f", &out);
+        }
         return out;
     }
 
     template<>
-    inline double commandline::convert(const std::string & key) const
+    double commandline::convert<double>(const std::string & key) const
     {
         double out = 0.0;
-        sscanf(key.c_str(), "%lf", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%lf", &out);
+        }
         return out;
     }
 
     template<>
-    inline int commandline::convert(const std::string & key) const
+    int commandline::convert<int>(const std::string & key) const
     {
         int out = 0.0;
-        sscanf(key.c_str(), "%i", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%i", &out);
+        }
         return out;
     }
 
     template<>
-    inline unsigned int commandline::convert(const std::string & key) const
+    unsigned int commandline::convert<unsigned int>(const std::string & key) const
     {
         unsigned int out = 0.0;
-        sscanf(key.c_str(), "%u", &out);
+        auto ref = input_list.find(key);
+        if( ref != input_list.end() ) {
+            sscanf(ref->second.c_str(), "%u", &out);
+        }
         return out;
     }
 

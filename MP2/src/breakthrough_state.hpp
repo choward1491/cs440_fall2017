@@ -32,6 +32,19 @@ namespace bt { // breakthrough namespace
         }
 
         //setters/getters
+        uint32_t getNumPiecesCapturedBy( int player ) const {
+            const uint32_t initNumber = NC*2;
+            uint32_t numPiecesLeft[2] = {0};
+            for(int k = 0; k < NC*NR; ++k){
+                if( s[k] == piece_t::Team1 ){
+                    numPiecesLeft[piece_t::Team1]++;
+                }else if( s[k] == piece_t::Team2 ){
+                    numPiecesLeft[piece_t::Team2]++;
+                }
+            }// end for c
+
+            return initNumber - numPiecesLeft[(player+1)%2];
+        }
         uint8_t getStateAt(int row, int col) const { return s[hash(row,col)]; }
         uint8_t getStateAt(int k) const { return s[k]; }
         void setStateAt(int row, int col, int val ) { s[hash(row,col)] = static_cast<uint8_t>(val); }
@@ -60,6 +73,22 @@ namespace bt { // breakthrough namespace
                 }
                 printf("|\n");
             }printf("\n");
+        }
+
+        void fprint( FILE* file ) const {
+            for (int i = 0; i < NR; ++i) {
+                fprintf(file,"|");
+                for (int j = 0; j < NC; ++j) {
+                    uint8_t value = getStateAt(i, j);
+                    switch (value) {
+                        case 0: fprintf(file,"X"); break;
+                        case 1: fprintf(file,"O"); break;
+                        case 2:
+                        default:fprintf(file," "); break;
+                    }
+                }
+                fprintf(file,"|\n");
+            }fprintf(file,"\n");
         }
 
     private:

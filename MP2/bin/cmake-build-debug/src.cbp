@@ -99,6 +99,21 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_alphabeta_agent.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_cone_heuristics.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_costfunc.hpp.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_extended_rules.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_handcraft_heuristics.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_learned_heuristics.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_minimax_agent.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
@@ -114,7 +129,19 @@
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_state.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_test_games.cpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_test_games.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_transition_func.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/breakthrough_utility_ab.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/bt_heuristic_learning_costfunc.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/commandline_parser.cpp">
@@ -163,6 +190,18 @@
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/main.cpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_callbacks.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_pso.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_solver.hpp">
+			<Option target="mp_exec"/>
+		</Unit>
+		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/opt_test_rosenbrock2d.hpp">
 			<Option target="mp_exec"/>
 		</Unit>
 		<Unit filename="/Users/cjh/Documents/UIUC/Fall 2017/cs440_ai/cs440_fall2017/MP2/src/test_csp.h">

@@ -26,19 +26,31 @@
 #include "flow_csp.h"
 #include "flow_solver.h"
 
-// game playing agent stuff
-#include "breakthrough_rules.hpp"
-#include "breakthrough_provided_heuristics.hpp"
-#include "game_instance.hpp"
-#include "breakthrough_minimax_agent.hpp"
+// other helpful utility code
+#include "FileWrap.hpp"
 
-#define NR 8
-#define NC 8
+// optimization related stuff
+#include "opt_pso.hpp"
+#include "opt_test_rosenbrock2d.hpp"
+#include "bt_heuristic_learning_costfunc.hpp"
+#include "breakthrough_costfunc.hpp.hpp"
 
-typedef bt::baseline_rules<NR,NC> bt_rules;
-typedef game::agent<bt_rules>     bt_agent;
-typedef bt::minimax<bt_rules>     bt_minimax;
-typedef game::instance<bt_rules>  bt_game;
+// include testing related stuff and stuff to output data
+#include "breakthrough_test_games.hpp"
+
+
+#ifdef RUN_OPTIMIZATION
+// optimization related stuff
+#include "opt_pso.hpp"
+#include "opt_test_rosenbrock2d.hpp"
+#include "bt_heuristic_learning_costfunc.hpp"
+#include "breakthrough_costfunc.hpp.hpp"
+
+// optimization typedefs
+typedef opt::pso<bt::costfunc>       pso_t;
+typedef opt::pso_iter<bt::costfunc>  cb_t;
+#endif
+
 
 int main(int argc, char** argv){
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -51,65 +63,15 @@ int main(int argc, char** argv){
         std::string out_file   = commp["-out"];
         std::string flow_type   = commp["-ft"];
 
-        bt::provided::defensive<NR,NC> defensive_h;
-        bt::provided::offensive<NR,NC> offensive_h;
+        printf("Starting 8x8 Nominal\n");
+        bt::test::matchups_8x8nominal();
 
-        bt_game game;
-        bt_minimax p1, p2;
-        p1.setMaxSearchDepth(3); p1.setUtilityEstimator(defensive_h);
-        p2.setMaxSearchDepth(3); p2.setUtilityEstimator(offensive_h);
-        game.addPlayer1(&p1);
-        game.addPlayer2(&p2);
+        printf("Starting 5x10 Nominal\n");
+        bt::test::matchups_5x10nominal();
 
-        game.play();
-        bt_game::state_t gs = game.getFinalGameState();
-        gs.print();
+        printf("Starting 8x8 Extended\n");
+        bt::test::matchups_8x8modified();
 
-
-//#ifdef CSP_TEST_SOLVE
-//        csp::test_csp tcsp;
-//        csp::test_csp::csp_state csp_;
-//        bool isSuccess = false;
-//        csp::test_csp::assignment a = tcsp.solve(csp_,isSuccess);
-//
-//        for( auto it = a.begin(); it != a.end(); ++it ){
-//            printf("Assignment(%zu) = %i\n",it->first, (int)it->second);
-//        }
-//#endif
-
-        // setup flow free csp
-//        csp::flow_csp fcsp;
-//        csp::flow_csp::csp_state fcsp_;
-//        bool beSmart = false;
-//        
-//        if(flow_type == "smart") beSmart = true;
-//        
-//        if( !flow_file.empty() ){
-//            flow_io::loadFlow(flow_file, fcsp);
-//        }else{
-//            throw custom::exception("Did not pass in a flow file. This is the commandline argument `-flow`. Try again.");
-//        }
-//        
-//        bool flowSolved = false;
-//        csp::flow_csp::assignment fa = fcsp.solve(fcsp_,flowSolved);
-//
-//        for( auto it = fa.begin(); it != fa.end(); ++it ){
-//            printf("Assignment(%zu) = %i\n",it->first, (int)it->second);
-//        }
-        
-        // setup flow solver
-        flow_solver fsolver;
-        bool beSmart = false;
-        if(flow_type == "smart") beSmart = true;
-        fsolver.setSmart(beSmart);
-        if(flow_type == "smarter") fsolver.setSmarter(true);
-        
-        
-        if( !flow_file.empty() ){
-            fsolver.loadFlow(flow_file);
-        }else{
-            throw custom::exception("Did not pass in a flow file. This is the commandline argument `-flow`. Try again.");
-        }
         
         // solve flow problem
         bool flowSolved = false;

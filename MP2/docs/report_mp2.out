@@ -1,0 +1,22 @@
+\BOOKMARK [1][-]{section.1}{Part 1 | Constraint Satisfaction Problem - Flow Free}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Problem Formulation}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Smart Implementation}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Smarter Implementation}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Results}{section.1}% 5
+\BOOKMARK [1][-]{section.2}{Part 2 | Game of Breakthrough}{}% 6
+\BOOKMARK [2][-]{subsection.2.1}{Action Ordering for Alpha-Beta}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.2}{Heuristic Definitions}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Provided Heuristics}{subsection.2.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Custom Defensive Heuristics}{subsection.2.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Custom Offensive Heuristics}{subsection.2.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Particle Swarm Optimization based Heuristics}{subsection.2.2}% 12
+\BOOKMARK [2][-]{subsection.2.3}{Matchup Results}{section.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.3.1}{8 8 Board with Nominal Rules}{subsection.2.3}% 14
+\BOOKMARK [3][-]{subsubsection.2.3.2}{5 10 Board with Nominal Rules}{subsection.2.3}% 15
+\BOOKMARK [3][-]{subsubsection.2.3.3}{8 8 Board with Modified Rules}{subsection.2.3}% 16
+\BOOKMARK [1][-]{section.3}{Contributions}{}% 17
+\BOOKMARK [1][-]{section.4}{List of Potential Extra Credit}{}% 18
+\BOOKMARK [1][-]{section*.15}{Appendices}{}% 19
+\BOOKMARK [1][-]{Appendix.a.A}{Puzzle Solutions for Part 1}{}% 20
+\BOOKMARK [1][-]{Appendix.a.B}{Breakthrough Final Board Configuration}{}% 21
+\BOOKMARK [1][-]{Appendix.a.C}{Open Source Software Used}{}% 22
