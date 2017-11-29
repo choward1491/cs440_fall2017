@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  30 OCT 2017 23:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  30 OCT 2017 23:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -540,7 +540,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 363.
 
 [8]
-Overfull \hbox (124.93845pt too wide) in paragraph at lines 368--375
+Overfull \hbox (123.20316pt too wide) in paragraph at lines 368--375
  [][] 
  []
 
@@ -550,7 +550,7 @@ Overfull \hbox (119.693pt too wide) in paragraph at lines 378--386
  []
 
 
-Overfull \hbox (125.1541pt too wide) in paragraph at lines 391--398
+Overfull \hbox (124.93845pt too wide) in paragraph at lines 391--398
  [][] 
  []
 
@@ -560,39 +560,39 @@ Overfull \hbox (119.693pt too wide) in paragraph at lines 401--409
  []
 
 
-Overfull \hbox (127.10504pt too wide) in paragraph at lines 415--422
+Overfull \hbox (125.1541pt too wide) in paragraph at lines 414--421
  [][] 
  []
 
 
-Overfull \hbox (119.693pt too wide) in paragraph at lines 425--433
+Overfull \hbox (119.693pt too wide) in paragraph at lines 424--432
+ [][] 
+ []
+
+
+Overfull \hbox (127.10504pt too wide) in paragraph at lines 438--445
+ [][] 
+ []
+
+
+Overfull \hbox (119.693pt too wide) in paragraph at lines 448--456
  [][] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 438.
+(hyperref)                removing `math shift' on input line 461.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\times' on input line 438.
+(hyperref)                removing `\times' on input line 461.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 438.
+(hyperref)                removing `math shift' on input line 461.
 
 
-Overfull \hbox (123.20316pt too wide) in paragraph at lines 443--450
- [][] 
- []
-
-
-Overfull \hbox (119.693pt too wide) in paragraph at lines 453--461
- [][] 
- []
-
-
-Overfull \hbox (124.93845pt too wide) in paragraph at lines 466--473
+Overfull \hbox (123.20316pt too wide) in paragraph at lines 466--473
  [][] 
  []
 
@@ -601,19 +601,29 @@ Overfull \hbox (119.693pt too wide) in paragraph at lines 476--484
  [][] 
  []
 
+
+Overfull \hbox (124.93845pt too wide) in paragraph at lines 489--496
+ [][] 
+ []
+
+
+Overfull \hbox (119.693pt too wide) in paragraph at lines 499--507
+ [][] 
+ []
+
 [9] [10] [11]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 490.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 513.
 
  (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 490.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 513.
 
 [12
 
 ] [13]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 523.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 546.
 
  (/usr/local/texlive/2017/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -628,30 +638,30 @@ LaTeX Warning: Text page 15 contains only floats.
 \tf@thm=\write6
 \openout6 = `report_mp2.thm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 672.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 701.
  [21
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 672.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 701.
  (./report_mp2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 672.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 672.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 701.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 701.
 Package rerunfilecheck Info: File `report_mp2.out' has not changed.
-(rerunfilecheck)             Checksum: E9142BCC8C17E7D24050D1B2B249A65F;1621.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 672.
+(rerunfilecheck)             Checksum: F0788A21360309D61A021E241E09FBA6;1621.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 701.
  )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 9191 strings out of 492995
- 136803 string characters out of 6132704
- 260707 words of memory out of 5000000
- 12542 multiletter control sequences out of 15000+600000
+ 9195 strings out of 492995
+ 136851 string characters out of 6132704
+ 262806 words of memory out of 5000000
+ 12543 multiletter control sequences out of 15000+600000
  13231 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,10n,39p,1193b,7118s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,10n,39p,1182b,7118s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc
 }</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
@@ -667,10 +677,10 @@ ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive
 /2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
 2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
 17/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on report_mp2.pdf (21 pages, 200073 bytes).
+Output written on report_mp2.pdf (21 pages, 200607 bytes).
 PDF statistics:
- 334 PDF objects out of 1000 (max. 8388607)
- 294 compressed objects within 3 object streams
- 81 named destinations out of 1000 (max. 500000)
+ 337 PDF objects out of 1000 (max. 8388607)
+ 297 compressed objects within 3 object streams
+ 83 named destinations out of 1000 (max. 500000)
  177 words of extra memory for PDF output out of 10000 (max. 10000000)
 

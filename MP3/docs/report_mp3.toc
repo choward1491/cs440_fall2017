@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1}Naive Bayes Formulation}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Bayes Rule Classifier Formulation}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Learning with Discrete valued Features}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Implementation Discussion}{4}{subsection.1.3}
+\contentsline {section}{\numberline {2}Problem 1 | Digit Classification}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Single Pixels as Features}{5}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Problem Formulation}{5}{subsubsection.2.1.1}
+\contentsline {subsection}{\numberline {2.2}Results}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Disjoint Block as Features}{6}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Problem Formulation}{6}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Results}{8}{subsubsection.2.3.2}
+\contentsline {subsection}{\numberline {2.4}Overlapping Block as Features}{12}{subsection.2.4}
+\contentsline {subsubsection}{\numberline {2.4.1}Problem Formulation}{12}{subsubsection.2.4.1}
+\contentsline {subsubsection}{\numberline {2.4.2}Results}{14}{subsubsection.2.4.2}
+\contentsline {section}{\numberline {3}Problem 1 Extra Credit | Face Classification}{15}{section.3}
+\contentsline {subsubsection}{\numberline {3.0.1}Problem Formulation}{15}{subsubsection.3.0.1}
+\contentsline {subsubsection}{\numberline {3.0.2}Results}{15}{subsubsection.3.0.2}
+\contentsline {section}{\numberline {4}Part 2 | Audio Classification}{16}{section.4}
+\contentsline {subsection}{\numberline {4.1}Classification of Hebrew 'Yes' and 'No'}{16}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Problem Formulation}{16}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Results}{17}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Classification of Spoken Digits}{17}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Problem Formulation}{18}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Results}{18}{subsubsection.4.2.2}
+\contentsline {section}{\numberline {5}Contributions}{19}{section.5}
+\contentsline {section}{\numberline {6}List of Potential Extra Credit}{20}{section.6}
+\contentsline {section}{Appendices}{21}{section*.24}
+\contentsline {section}{\numberline {A}Open Source Software Used}{21}{Appendix.a.A}
