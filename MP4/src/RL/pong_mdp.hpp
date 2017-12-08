@@ -13,8 +13,8 @@
 
 #include <random>
 
-namespace RL {
-    namespace pong {
+namespace pong {
+    namespace RL {
 
         // define the possible paddle actions
         enum actions: size_t {
@@ -46,6 +46,10 @@ namespace RL {
             typedef state_t     state_type;
             typedef action_t    action_type;
             
+            // useful static vars
+            static const state_type             FriendlyPassedPaddleState;
+            static const state_type             OpponentPassedPaddleState;
+            
             //ctor/dtor
             mdp();
             ~mdp() = default;
@@ -54,6 +58,8 @@ namespace RL {
             // set discretization vector for ith variable
             void setVariableValues(int vidx, const std::vector<num_t> & values );
             void setVariableValues(int vidx, num_t start, num_t end, int num_values );
+            std::vector< std::vector<num_t> > & getVariableValues();
+            const std::vector< std::vector<num_t> > & getVariableValues() const;
             
             
             // set environment domain traits
@@ -105,8 +111,6 @@ namespace RL {
             num_t                               width, height, paddle_height;
             num_t                               time_step;
             num_t                               delta_step[3];
-            static const state_type             FriendlyPassedPaddleState;
-            static const state_type             OpponentPassedPaddleState;
             state_type                          disc_state;
             std::vector< num_t >                cont_state;
             std::vector< std::vector<num_t> >   var_values;
@@ -121,8 +125,8 @@ namespace RL {
             
         };
 
-    } // end namespae pong
-} // end namespace RL
+    } // end namespae RL
+} // end namespace pong
 
 #include "pong_mdp.hxx"
 

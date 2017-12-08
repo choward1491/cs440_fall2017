@@ -15,18 +15,18 @@
 
 namespace test {
     void pongQLearningSingle() {
-        typedef RL::pong::mdp<>             pong_mdp;
+        typedef pong::RL::mdp<>             pong_mdp;
         typedef RL::q_learning<pong_mdp>    qlearner_t;
         
         std::string data_file = "/Users/cjh/Documents/pong_test_single.bin";
         
         qlearner_t ql;
         pong_mdp & pmdp = ql.getMDP();
-        pmdp.setVariableValues(RL::pong::Ball_x, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::Ball_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::BallSpeed_x, {-1, 1});
-        pmdp.setVariableValues(RL::pong::BallSpeed_y, {-1, 0, 1});
-        pmdp.setVariableValues(RL::pong::FriendlyPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_x, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::BallSpeed_x, {-1, 1});
+        pmdp.setVariableValues(pong::RL::BallSpeed_y, {-1, 0, 1});
+        pmdp.setVariableValues(pong::RL::FriendlyPaddle_y, 0.0, 1.0, 12);
         
         ql.setDiscountFactor(0.99);
         ql.setExplorationThreshold(1e-1);
@@ -36,7 +36,7 @@ namespace test {
     }
     
     void pongQLearningSingleActualPlay() {
-        typedef RL::pong::mdp<>             pong_mdp;
+        typedef pong::RL::mdp<>             pong_mdp;
         typedef RL::q_learning<pong_mdp>    qlearner_t;
         
         std::string data_file = "/Users/cjh/Documents/pong_test_single.bin";
@@ -44,11 +44,11 @@ namespace test {
         
         qlearner_t ql;
         pong_mdp & pmdp = ql.getMDP();
-        pmdp.setVariableValues(RL::pong::Ball_x, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::Ball_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::BallSpeed_x, {-1, 1});
-        pmdp.setVariableValues(RL::pong::BallSpeed_y, {-1, 0, 1});
-        pmdp.setVariableValues(RL::pong::FriendlyPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_x, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::BallSpeed_x, {-1, 1});
+        pmdp.setVariableValues(pong::RL::BallSpeed_y, {-1, 0, 1});
+        pmdp.setVariableValues(pong::RL::FriendlyPaddle_y, 0.0, 1.0, 12);
         
         ql.setDiscountFactor(0.99);
         ql.setExplorationThreshold(0);
@@ -59,19 +59,19 @@ namespace test {
     }
     
     void pongQLearningOpponent() {
-        typedef RL::pong::mdp<>             pong_mdp;
+        typedef pong::RL::mdp<>             pong_mdp;
         typedef RL::q_learning<pong_mdp>    qlearner_t;
         
         std::string data_file = "/Users/cjh/Documents/pong_test_opp.bin";
         
         qlearner_t ql;
         pong_mdp & pmdp = ql.getMDP();
-        pmdp.setVariableValues(RL::pong::Ball_x, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::Ball_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::BallSpeed_x, {-1, 1});
-        pmdp.setVariableValues(RL::pong::BallSpeed_y, {-1, 0, 1});
-        pmdp.setVariableValues(RL::pong::FriendlyPaddle_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::OpponentPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_x, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::BallSpeed_x, {-1, 1});
+        pmdp.setVariableValues(pong::RL::BallSpeed_y, {-1, 0, 1});
+        pmdp.setVariableValues(pong::RL::FriendlyPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::OpponentPaddle_y, 0.0, 1.0, 12);
         
         ql.setDiscountFactor(0.99);
         ql.setExplorationThreshold(1e-1);
@@ -81,7 +81,7 @@ namespace test {
     }
     
     void pongQLearningOpponentActualPlay() {
-        typedef RL::pong::mdp<>             pong_mdp;
+        typedef pong::RL::mdp<>             pong_mdp;
         typedef RL::q_learning<pong_mdp>    qlearner_t;
         
         std::string data_file = "/Users/cjh/Documents/pong_test_opp.bin";
@@ -89,12 +89,12 @@ namespace test {
         
         qlearner_t ql;
         pong_mdp & pmdp = ql.getMDP();
-        pmdp.setVariableValues(RL::pong::Ball_x, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::Ball_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::BallSpeed_x, {-1, 1});
-        pmdp.setVariableValues(RL::pong::BallSpeed_y, {-1, 0, 1});
-        pmdp.setVariableValues(RL::pong::FriendlyPaddle_y, 0.0, 1.0, 12);
-        pmdp.setVariableValues(RL::pong::OpponentPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_x, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::BallSpeed_x, {-1, 1});
+        pmdp.setVariableValues(pong::RL::BallSpeed_y, {-1, 0, 1});
+        pmdp.setVariableValues(pong::RL::FriendlyPaddle_y, 0.0, 1.0, 12);
+        pmdp.setVariableValues(pong::RL::OpponentPaddle_y, 0.0, 1.0, 12);
         
         ql.setDiscountFactor(0.99);
         ql.setExplorationThreshold(0);

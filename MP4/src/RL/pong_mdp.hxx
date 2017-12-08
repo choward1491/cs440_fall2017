@@ -25,8 +25,8 @@
 #include "../utility/binary_search.hpp"
 
 // implementation details
-namespace RL {
-    namespace pong {
+namespace pong {
+    namespace RL {
         
         // define the possible paddle actions
         /*
@@ -98,6 +98,12 @@ namespace RL {
             for(int i = 0; i < num_values; ++i){ var_values[vidx][i] = start + i*dv; }
             updateTotalNumStates();
             isSingleOpponent = (var_values.size() < 6);
+        }
+        HEADER std::vector< std::vector<num_t> > & CLASS::getVariableValues() {
+            return var_values;
+        }
+        HEADER const std::vector< std::vector<num_t> > & CLASS::getVariableValues() const {
+            return var_values;
         }
 
         // set environment domain traits
@@ -345,8 +351,8 @@ namespace RL {
         }
         
 
-    }// end namespace pong
-}// end namespace RL
+    }// end namespace RL
+}// end namespace pong
 
 // get rid of macro definitions
 #undef HEADER

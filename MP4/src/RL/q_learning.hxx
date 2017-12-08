@@ -16,7 +16,6 @@
 #define CLASS q_learning<mdp_t,num_t>
 
 // standard library stuff
-#include <random>
 
 // template class interface
 #include "q_learning.hpp"
