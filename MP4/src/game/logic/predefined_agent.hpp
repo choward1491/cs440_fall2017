@@ -16,6 +16,7 @@
 namespace pong {
     class predefined : public agent {
     public:
+        ~predefined() = default;
         double updatePosition( const std::vector<double> & state );
         enum agent_type getAgentType() const;
     };

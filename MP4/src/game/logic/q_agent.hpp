@@ -24,6 +24,7 @@ namespace pong {
         
         // ctor
         q_agent();
+        ~q_agent() = default;
         
         // function to update position
         double updatePosition( const std::vector<double> & state );

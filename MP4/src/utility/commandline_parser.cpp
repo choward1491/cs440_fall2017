@@ -32,16 +32,13 @@ namespace parser {
 
         }
         else if( num_args != 0 ){
-            for(unsigned int i = 0; i < argc; ++i){
-                printf("arg(%i) = %s\n",i,argv[i]);
-            }
             throw expn_odd_number_inputs();
         }
     }
 
 
     template<>
-    inline float commandline::convert(const std::string & key) const
+    float commandline::convert(const std::string & key) const
     {
         float out = 0.0;
         sscanf(key.c_str(), "%f", &out);
@@ -49,7 +46,7 @@ namespace parser {
     }
 
     template<>
-    inline double commandline::convert(const std::string & key) const
+    double commandline::convert(const std::string & key) const
     {
         double out = 0.0;
         sscanf(key.c_str(), "%lf", &out);
@@ -57,7 +54,7 @@ namespace parser {
     }
 
     template<>
-    inline int commandline::convert(const std::string & key) const
+    int commandline::convert(const std::string & key) const
     {
         int out = 0.0;
         sscanf(key.c_str(), "%i", &out);
@@ -65,7 +62,7 @@ namespace parser {
     }
 
     template<>
-    inline unsigned int commandline::convert(const std::string & key) const
+    unsigned int commandline::convert(const std::string & key) const
     {
         unsigned int out = 0.0;
         sscanf(key.c_str(), "%u", &out);

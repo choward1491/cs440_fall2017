@@ -16,6 +16,7 @@
 namespace pong {
     class wall : public agent {
     public:
+        ~wall() = default;
         double updatePosition( const std::vector<double> & state );
         enum agent_type getAgentType() const;
     };

@@ -39,6 +39,7 @@ namespace pong {
     
     void q_agent::setMDP( const RL::mdp<> & mdp ) {
         controller.getMDP() = mdp;
+        controller.init();
     }
     void q_agent::loadController( const std::string & filename ) {
         controller.load(filename);
