@@ -22,7 +22,7 @@
 #include "q_learning.hpp"
 
 // useful custom libraries
-#include "../utility/binary_processor.hpp"
+#include "../utility/binary_vec.hpp"
 
 // implementation details
 
@@ -97,7 +97,7 @@ namespace RL {
                 }
                 
             }// end single game loop
-            if( n % 1 == 0 ){
+            if( n % 1000 == 0 ){
                 printf("Episode %u - R = %lf\n", n+1, net_reward);
             }
         }// end main training loop
@@ -176,12 +176,10 @@ namespace RL {
     
     // methods to save and load Q values to file
     HEADER void CLASS::load( const std::string & filename ) {
-        wrap::file in_file(filename,wrap::file::Read);
-        binary::processor::read(in_file, q_values);
+        binary::vec::load_vector(filename, q_values);
     }
     HEADER void CLASS::save( const std::string & filename ) const {
-        wrap::file out_file(filename,wrap::file::Write);
-        binary::processor::write(q_values, out_file);
+        binary::vec::save_vector(filename, q_values);
     }
 
 }// end namespace RL

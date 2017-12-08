@@ -11,7 +11,7 @@ namespace binary {
 
 		// save vector data to file, defaulted to writing a new binary file
 		template<typename num_type>
-		static void save_vector( const std::string & filename, std::vector<num_type> & data, wrap::file::AccessMode access = wrap::file::WriteBinary);
+		static void save_vector( const std::string & filename, const std::vector<num_type> & data);
 		
 		// method to load a vector from a file, assuming the file only contains one vector saved to it
 		template<typename num_type>
@@ -25,9 +25,9 @@ namespace binary {
 	};
 
 	template<typename num_type>
-	inline void vec::save_vector(const std::string & filename, std::vector<num_type>& data, wrap::file::AccessMode access)
+	void vec::save_vector(const std::string & filename, const std::vector<num_type>& data)
 	{
-		wrap::file file(filename, access);
+		wrap::file file(filename, wrap::file::WriteBinary);
 		if (file.isOpen()) {
 			binary::processor::write(static_cast<int>(data.size()), file);	// write number of elements in data first to file
 			binary::processor::write(data, file);							// write the data elements to file
@@ -35,7 +35,7 @@ namespace binary {
 	}
 
 	template<typename num_type>
-	inline void vec::load_vector(const std::string & filename, std::vector<num_type>& data)
+	void vec::load_vector(const std::string & filename, std::vector<num_type>& data)
 	{
 		wrap::file file(filename, wrap::file::ReadBinary);	// open file in binary read mode
 		if (file.isOpen()) {								// check if file is open
@@ -48,7 +48,7 @@ namespace binary {
 		}
 	}
 	template<typename num_type>
-	inline void vec::load_vector(wrap::file & file, std::vector<num_type>& data)
+	void vec::load_vector(wrap::file & file, std::vector<num_type>& data)
 	{
 		if (file.isOpen()) {
 			int num_elements = 0;

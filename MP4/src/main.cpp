@@ -41,7 +41,7 @@ int main(int argc, char** argv){
         // get command line inputs
         parser::commandline commp(argc,argv);
         
-        //test::pongQLearningSingle();
+        test::pongQLearningSingle();
         test::pongQLearningSingleActualPlay();
         //test::pongQLearningOpponent();
     
