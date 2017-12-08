@@ -1,0 +1,28 @@
+\BOOKMARK [1][-]{section.1}{Naive Bayes Formulation}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Bayes Rule Classifier Formulation}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Learning with Discrete valued Features}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Implementation Discussion}{section.1}% 4
+\BOOKMARK [1][-]{section.2}{Problem 1 | Digit Classification}{}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Single Pixels as Features}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Problem Formulation}{subsection.2.1}% 7
+\BOOKMARK [2][-]{subsection.2.2}{Results}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.3}{Disjoint Block as Features}{section.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Problem Formulation}{subsection.2.3}% 10
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Results}{subsection.2.3}% 11
+\BOOKMARK [2][-]{subsection.2.4}{Overlapping Block as Features}{section.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Problem Formulation}{subsection.2.4}% 13
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Results}{subsection.2.4}% 14
+\BOOKMARK [1][-]{section.3}{Problem 1 Extra Credit | Face Classification}{}% 15
+\BOOKMARK [2][-]{subsubsection.3.0.1}{Problem Formulation}{section.3}% 16
+\BOOKMARK [3][-]{subsubsection.3.0.2}{Results}{subsubsection.3.0.1}% 17
+\BOOKMARK [1][-]{section.4}{Part 2 | Audio Classification}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{Classification of Hebrew 'Yes' and 'No'}{section.4}% 19
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Problem Formulation}{subsection.4.1}% 20
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Results}{subsection.4.1}% 21
+\BOOKMARK [2][-]{subsection.4.2}{Classification of Spoken Digits}{section.4}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Problem Formulation}{subsection.4.2}% 23
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Results}{subsection.4.2}% 24
+\BOOKMARK [1][-]{section.5}{Contributions}{}% 25
+\BOOKMARK [1][-]{section.6}{List of Potential Extra Credit}{}% 26
+\BOOKMARK [1][-]{section*.24}{Appendices}{}% 27
+\BOOKMARK [1][-]{Appendix.a.A}{Open Source Software Used}{}% 28

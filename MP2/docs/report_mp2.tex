@@ -69,7 +69,7 @@ Luke Pitstick \\ pitstck2@illinois.edu
    % create the title page 
    \maketitle
    \begin{abstract}
-   Within this report, an analysis was performed on solutions to a set of games, Flow Free and Breakthrough. To handle Flow Free, it was modeled as a Constraint Satisfaction Problem (CSP) and a solver was built to tackle it in this form. It was found that using more sophisticated for constraint propagation leads to significant improvements in the solver efficiency with various test problems to back it up against different level of sophisticated CSP solvers. For Breakthrough, a framework was developed to build and play different agents against each other with different heuristics. First, it was found that using Alpha-Beta pruning and a Utility-estimate based mechanism to select branches of the search tree to investigate definitely slimmed down the number of nodes searched relative to Minimax search. It was also found that coming up with more dominant Defensive heuristics was easier across the three Breakthrough variations required of 4 credit students, while the Offensive heuristic was challenging. It was found that Defensive heuristics generally perform better than Offensive heuristics, reasons which could be chance or something more fundamental to the game.
+   Within this report, an analysis was performed on solutions to a set of games, Flow Free and Breakthrough. To handle Flow Free, it was modeled as a Constraint Satisfaction Problem (CSP) and a solver was built to tackle it in this form. It was found that using more sophisticated for constraint propagation leads to significant improvements in the solver efficiency with various test problems to back it up against different level of sophisticated CSP solvers. For Breakthrough, a framework was developed to build and play different agents against each other with different heuristics. First, it was found that using Alpha-Beta pruning and a Utility-estimate based mechanism to select branches of the search tree to investigate slimmed down the number of nodes searched relative to Minimax search. It was also found that coming up with more dominant Defensive heuristics was easier across the three Breakthrough variations required of 4 credit students, while the Offensive heuristic was challenging. It was found that Defensive heuristics generally perform better than Offensive heuristics, reasons which could be chance or something more fundamental to the game.
    \end{abstract}
    \newpage
    
@@ -361,7 +361,30 @@ Luke Pitstick \\ pitstck2@illinois.edu
 \end{table}
 
 	\subsubsection{$5 \times 10$ Board with Nominal Rules}
-	In this variation of the game, it was interesting to see that the nodes expanded between the custom heuristics and the baseline got much closer, as Tables \ref{tab:t23} and \ref{tab:t25} show. This shows that either pruning was reduced for the custom heuristics or increased for the baseline ones as the shape of the board changed. Table \ref{tab:t26} also shows that for this different shaped board, the custom Defensive Heuristic did much better at dominating the custom Offensive Heuristic. While it isn't shown in the tables, the baseline Offensive Heuristic continued to be a challenge to beat by the custom heuristics.
+	In this variation of the game, it was interesting to see that the nodes expanded between the custom heuristics and the baseline got much closer, as Tables \ref{tab:t23} and \ref{tab:t25} show. This shows that either pruning was reduced for the custom heuristics or increased for the baseline ones as the shape of the board changed. Table \ref{tab:t26} also shows that for this different shaped board, the custom Defensive Heuristic did much better at dominating the custom Offensive Heuristic. The baseline Defensive Heuristic also continued to be a challenge to beat by the custom heuristics, as seen in Table \ref{tab:t22}.
+	
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{l | l | l | l}
+			\hline
+			Winner & Win Rate & Pieces captured by Alpha-Beta $h_{o}^{(2)}$ & Pieces captured by Alpha-Beta $h_{pd}$ \\
+			\hline \hline 
+			Alpha-Beta $h_{pd}$  & 100\% & 5.35 & 8.55 \\
+			\hline
+		\end{tabular}
+		
+		\vspace{10px}
+		
+		\begin{tabular}{l | l | l | l}
+			\hline
+			Agent & Total Nodes Expanded & Mean Nodes Expanded Per Move & Mean Move Time (ms) \\
+			\hline \hline 
+			Alpha-Beta $h_{o}^{(2)}$  & 77,380& 4,209& 19.13 \\
+			Alpha-Beta $h_{pd}$ & 97,463 & 5,305 & 10.95\\
+			\hline
+		\end{tabular}
+		\caption{$5 \times 10$ Nominal | Alpha-Beta $h_{o}^{(2)}$ vs. Alpha-Beta $h_{pd}$} \label{tab:t22}
+	\end{table}
 	
 \begin{table}[ht]
 	\centering
@@ -628,6 +651,12 @@ Luke Pitstick \\ pitstck2@illinois.edu
 	\centering
 	\VerbatimInput[fontsize=\small, fontfamily=courier]{game16} 
 	\caption{$8 \times 8$ Nominal | Alpha-Beta $h_{o}^{(1)}$ vs. Alpha-Beta $h_{d}^{(1)}$}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+	\VerbatimInput[fontsize=\small, fontfamily=courier]{game22} 
+	\caption{$5 \times 10$ Nominal | Alpha-Beta $h_{o}^{(2)}$ vs. Alpha-Beta $h_{pd}$}
 \end{figure}
 
 \begin{figure}[!htb]
