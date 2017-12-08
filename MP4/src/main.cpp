@@ -41,9 +41,10 @@ int main(int argc, char** argv){
         // get command line inputs
         parser::commandline commp(argc,argv);
         
-        test::pongQLearningSingle();
-        test::pongQLearningSingleActualPlay();
+        //test::pongQLearningSingle();
+        //test::pongQLearningSingleActualPlay();
         //test::pongQLearningOpponent();
+        test::pongQLearningOpponentActualPlay();
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");

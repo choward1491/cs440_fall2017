@@ -105,7 +105,8 @@ namespace RL {
             num_t                               width, height, paddle_height;
             num_t                               time_step;
             num_t                               delta_step[3];
-            static const state_type             PassedPaddleState;
+            static const state_type             FriendlyPassedPaddleState;
+            static const state_type             OpponentPassedPaddleState;
             state_type                          disc_state;
             std::vector< num_t >                cont_state;
             std::vector< std::vector<num_t> >   var_values;

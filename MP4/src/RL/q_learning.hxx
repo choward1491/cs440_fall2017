@@ -97,7 +97,7 @@ namespace RL {
                 }
                 
             }// end single game loop
-            if( n % 1000 == 0 ){
+            if( n % 1 == 0 ){
                 printf("Episode %u - R = %lf\n", n+1, net_reward);
             }
         }// end main training loop

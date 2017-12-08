@@ -64,7 +64,8 @@ namespace RL {
              */
         
         // define value for special state
-        HEADER const typename CLASS::state_type CLASS::PassedPaddleState = 0;
+        HEADER const typename CLASS::state_type CLASS::FriendlyPassedPaddleState = 0;
+        HEADER const typename CLASS::state_type CLASS::OpponentPassedPaddleState = 1;
         
         HEADER num_t CLASS::sign(num_t v) {
             if( v >= 0.0 ){ return 1.0; }
@@ -147,7 +148,7 @@ namespace RL {
         
         // method that returns if a pong episode is complete
         HEADER bool CLASS::episodeComplete() const {
-            return (disc_state == PassedPaddleState);
+            return (disc_state == FriendlyPassedPaddleState) || (disc_state == OpponentPassedPaddleState);
         }
 
         // method to get the discretized state hash
@@ -275,7 +276,11 @@ namespace RL {
             // do reward related checks
             if( cont_state[Ball_x] > width ){
                 reward = -1.0;
-                disc_state = PassedPaddleState;
+                disc_state = FriendlyPassedPaddleState;
+            }
+            else if( cont_state[Ball_x] < 0 ){
+                reward = 10;
+                disc_state = OpponentPassedPaddleState;
             }
             else if( bouncedOffPaddle ) { reward = 1.0; }
             else                        { reward = 0.0; }
@@ -300,7 +305,7 @@ namespace RL {
 
         // helper functions
         HEADER void CLASS::updateDiscreteStateHash() {
-            state_type hash = 1;
+            state_type hash = 2;
             state_type factor = 1;
             for(size_t idx = 0; idx < cont_state.size(); idx++){
                 hash += factor*componentHasher(idx);
@@ -314,7 +319,8 @@ namespace RL {
             for(size_t idx = 0; idx < var_values.size(); idx++){
                 num_tot_states *= var_values[idx].size();
             }
-            ++num_tot_states; // add one for special state
+            ++num_tot_states; // add one for friendly special state
+            ++num_tot_states; // add one for opponent special state
         }
         
         HEADER typename CLASS::state_type CLASS::componentHasher(int vidx) const {

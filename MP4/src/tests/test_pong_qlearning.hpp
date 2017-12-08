@@ -15,6 +15,7 @@ namespace test {
     void pongQLearningSingle();
     void pongQLearningSingleActualPlay();
     void pongQLearningOpponent();
+    void pongQLearningOpponentActualPlay();
 }
 
 #endif /* test_pong_qlearning_hpp */
