@@ -92,7 +92,7 @@ namespace pong {
         state[RL::FriendlyPaddle_y] = state[RL::OpponentPaddle_y];
         state[RL::OpponentPaddle_y] = tmp;
     }
-    void game::play( enum agent_type p1_type, enum agent_type p2_type ) {
+    bool game::play( enum agent_type p1_type, enum agent_type p2_type ) {
         
         // figure out if the game is single player
         if( p1_type == Wall || p2_type == Wall ){ isSinglePlayer = true; }
@@ -105,7 +105,6 @@ namespace pong {
         init();
         
         // allocate the agents
-        std::vector<human*> human_players;
         enum agent_type ptypes[2] = {p1_type, p2_type};
         std::string qtable_ext[2] = {"1","2"};
         for(int i = 0; i < 2; ++i){
@@ -118,8 +117,6 @@ namespace pong {
                 }   break;
                 case Human:{
                     players[i] = std::make_unique<human>();
-                    human* hag = dynamic_cast<human*>(players[i].get());
-                    human_players.push_back(hag);
                 }   break;
                 case QAgent:{
                     players[i] = std::make_unique<q_agent>();
@@ -149,6 +146,7 @@ namespace pong {
         
         
         // play the game
+        bool stopPlaying        = false;
         bool redraw             = false;
         bool gameComplete       = false;
         bool handleNonHumans    = false;
@@ -206,6 +204,8 @@ namespace pong {
                 redraw = true;
             }
             else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+                gameComplete    = true;
+                stopPlaying     = true;
                 break;
             }
             else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -246,7 +246,8 @@ namespace pong {
                         break;
                         
                     case ALLEGRO_KEY_ESCAPE:
-                        gameComplete = true;
+                        stopPlaying     = true;
+                        gameComplete    = true;
                         break;
                 }
             }
@@ -272,12 +273,17 @@ namespace pong {
             }
         }// main game loop
         
-        // increment the win score count
-        ++playerWins[(state_hash+1)%2];
+        // increment the win score count if game ended normally
+        if( !stopPlaying ){
+            ++playerWins[(state_hash+1)%2];
+        }
         
         // clear the event queue related variables
         al_destroy_timer(timer);
         al_destroy_event_queue(event_queue);
+        
+        // return flag
+        return stopPlaying;
     }
     void game::reset() {
         playerWins[0] = playerWins[1] = 0;

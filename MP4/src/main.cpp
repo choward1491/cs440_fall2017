@@ -22,6 +22,7 @@
 #include "utility/custom_exception.hpp"
 #include "utility/text_color.hpp"
 #include "utility/commandline_parser.hpp"
+#include "utility/config_parser.hpp"
 #include "tests/test_pong_qlearning.hpp"
 #include "game/pong_bundle.hpp"
 
@@ -40,9 +41,16 @@ int main(int argc, char** argv){
         
         // get command line inputs
         parser::commandline commp(argc,argv);
+        parser::config pconfig;
+        
+        if( commp["-config"].size() != 0 ){
+            pconfig.parse(commp["-config"]);
+        }
         
         pong::initAllegro();
         pong::bundle game_play(700,600);
+        game_play.setConfig(pconfig);
+        game_play.run();
         //test::pongQLearningSingle();
         //test::pongQLearningSingleActualPlay();
         //test::pongQLearningOpponent();

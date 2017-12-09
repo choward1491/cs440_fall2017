@@ -88,8 +88,7 @@ namespace pong {
             state[RL::BallSpeed_y] = -state[RL::BallSpeed_y];
         }
         // check for bounce off of the left of the environment
-        else if( state[RL::Ball_x] < 0.0 ){
-            std::vector<double> state_c = state;
+        if( state[RL::Ball_x] < 0.0 ){
             double y_intersect = prevBall_y + (0.0 - prevBall_x)*(state[RL::Ball_y]-prevBall_y)/(state[RL::Ball_x]-prevBall_x);
             if( player2IsWall ){ // if this should be a wall
                 state[RL::Ball_x]      = -state[RL::Ball_x];

@@ -226,7 +226,7 @@ namespace pong {
                 cont_state[BallSpeed_y] = -cont_state[BallSpeed_y];
             }
             // check for bounce off of the left of the environment
-            else if( cont_state[Ball_x] < 0.0 ){
+            if( cont_state[Ball_x] < 0.0 ){
                 
                 num_t y_intersect = prevBall_y + (0.0 - prevBall_x)*(cont_state[RL::Ball_y]-prevBall_y)/(cont_state[RL::Ball_x]-prevBall_x);
                 if( isSingleOpponent ){ // if this should be a wall

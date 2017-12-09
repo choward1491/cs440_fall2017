@@ -27,7 +27,7 @@ namespace pong {
         ~game() = default;
         
         // game play related info
-        void play( enum agent_type p1_type, enum agent_type p2_type );
+        bool play( enum agent_type p1_type, enum agent_type p2_type );
         void reset();
         
         // getters
