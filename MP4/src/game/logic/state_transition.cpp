@@ -9,6 +9,7 @@
  */
 
 #include <random>
+#include <cmath>
 #include "state_transition.hpp"
 #include "state_hasher.hpp"
 #include "../../RL/pong_mdp.hpp"
@@ -20,7 +21,10 @@ namespace pong {
         return -1.0;
     }
     
-    size_t state_transition( std::vector<double> & state, double newPlayer1PaddlePos, double newPlayer2PaddlePos, bool isSingleOpponent) {
+    size_t state_transition( std::vector<double> & state,
+                            double newPlayer1PaddlePos, double newPlayer2PaddlePos,
+                            bool player1IsWall, bool player2IsWall)
+    {
         // define some useful typdefs
         typedef double      num_t;
         typedef RL::mdp<>   mdp_t;
@@ -36,10 +40,8 @@ namespace pong {
         // set friendly and opponent paddle x positions
         num_t fpaddle_x = width, opaddle_x = 0.0;
         
-        // update friendly paddle position
-        state[RL::FriendlyPaddle_y] = newPlayer1PaddlePos;
-        num_t fpaddle_corners[2] = { state[RL::FriendlyPaddle_y] + paddle_height,
-            state[RL::FriendlyPaddle_y] - paddle_height};
+        // initialize corner positions
+        num_t fpaddle_corners[2] = { 0 };
         num_t opaddle_corners[2] = { 0 };
         
         // update ball position
@@ -49,15 +51,26 @@ namespace pong {
         state[RL::Ball_y] += time_step*state[RL::BallSpeed_y];
         num_t avgBall_y     = 0.5*(prevBall_y + state[RL::Ball_y]);
         
-        // update opponent paddle if necessary
-        if( !isSingleOpponent ){
+        // update friendly paddle if necessary
+        if( !player1IsWall ){
             
             // update player two
-            state[RL::OpponentPaddle_y] = newPlayer2PaddlePos;
+            state[RL::FriendlyPaddle_y] = std::max(0.0, std::min(newPlayer1PaddlePos,height - paddle_height));
+            
+            // set corner positions for the opponent paddle
+            fpaddle_corners[0] = state[RL::FriendlyPaddle_y] + paddle_height;
+            fpaddle_corners[1] = state[RL::FriendlyPaddle_y];
+        }
+        
+        // update opponent paddle if necessary
+        if( !player2IsWall ){
+            
+            // update player two
+            state[RL::OpponentPaddle_y] = std::max(0.0, std::min(newPlayer2PaddlePos,height - paddle_height));
             
             // set corner positions for the opponent paddle
             opaddle_corners[0] = state[RL::OpponentPaddle_y] + paddle_height;
-            opaddle_corners[1] = state[RL::OpponentPaddle_y] - paddle_height;
+            opaddle_corners[1] = state[RL::OpponentPaddle_y];
         }
         
         // check for collision with paddle(s) and walls
@@ -76,53 +89,53 @@ namespace pong {
         }
         // check for bounce off of the left of the environment
         else if( state[RL::Ball_x] < 0.0 ){
-            if( isSingleOpponent ){ // if this should be a wall
+            std::vector<double> state_c = state;
+            double y_intersect = prevBall_y + (0.0 - prevBall_x)*(state[RL::Ball_y]-prevBall_y)/(state[RL::Ball_x]-prevBall_x);
+            if( player2IsWall ){ // if this should be a wall
                 state[RL::Ball_x]      = -state[RL::Ball_x];
-                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x];
+                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x]  + 0.0*0.015*U(sampler);
+                //state[RL::BallSpeed_y] = state[RL::BallSpeed_y]   + 0.03*U(sampler);
                 
-            }else if( (state[RL::Ball_x] >= opaddle_x && opaddle_x >= prevBall_x) &&
-                     (opaddle_corners[0] >= avgBall_y && opaddle_corners[1] <= avgBall_y ))
+            }else if( (state[RL::Ball_x] <= opaddle_x && opaddle_x <= prevBall_x) &&
+                     (opaddle_corners[0] >= y_intersect && opaddle_corners[1] <= y_intersect ))
             {
                 // update ball state
-                state[RL::Ball_x]      = 2*opaddle_x - state[RL::Ball_x];
-                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x]  + 0.15*U(sampler);
-                state[RL::BallSpeed_y] = state[RL::BallSpeed_y]   + 0.03*U(sampler);
-                
-                // bound velocities if necessary
-                if( std::abs(state[RL::BallSpeed_x]) < 0.03 ){
-                    state[RL::BallSpeed_x] = 0.03 * sign(state[RL::BallSpeed_x]);
-                }
-                if( std::abs(state[RL::BallSpeed_x]) > 1.0 ){
-                    state[RL::BallSpeed_x] = sign(state[RL::BallSpeed_x]);
-                }
-                if( std::abs(state[RL::BallSpeed_y]) > 1.0 ){
-                    state[RL::BallSpeed_y] = sign(state[RL::BallSpeed_y]);
-                }
+                state[RL::Ball_x]      = -state[RL::Ball_x];
+                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x] + 0.015*U(sampler);
+                state[RL::BallSpeed_y] = state[RL::BallSpeed_y] + 0.03*U(sampler);
             }
         }
-        // check for bounce off of friendly paddle
-        else if( (state[RL::Ball_x] >= fpaddle_x && fpaddle_x >= prevBall_x) &&
-                (fpaddle_corners[0] >= avgBall_y && fpaddle_corners[1] <= avgBall_y )
-                )
-        {
-            // set flag as true that ball bounced off of paddle
-            bouncedOffPaddle = true;
+        // check for bounce off right of environment
+        if( state[RL::Ball_x] > width ){
             
-            // update ball state
-            state[RL::Ball_x]      = 2*fpaddle_x - state[RL::Ball_x];
-            state[RL::BallSpeed_x] = -state[RL::BallSpeed_x] + 0.15*U(sampler);
-            state[RL::BallSpeed_y] = state[RL::BallSpeed_y] + 0.03*U(sampler);
-            
-            // bound velocities if necessary
-            if( std::abs(state[RL::BallSpeed_x]) < 0.03 ){
-                state[RL::BallSpeed_x] = 0.03 * sign(state[RL::BallSpeed_x]);
+            double y_intersect = prevBall_y + (width - prevBall_x)*(state[RL::Ball_y]-prevBall_y)/(state[RL::Ball_x]-prevBall_x);
+            if( player1IsWall ){ // if this should be a wall
+                state[RL::Ball_x]      = 2*width - state[RL::Ball_x];
+                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x]  + 0.0*0.015*U(sampler);
+                //state[RL::BallSpeed_y] = state[RL::BallSpeed_y]   + 0.03*U(sampler);
+                
+            }else if( (state[RL::Ball_x] >= fpaddle_x && fpaddle_x >= prevBall_x) &&
+                     (fpaddle_corners[0] >= y_intersect && fpaddle_corners[1] <= y_intersect ))
+            {
+                // set flag as true that ball bounced off of paddle
+                bouncedOffPaddle = true;
+                
+                // update ball state
+                state[RL::Ball_x]      = 2*fpaddle_x - state[RL::Ball_x];
+                state[RL::BallSpeed_x] = -state[RL::BallSpeed_x] + 0.015*U(sampler);
+                state[RL::BallSpeed_y] = state[RL::BallSpeed_y] + 0.03*U(sampler);
             }
-            if( std::abs(state[RL::BallSpeed_x]) > 1.0 ){
-                state[RL::BallSpeed_x] = sign(state[RL::BallSpeed_x]);
-            }
-            if( std::abs(state[RL::BallSpeed_y]) > 1.0 ){
-                state[RL::BallSpeed_y] = sign(state[RL::BallSpeed_y]);
-            }
+        }
+        
+        // bound velocities if necessary
+        if( std::abs(state[RL::BallSpeed_x]) < 0.03 ){
+            state[RL::BallSpeed_x] = 0.03 * sign(state[RL::BallSpeed_x]);
+        }
+        if( std::abs(state[RL::BallSpeed_x]) > 1.0 ){
+            state[RL::BallSpeed_x] = sign(state[RL::BallSpeed_x]);
+        }
+        if( std::abs(state[RL::BallSpeed_y]) > 1.0 ){
+            state[RL::BallSpeed_y] = sign(state[RL::BallSpeed_y]);
         }
         
         // update the discrete state

@@ -23,8 +23,8 @@ namespace pong {
         
         // update the position of the paddle
         pos += delta_step[kpressed]; kpressed = None;
-        if( pos < 0 )          { pos = 0; }
-        else if( pos > height ){ pos = height; }
+        if( pos < 0 )                           { pos = 0; }
+        else if( pos > (height - paddle_height) ) { pos = (height - paddle_height); }
         return pos;
     }
     enum agent_type human::getAgentType() const { return Human; }

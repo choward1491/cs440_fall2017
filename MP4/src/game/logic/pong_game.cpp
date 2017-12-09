@@ -17,6 +17,7 @@
 #include "pong_game.hpp"
 #include "state_hasher.hpp"
 #include "../../RL/pong_mdp.hpp"
+#include "state_transition.hpp"
 
 // include the agents
 #include "wall_agent.hpp"
@@ -49,7 +50,9 @@ namespace pong {
     };
     
     // ctor/dtor
-    game::game():isSinglePlayer(false),players(2),configp(nullptr),FPS(10.0),event_queue(nullptr),timer(nullptr),bouncer(nullptr) {
+    game::game(gui* pgui):isSinglePlayer(false),players(2),
+        configp(nullptr),FPS(15.0),event_queue(nullptr),timer(nullptr),pong_gui(pgui)
+    {
         playerWins[Player1] = 0;
         playerWins[Player2] = 0;
         
@@ -68,19 +71,6 @@ namespace pong {
         
         // initialize keyboard input source
         if(!al_install_keyboard()) { throw custom::exception("failed to initialize the keyboard!"); }
-        timer = al_create_timer(1.0 / FPS);
-        if(!timer) { throw custom::exception("failed to create timer!"); }
-        
-        event_queue = al_create_event_queue();
-        if(!event_queue) {
-            al_destroy_bitmap(bouncer);
-            al_destroy_timer(timer);
-            throw custom::exception("failed to create the event queue!");
-        }
-        
-        //al_register_event_source(event_queue, al_get_display_event_source(display));
-        al_register_event_source(event_queue, al_get_timer_event_source(timer));
-        al_register_event_source(event_queue, al_get_keyboard_event_source());
     }
     
     void game::setConfigFileContents( const parser::config* cparser ) {
@@ -121,18 +111,18 @@ namespace pong {
         for(int i = 0; i < 2; ++i){
             switch(ptypes[i]){
                 case Wall:{
-                    players[i] = std::unique_ptr<wall>();
+                    players[i] = std::make_unique<wall>();
                 }   break;
                 case Predefined:{
-                    players[i] = std::unique_ptr<predefined>();
+                    players[i] = std::make_unique<predefined>();
                 }   break;
                 case Human:{
-                    players[i] = std::unique_ptr<human>();
+                    players[i] = std::make_unique<human>();
                     human* hag = dynamic_cast<human*>(players[i].get());
                     human_players.push_back(hag);
                 }   break;
                 case QAgent:{
-                    players[i] = std::unique_ptr<q_agent>();
+                    players[i] = std::make_unique<q_agent>();
                     q_agent* qag = dynamic_cast<q_agent*>(players[i].get());
                     if( !configp ){ throw custom::exception("Config file contents not passed to pong game instance.");}
                     qag->setMDP(mdp[Two]);
@@ -142,6 +132,22 @@ namespace pong {
             }// end switch
         }//end for loop
         
+        // setup event queue and related stuff
+        timer = al_create_timer(1.0 / FPS);
+        if(!timer) { throw custom::exception("failed to create timer!"); }
+        
+        event_queue = al_create_event_queue();
+        if(!event_queue) {
+            al_destroy_timer(timer);
+            throw custom::exception("failed to create the event queue!");
+        }
+        
+        // register sources for events
+        al_register_event_source(event_queue, al_get_display_event_source(pong_gui->getDisplayRef()));
+        al_register_event_source(event_queue, al_get_timer_event_source(timer));
+        al_register_event_source(event_queue, al_get_keyboard_event_source());
+        
+        
         // play the game
         bool redraw             = false;
         bool gameComplete       = false;
@@ -149,28 +155,52 @@ namespace pong {
         bool key[4] = {0};
         double newPlayerPos[2] = {0};
         size_t state_hash = 17;
+        
+        al_start_timer(timer);
         while(!gameComplete)
         {
             ALLEGRO_EVENT ev;
-            al_wait_for_event(event_queue, &ev);
             
             if( !handleNonHumans ){
-                newPlayerPos[Player1] = players[Player1]->updatePosition(state); swap();
-                newPlayerPos[Player2] = players[Player2]->updatePosition(state); swap();
+                if( players[Player1]->getAgentType() != Human ){
+                    newPlayerPos[Player1] = players[Player1]->updatePosition(state);
+                }
+                if( players[Player2]->getAgentType() != Human ){
+                    swap();
+                    newPlayerPos[Player2] = players[Player2]->updatePosition(state);
+                    swap();
+                }
                 handleNonHumans = true;
             }
             
+            al_wait_for_event(event_queue, &ev);
+            
             if(ev.type == ALLEGRO_EVENT_TIMER) {
-                if(key[P1_UP] ) {
+                if( players[Player1]->getAgentType() == Human ){
+                    human* p1 = dynamic_cast<human*>(players[Player1].get());
+                    if(key[P1_UP] ) {
+                        p1->setKeyInput(human::Down);
+                    }
+                    
+                    if(key[P1_DWN]) {
+                        p1->setKeyInput(human::Up);
+                    }
+                    
+                    newPlayerPos[Player1] = p1->updatePosition(state);
                 }
                 
-                if(key[P1_DWN]) {
-                }
-                
-                if(key[P2_UP] ) {
-                }
-                
-                if(key[P2_DWN] ) {
+                if( players[Player2]->getAgentType() == Human ){
+                    human* p2 = dynamic_cast<human*>(players[Player2].get());
+                    if(key[P2_UP] ) {
+                        p2->setKeyInput(human::Down);
+                    }
+                    
+                    if(key[P2_DWN]) {
+                        p2->setKeyInput(human::Up);
+                    }
+                    swap();
+                    newPlayerPos[Player2] = p2->updatePosition(state);
+                    swap();
                 }
                 
                 redraw = true;
@@ -226,15 +256,28 @@ namespace pong {
                 // update useful boolean flags
                 redraw          = false;
                 handleNonHumans = false;
-                gameComplete    = !(state_hash != RL::mdp<>::FriendlyPassedPaddleState
-                                    && state_hash != RL::mdp<>::OpponentPassedPaddleState);
+                bool playerAreWalls[2] = {  players[Player1]->getAgentType() == Wall,
+                                            players[Player2]->getAgentType() == Wall };
+                
+                // update the state
+                state_hash = state_transition(state, newPlayerPos[Player1], newPlayerPos[Player2],
+                                                    playerAreWalls[Player1], playerAreWalls[Player2]);
+                
+                // check if game is complete
+                gameComplete    = gameComplete || !(state_hash != RL::mdp<>::FriendlyPassedPaddleState
+                                                    && state_hash != RL::mdp<>::OpponentPassedPaddleState);
                 
                 // update the GUI
+                pong_gui->drawGame(state, playerWins, playerAreWalls);
             }
         }// main game loop
         
         // increment the win score count
         ++playerWins[(state_hash+1)%2];
+        
+        // clear the event queue related variables
+        al_destroy_timer(timer);
+        al_destroy_event_queue(event_queue);
     }
     void game::reset() {
         playerWins[0] = playerWins[1] = 0;

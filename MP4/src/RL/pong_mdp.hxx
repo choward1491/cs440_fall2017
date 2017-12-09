@@ -177,9 +177,9 @@ namespace pong {
             // update friendly paddle position
             cont_state[FriendlyPaddle_y] += delta_step[a];
             if( cont_state[FriendlyPaddle_y] < 0 )          { cont_state[FriendlyPaddle_y] = 0; }
-            else if( cont_state[FriendlyPaddle_y] > height ){ cont_state[FriendlyPaddle_y] = height; }
+            else if( cont_state[FriendlyPaddle_y] > (height - paddle_height) ){ cont_state[FriendlyPaddle_y] = (height - paddle_height); }
             num_t fpaddle_corners[2] = { cont_state[FriendlyPaddle_y] + paddle_height,
-                                        cont_state[FriendlyPaddle_y] - paddle_height};
+                                        cont_state[FriendlyPaddle_y]};
             num_t opaddle_corners[2] = { 0 };
             
             // update ball position
@@ -187,13 +187,13 @@ namespace pong {
             num_t prevBall_y    = cont_state[Ball_y];
             cont_state[Ball_x] += time_step*cont_state[BallSpeed_x];
             cont_state[Ball_y] += time_step*cont_state[BallSpeed_y];
-            num_t avgBall_y     = 0.5*(prevBall_y + cont_state[Ball_y]);
+            num_t fy_intersect  = prevBall_y + (width - prevBall_x)*(cont_state[RL::Ball_y]-prevBall_y)/(cont_state[RL::Ball_x]-prevBall_x);
             
             // update opponent paddle if necessary
             if( !isSingleOpponent ){
                 
                 // difference between vertical ball pos and opponent paddle vertical pos
-                num_t dy = cont_state[Ball_y] - cont_state[OpponentPaddle_y];
+                num_t dy = cont_state[Ball_y] - (cont_state[OpponentPaddle_y] + 0.5*paddle_height);
                 
                 // update paddle position
                 if( dy > 0 ){
@@ -204,11 +204,11 @@ namespace pong {
                 
                 // bound the opponent's paddle pos
                 if( cont_state[OpponentPaddle_y] < 0 )          { cont_state[OpponentPaddle_y] = 0; }
-                else if( cont_state[OpponentPaddle_y] > height ){ cont_state[OpponentPaddle_y] = height; }
+                else if( cont_state[OpponentPaddle_y] > (height-paddle_height) ){ cont_state[OpponentPaddle_y] = (height-paddle_height); }
                 
                 // set corner positions for the opponent paddle
                 opaddle_corners[0] = cont_state[OpponentPaddle_y] + paddle_height;
-                opaddle_corners[1] = cont_state[OpponentPaddle_y] - paddle_height;
+                opaddle_corners[1] = cont_state[OpponentPaddle_y];
             }
             
             // check for collision with paddle(s) and walls
@@ -227,33 +227,24 @@ namespace pong {
             }
             // check for bounce off of the left of the environment
             else if( cont_state[Ball_x] < 0.0 ){
+                
+                num_t y_intersect = prevBall_y + (0.0 - prevBall_x)*(cont_state[RL::Ball_y]-prevBall_y)/(cont_state[RL::Ball_x]-prevBall_x);
                 if( isSingleOpponent ){ // if this should be a wall
                     cont_state[Ball_x]      = -cont_state[Ball_x];
                     cont_state[BallSpeed_x] = -cont_state[BallSpeed_x];
                     
-                }else if( (cont_state[Ball_x] >= opaddle_x && opaddle_x >= prevBall_x) &&
-                        (opaddle_corners[0] >= avgBall_y && opaddle_corners[1] <= avgBall_y ))
+                }else if( (cont_state[Ball_x] <= opaddle_x && opaddle_x <= prevBall_x) &&
+                        (opaddle_corners[0] >= y_intersect && opaddle_corners[1] <= y_intersect ))
                 {
                     // update ball state
-                    cont_state[Ball_x]      = 2*opaddle_x - cont_state[Ball_x];
-                    cont_state[BallSpeed_x] = -cont_state[BallSpeed_x]  + 0.15*U(sampler);
+                    cont_state[Ball_x]      = -cont_state[Ball_x];
+                    cont_state[BallSpeed_x] = -cont_state[BallSpeed_x]  + 0.015*U(sampler);
                     cont_state[BallSpeed_y] = cont_state[BallSpeed_y]   + 0.03*U(sampler);
-                    
-                    // bound velocities if necessary
-                    if( std::abs(cont_state[BallSpeed_x]) < 0.03 ){
-                        cont_state[BallSpeed_x] = 0.03 * sign(cont_state[BallSpeed_x]);
-                    }
-                    if( std::abs(cont_state[BallSpeed_x]) > 1.0 ){
-                        cont_state[BallSpeed_x] = sign(cont_state[BallSpeed_x]);
-                    }
-                    if( std::abs(cont_state[BallSpeed_y]) > 1.0 ){
-                        cont_state[BallSpeed_y] = sign(cont_state[BallSpeed_y]);
-                    }
                 }
             }
             // check for bounce off of friendly paddle
             else if( (cont_state[Ball_x] >= fpaddle_x && fpaddle_x >= prevBall_x) &&
-                     (fpaddle_corners[0] >= avgBall_y && fpaddle_corners[1] <= avgBall_y )
+                     (fpaddle_corners[0] >= fy_intersect && fpaddle_corners[1] <= fy_intersect )
                     )
             {
                 // set flag as true that ball bounced off of paddle
@@ -261,19 +252,19 @@ namespace pong {
                 
                 // update ball state
                 cont_state[Ball_x]      = 2*fpaddle_x - cont_state[Ball_x];
-                cont_state[BallSpeed_x] = -cont_state[BallSpeed_x] + 0.15*U(sampler);
-                cont_state[BallSpeed_y] = cont_state[BallSpeed_y] + 0.03*U(sampler);
-                
-                // bound velocities if necessary
-                if( std::abs(cont_state[BallSpeed_x]) < 0.03 ){
-                    cont_state[BallSpeed_x] = 0.03 * sign(cont_state[BallSpeed_x]);
-                }
-                if( std::abs(cont_state[BallSpeed_x]) > 1.0 ){
-                    cont_state[BallSpeed_x] = sign(cont_state[BallSpeed_x]);
-                }
-                if( std::abs(cont_state[BallSpeed_y]) > 1.0 ){
-                    cont_state[BallSpeed_y] = sign(cont_state[BallSpeed_y]);
-                }
+                cont_state[BallSpeed_x] = -cont_state[BallSpeed_x]  + 0.015*U(sampler);
+                cont_state[BallSpeed_y] = cont_state[BallSpeed_y]   + 0.03*U(sampler);
+            }
+            
+            // bound velocities if necessary
+            if( std::abs(cont_state[BallSpeed_x]) < 0.03 ){
+                cont_state[BallSpeed_x] = 0.03 * sign(cont_state[BallSpeed_x]);
+            }
+            if( std::abs(cont_state[BallSpeed_x]) > 1.0 ){
+                cont_state[BallSpeed_x] = sign(cont_state[BallSpeed_x]);
+            }
+            if( std::abs(cont_state[BallSpeed_y]) > 1.0 ){
+                cont_state[BallSpeed_y] = sign(cont_state[BallSpeed_y]);
             }
             
             // update the discrete state

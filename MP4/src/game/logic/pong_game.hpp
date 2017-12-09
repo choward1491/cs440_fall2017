@@ -15,6 +15,7 @@
 #include "pong_agent.hpp"
 #include "pong_mdp.hpp"
 #include "../../utility/config_parser.hpp"
+#include "../gui/pong_gui.hpp"
 
 namespace pong {
     
@@ -22,7 +23,7 @@ namespace pong {
     public:
         
         // ctor/dtor
-        game();
+        game(gui* pong_gui);
         ~game() = default;
         
         // game play related info
@@ -51,7 +52,7 @@ namespace pong {
         // allegro items
         ALLEGRO_EVENT_QUEUE *event_queue;
         ALLEGRO_TIMER       *timer;
-        ALLEGRO_BITMAP      *bouncer;
+        gui                 *pong_gui;
         
         // method to initialize the game
         void init();

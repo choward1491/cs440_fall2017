@@ -14,7 +14,9 @@
 #include <vector>
 
 namespace pong {
-    size_t state_transition( std::vector<double> & state, double newPlayer1PaddlePos, double newPlayer2PaddlePos, bool isSinglePlayer);
+    size_t state_transition( std::vector<double> & state,
+                            double newPlayer1PaddlePos, double newPlayer2PaddlePos,
+                            bool player1IsWall, bool player2IsWall);
 }
 
 #endif /* state_transition_hpp */
