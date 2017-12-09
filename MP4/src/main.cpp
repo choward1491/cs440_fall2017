@@ -47,14 +47,19 @@ int main(int argc, char** argv){
             pconfig.parse(commp["-config"]);
         }
         
+#ifndef PLAY_GUI
         pong::initAllegro();
-        pong::bundle game_play(700,600);
+        pong::bundle game_play(700,600,100);
         game_play.setConfig(pconfig);
         game_play.run();
+#else
+         
         //test::pongQLearningSingle();
         //test::pongQLearningSingleActualPlay();
-        //test::pongQLearningOpponent();
-        //test::pongQLearningOpponentActualPlay();
+        test::pongQLearningOpponent(1e7,1e-2,0.80);
+        test::pongQLearningOpponentActualPlay(1e4);
+        //test::pongQLearningOpponentLargeInit();
+#endif
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");

@@ -23,7 +23,7 @@ namespace pong {
     public:
         
         // ctor/dtor
-        game(gui* pong_gui);
+        game(gui* pong_gui, int frames_per_second=15);
         ~game() = default;
         
         // game play related info
@@ -57,6 +57,11 @@ namespace pong {
         // method to initialize the game
         void init();
         void swap();
+        
+        // methods for playing a game
+        bool playIndividualGUIGame();
+        bool playIndividualGameWithNoGUI();
+        
     };
     
 }// end namespace pong

@@ -30,6 +30,7 @@ namespace RL {
     }
     double state_tracker_rate::operator()(unsigned int iter, size_t s, size_t a) {
         N[s + ns*a]++;
-        return 1e-2 / (1e-2 + static_cast<double>(N[s + ns*a]) );
+        double C = 1e1;
+        return C / (C + static_cast<double>(N[s + ns*a]) );
     }
 }

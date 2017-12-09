@@ -32,7 +32,9 @@ namespace pong {
         else{                               return Wall; }
     }
     
-    bundle::bundle(int window_w, int window_h):game_(&gui_),gui_(window_w,window_h),pconfig(nullptr){
+    bundle::bundle(int window_w, int window_h, int frames_per_second):
+    game_(&gui_,frames_per_second),gui_(window_w,window_h),pconfig(nullptr)
+    {
         
     }
     

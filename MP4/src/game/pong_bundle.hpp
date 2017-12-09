@@ -22,7 +22,7 @@ namespace pong {
     class bundle {
     public:
         
-        bundle(int window_width, int window_height);
+        bundle(int window_width, int window_height, int frames_per_second = 15);
         ~bundle() = default;
         
         void run();

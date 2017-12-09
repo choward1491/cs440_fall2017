@@ -50,8 +50,8 @@ namespace pong {
     };
     
     // ctor/dtor
-    game::game(gui* pgui):isSinglePlayer(false),players(2),
-        configp(nullptr),FPS(15.0),event_queue(nullptr),timer(nullptr),pong_gui(pgui)
+    game::game(gui* pgui, int frames_per_second):isSinglePlayer(false),players(2),
+        configp(nullptr),FPS(frames_per_second),event_queue(nullptr),timer(nullptr),pong_gui(pgui)
     {
         playerWins[Player1] = 0;
         playerWins[Player2] = 0;
@@ -88,9 +88,16 @@ namespace pong {
         }
     }
     void game::swap() {
+        
+        // swap paddle positions
         double tmp                  = state[RL::FriendlyPaddle_y];
         state[RL::FriendlyPaddle_y] = state[RL::OpponentPaddle_y];
         state[RL::OpponentPaddle_y] = tmp;
+        
+        // swap ball position and speed in x component
+        state[RL::Ball_x]       = width - state[RL::Ball_x];
+        state[RL::BallSpeed_x]  *= -1.0;
+        
     }
     bool game::play( enum agent_type p1_type, enum agent_type p2_type ) {
         
@@ -98,7 +105,7 @@ namespace pong {
         if( p1_type == Wall || p2_type == Wall ){ isSinglePlayer = true; }
         
         // resize the state based on if it is single player or not
-        if( isSinglePlayer ){ state.resize(5,0); }
+        if( isSinglePlayer ){ state.resize(6,0); }
         else                { state.resize(6,0); }
         
         // initialize the game state
@@ -122,7 +129,11 @@ namespace pong {
                     players[i] = std::make_unique<q_agent>();
                     q_agent* qag = dynamic_cast<q_agent*>(players[i].get());
                     if( !configp ){ throw custom::exception("Config file contents not passed to pong game instance.");}
-                    qag->setMDP(mdp[Two]);
+                    if( configp->retrieve<std::string>("qtype"+qtable_ext[i]) == "single"){
+                        qag->setMDP(mdp[Single]);
+                    }else{
+                        qag->setMDP(mdp[Two]);
+                    }
                     std::string qtable_file = configp->retrieve<std::string>("qvalues"+qtable_ext[i]);
                     qag->loadController(qtable_file);
                 }   break;

@@ -37,7 +37,7 @@ namespace pong {
     mdp_t::state_type getStateHash( const std::vector<double> & state, const std::vector<std::vector<double>> & var_values ) {
         mdp_t::state_type hash = 2;
         mdp_t::state_type factor = 1;
-        for(size_t idx = 0; idx < state.size(); idx++){
+        for(size_t idx = 0; idx < var_values.size(); idx++){
             hash += factor*componentHasher(idx,state,var_values);
             factor *= var_values[idx].size();
         }

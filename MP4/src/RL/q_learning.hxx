@@ -65,7 +65,10 @@ namespace RL {
             num_t       r = 0.0;
             state_type  s = 0, sn = 0;
             action_type a = 0;
-            num_t net_reward = 0;
+            num_t tot_reward = 0, avg_reward = 0, tmp_avg_reward = 0;
+            const unsigned int print_progress = 1000000;
+            const num_t        inv_factor = 1.0/print_progress;
+            
             while( !model.episodeComplete() ){
                 
                 // get current state
@@ -86,18 +89,22 @@ namespace RL {
                 alpha = alphaf(num_episodes_tot++, s, a);
                 Q(s,a) = (1-alpha)*Q(s,a) + alpha*(r + gamma*maxQ(sn) );
                 
-                net_reward += r;
-                //printf("Q(%u,%u) = %lf\n", s, a, Q(s,a) );
+                tot_reward      += r;
+                tmp_avg_reward  += r*inv_factor;
                 
                 // if callback is defined
                 if( cback ){
-                    // implement something once callback definition
-                    // is ironed out
+                    // may still refine this
+                    (*cback)(r);
                 }
                 
             }// end single game loop
-            if( n % 1 == 0 ){
-                printf("Episode %u - R = %lf\n", n+1, net_reward);
+            if( n && n % 1000000 == 0 ){
+                const num_t ratio = print_progress / static_cast<num_t>(n);
+                avg_reward = ratio*tmp_avg_reward + (1.0 - ratio)*avg_reward;
+                printf("Episode %10u | R_{avg} = %5.3e | R_{tot} = %lf\n", n+1, avg_reward, tot_reward);
+                tmp_avg_reward  = 0.0;
+                tot_reward      = 0.0;
             }
         }// end main training loop
     }

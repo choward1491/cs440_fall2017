@@ -12,10 +12,11 @@
 #define test_pong_qlearning_hpp
 
 namespace test {
-    void pongQLearningSingle();
+    void pongQLearningSingle( unsigned int num_episodes, double eps = 1e-1, double discountFactor = 0.5 );
     void pongQLearningSingleActualPlay();
-    void pongQLearningOpponent();
-    void pongQLearningOpponentActualPlay();
+    void pongQLearningOpponent( unsigned int num_episodes, double eps = 1e-1, double discountFactor = 0.5 );
+    void pongQLearningOpponentActualPlay(unsigned int num_episodes, double eps = 1e-1, double discountFactor = 0.5);
+    void pongQLearningOpponentLargeInit();
 }
 
 #endif /* test_pong_qlearning_hpp */

@@ -276,10 +276,10 @@ namespace pong {
                 disc_state = FriendlyPassedPaddleState;
             }
             else if( cont_state[Ball_x] < 0 ){
-                reward = 10;
+                reward = 1;
                 disc_state = OpponentPassedPaddleState;
             }
-            else if( bouncedOffPaddle ) { reward = 1.0; }
+            else if( bouncedOffPaddle ) { reward = 1.0*isSingleOpponent; }
             else                        { reward = 0.0; }
             
         }
@@ -304,7 +304,7 @@ namespace pong {
         HEADER void CLASS::updateDiscreteStateHash() {
             state_type hash = 2;
             state_type factor = 1;
-            for(size_t idx = 0; idx < cont_state.size(); idx++){
+            for(size_t idx = 0; idx < var_values.size(); idx++){
                 hash += factor*componentHasher(idx);
                 factor *= var_values[idx].size();
             }
