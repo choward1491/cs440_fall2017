@@ -46,8 +46,13 @@ int main(int argc, char** argv){
         }
         
         if( pconfig.retrieve<std::string>("goal") == "play" ){
+            int w = 700, h = 600, fps = 60;
+            if( pconfig.exist("windowWidth") )      { w     = pconfig.retrieve<int>("windowWidth"); }
+            if( pconfig.exist("windowHeight") )     { h     = pconfig.retrieve<int>("windowHeight"); }
+            if( pconfig.exist("framesPerSecond") )  { fps   = pconfig.retrieve<int>("framesPerSecond"); }
+            
             pong::initAllegro();
-            pong::bundle game_play(700,600,20);
+            pong::bundle game_play(w,h,fps);
             game_play.setConfig(pconfig);
             game_play.run();
         }else{
