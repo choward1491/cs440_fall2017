@@ -12,6 +12,7 @@
 #define pong_game_hpp
 
 #include <vector>
+#include <memory>
 #include "pong_agent.hpp"
 #include "pong_mdp.hpp"
 #include "../../utility/config_parser.hpp"
