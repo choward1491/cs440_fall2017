@@ -37,11 +37,12 @@ namespace RL {
         
         // main learning algorithm
         template<typename alpha_func, typename callback>
-        void train(unsigned int num_episodes, callback* cback = nullptr);
+        void train(num_t alpha_value, unsigned int num_episodes, unsigned int count_print_msg = 1000000, callback* cback = nullptr);
         
         // method to setup the Q Learning internals
         // based on the current setup for the MDP
         void init( num_t value = 0 );
+        void init( const std::string & qvalues_file );
         
         // method to reset the table and progress made
         void reset( num_t value = 0 );

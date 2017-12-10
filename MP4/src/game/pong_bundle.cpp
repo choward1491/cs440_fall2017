@@ -39,6 +39,7 @@ namespace pong {
     }
     
     void bundle::run(){
+        
         // get types for players from config file
         std::string type1 = pconfig->retrieve<std::string>("player1");
         std::string type2 = pconfig->retrieve<std::string>("player2");
@@ -51,6 +52,9 @@ namespace pong {
         
         // play the game until someone ends it
         while( !game_.play(p1_t, p2_t) ){}
+        
+        // print the results
+        printf("P1 vs P2 | %u - %u \n",game_.getNumberOfWins(0),game_.getNumberOfWins(1));
     }
     
     const game & bundle::getGame() const {

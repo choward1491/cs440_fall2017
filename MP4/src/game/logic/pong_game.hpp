@@ -42,7 +42,8 @@ namespace pong {
         
         // internal game state
         bool isSinglePlayer;
-        unsigned int playerWins[2];
+        unsigned int playerWins[2], num_games;
+        size_t state_hash;
         RL::mdp<>   mdp[2];
         std::vector<double> state;
         std::vector<std::unique_ptr<agent>> players;
@@ -59,6 +60,7 @@ namespace pong {
         void swap();
         
         // methods for playing a game
+        void waitForHumanReadyIfPlaying(bool & stopPlaying, bool & gameComplete);
         bool playIndividualGUIGame();
         bool playIndividualGameWithNoGUI();
         

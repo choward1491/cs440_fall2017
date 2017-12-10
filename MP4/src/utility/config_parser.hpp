@@ -46,6 +46,10 @@ namespace parser {
         template<typename type>
         type retrieve( const std::string & varname) const ;
         
+        /*!
+         * \brief Method to see if some string exists
+         */
+        bool exist( const std::string & varname ) const;
         
         /*!
          * \brief Method to print key-value pairs in the internal storage

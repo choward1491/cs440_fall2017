@@ -87,16 +87,16 @@ namespace pong {
         
         // draw the score
         char score[16] = {'\0'};
-        ALLEGRO_FONT* font = al_load_ttf_font("/Library/Fonts/Tahoma.ttf", 40, 0);
+        ALLEGRO_FONT* font = al_load_ttf_font("/Library/Fonts/Tahoma.ttf", 60, 0);
         sprintf(score, "%u",playerPoints[Player2]);
         al_draw_text(font,
-                     al_map_rgb_f(0.6, 0.0, 1.0),
+                     al_map_rgb_f(0.0, 1.0, 1.0),
                      window_width*0.25, window_height*0.1,
                      ALLEGRO_ALIGN_CENTRE, score);
         
         sprintf(score, "%u",playerPoints[Player1]);
         al_draw_text(font,
-                     al_map_rgb_f(0.6, 0.0, 1.0),
+                     al_map_rgb_f(0.0, 1.0, 1.0),
                      window_width*0.75, window_height*0.1,
                      ALLEGRO_ALIGN_CENTRE, score);
         

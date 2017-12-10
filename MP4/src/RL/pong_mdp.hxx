@@ -182,13 +182,7 @@ namespace pong {
                                         cont_state[FriendlyPaddle_y]};
             num_t opaddle_corners[2] = { 0 };
             
-            // update ball position
-            num_t prevBall_x    = cont_state[Ball_x];
-            num_t prevBall_y    = cont_state[Ball_y];
-            cont_state[Ball_x] += time_step*cont_state[BallSpeed_x];
-            cont_state[Ball_y] += time_step*cont_state[BallSpeed_y];
-            num_t fy_intersect  = prevBall_y + (width - prevBall_x)*(cont_state[RL::Ball_y]-prevBall_y)/(cont_state[RL::Ball_x]-prevBall_x);
-            
+
             // update opponent paddle if necessary
             if( !isSingleOpponent ){
                 
@@ -210,6 +204,13 @@ namespace pong {
                 opaddle_corners[0] = cont_state[OpponentPaddle_y] + paddle_height;
                 opaddle_corners[1] = cont_state[OpponentPaddle_y];
             }
+            
+            // update ball position
+            num_t prevBall_x    = cont_state[Ball_x];
+            num_t prevBall_y    = cont_state[Ball_y];
+            cont_state[Ball_x] += time_step*cont_state[BallSpeed_x];
+            cont_state[Ball_y] += time_step*cont_state[BallSpeed_y];
+            //sampler.seed(17);
             
             // check for collision with paddle(s) and walls
             // and make sure to handle this dynamics change
@@ -242,20 +243,24 @@ namespace pong {
                     cont_state[BallSpeed_y] = cont_state[BallSpeed_y]   + 0.03*U(sampler);
                 }
             }
+
             // check for bounce off of friendly paddle
-            else if( (cont_state[Ball_x] >= fpaddle_x && fpaddle_x >= prevBall_x) &&
-                     (fpaddle_corners[0] >= fy_intersect && fpaddle_corners[1] <= fy_intersect )
-                    )
-            {
-                // set flag as true that ball bounced off of paddle
-                bouncedOffPaddle = true;
-                
-                // update ball state
-                cont_state[Ball_x]      = 2*fpaddle_x - cont_state[Ball_x];
-                cont_state[BallSpeed_x] = -cont_state[BallSpeed_x]  + 0.015*U(sampler);
-                cont_state[BallSpeed_y] = cont_state[BallSpeed_y]   + 0.03*U(sampler);
+            if( cont_state[Ball_x] > width ){
+
+                num_t y_intersect = prevBall_y + (width - prevBall_x)*(cont_state[RL::Ball_y]-prevBall_y)/(cont_state[RL::Ball_x]-prevBall_x);
+                if( (cont_state[Ball_x] >= fpaddle_x && fpaddle_x >= prevBall_x) &&
+                         (fpaddle_corners[0] >= y_intersect && fpaddle_corners[1] <= y_intersect )
+                        )
+                {
+                    // set flag as true that ball bounced off of paddle
+                    bouncedOffPaddle = true;
+                    
+                    // update ball state
+                    cont_state[Ball_x]      = 2*fpaddle_x - cont_state[Ball_x];
+                    cont_state[BallSpeed_x] = -cont_state[BallSpeed_x]  + 0.015*U(sampler);
+                    cont_state[BallSpeed_y] = cont_state[BallSpeed_y]   + 0.03*U(sampler);
+                }
             }
-            
             // bound velocities if necessary
             if( std::abs(cont_state[BallSpeed_x]) < 0.03 ){
                 cont_state[BallSpeed_x] = 0.03 * sign(cont_state[BallSpeed_x]);

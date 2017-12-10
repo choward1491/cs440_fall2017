@@ -11,26 +11,25 @@
 #include "learning_rates.hpp"
 
 namespace RL {
-    constant_rate::constant_rate(size_t ns, size_t na){
+    constant_rate::constant_rate(size_t ns, size_t na, double v):alpha(v){
         
     }
     double constant_rate::operator()(unsigned int iter, size_t s, size_t a) {
-        return 1e-3;
+        return alpha;
     }
     
-    inverse_decay_rate::inverse_decay_rate(size_t ns, size_t na){
+    inverse_decay_rate::inverse_decay_rate(size_t ns, size_t na,double v):C(v){
         
     }
     double inverse_decay_rate::operator()(unsigned int iter, size_t s, size_t a) {
-        return 1e-2 / (1.0 + 1e-2*static_cast<double>(iter));
+        return C / (C + static_cast<double>(iter));
     }
     
-    state_tracker_rate::state_tracker_rate(size_t ns_, size_t na_):N(ns_*na_,0){
+    state_tracker_rate::state_tracker_rate(size_t ns_, size_t na_, double v):N(ns_*na_,0),C(v){
         ns = ns_; na = na_;
     }
     double state_tracker_rate::operator()(unsigned int iter, size_t s, size_t a) {
         N[s + ns*a]++;
-        double C = 1e1;
         return C / (C + static_cast<double>(N[s + ns*a]) );
     }
 }

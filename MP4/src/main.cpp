@@ -23,14 +23,10 @@
 #include "utility/text_color.hpp"
 #include "utility/commandline_parser.hpp"
 #include "utility/config_parser.hpp"
-#include "tests/test_pong_qlearning.hpp"
+
+// pong related code
 #include "game/pong_bundle.hpp"
-
-
-
-#ifndef _WIN32
-#define LIBPNG_DEFINED
-#endif
+#include "RL/pong_training.hpp"
 
 
 int main(int argc, char** argv){
@@ -45,21 +41,18 @@ int main(int argc, char** argv){
         
         if( commp["-config"].size() != 0 ){
             pconfig.parse(commp["-config"]);
+        }else{
+            throw custom::exception("Need to pass in config file via command line input `-config` to setup game/training.");
         }
         
-#ifndef PLAY_GUI
-        pong::initAllegro();
-        pong::bundle game_play(700,600,100);
-        game_play.setConfig(pconfig);
-        game_play.run();
-#else
-         
-        //test::pongQLearningSingle();
-        //test::pongQLearningSingleActualPlay();
-        test::pongQLearningOpponent(1e7,1e-2,0.80);
-        test::pongQLearningOpponentActualPlay(1e4);
-        //test::pongQLearningOpponentLargeInit();
-#endif
+        if( pconfig.retrieve<std::string>("goal") == "play" ){
+            pong::initAllegro();
+            pong::bundle game_play(700,600,20);
+            game_play.setConfig(pconfig);
+            game_play.run();
+        }else{
+            pong::train(pconfig);
+        }
     
     }catch( MessageException & msg ){
         text::printf_color(text::Cyan, "Exception: ");

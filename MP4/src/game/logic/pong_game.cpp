@@ -12,6 +12,7 @@
 // standard lib includes
 #include <chrono>
 #include <allegro5/allegro.h>
+#include <cstdlib>
 
 // high level pong related includes
 #include "pong_game.hpp"
@@ -50,7 +51,7 @@ namespace pong {
     };
     
     // ctor/dtor
-    game::game(gui* pgui, int frames_per_second):isSinglePlayer(false),players(2),
+    game::game(gui* pgui, int frames_per_second):isSinglePlayer(false),players(2),num_games(0),
         configp(nullptr),FPS(frames_per_second),event_queue(nullptr),timer(nullptr),pong_gui(pgui)
     {
         playerWins[Player1] = 0;
@@ -157,14 +158,98 @@ namespace pong {
         
         
         // play the game
+        bool stopPlaying = false;
+        if( configp->retrieve<bool>("useGUI") ){
+            stopPlaying = playIndividualGUIGame();
+        }else{
+            stopPlaying = playIndividualGameWithNoGUI();
+        }
+        
+        // increment the win score count if game ended normally
+        if( !stopPlaying ){
+            ++playerWins[(state_hash+1)%2];
+        }
+        
+        // increment the number of games played
+        ++num_games;
+        
+        // check if we hit the max number of games
+        if( configp->retrieve<std::string>("numGames") != ""
+           && configp->retrieve<std::string>("numGames") != "inf" )
+        {
+            stopPlaying = stopPlaying || (configp->retrieve<unsigned int>("numGames") <= num_games);
+        }
+        
+        // clear the event queue related variables
+        al_destroy_timer(timer);
+        al_destroy_event_queue(event_queue);
+        
+        // return flag
+        return stopPlaying;
+    }
+    void game::reset() {
+        num_games = 0;
+        playerWins[0] = playerWins[1] = 0;
+    }
+    
+    // getters
+    unsigned int game::getNumberOfWins(int idx) {
+        return playerWins[idx];
+    }
+    const std::vector<double> & game::getState() const {
+        return state;
+    }
+    enum agent_type game::getPlayerType(int idx) const {
+        return players[idx]->getAgentType();
+    }
+
+    
+    void game::waitForHumanReadyIfPlaying(bool & stopPlaying, bool & gameComplete) {
+        if( num_games == 0 && (players[0]->getAgentType() == Human || players[1]->getAgentType() == Human) ){
+            printf("Hit enter when you're ready to play!\n");
+            bool escape = false;
+            while(!escape)
+            {
+                ALLEGRO_EVENT ev;
+                al_wait_for_event(event_queue, &ev);
+                
+                if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+                    escape          = true;
+                    gameComplete    = true;
+                    stopPlaying     = true;
+                    break;
+                }
+                else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
+                    switch(ev.keyboard.keycode) {
+                        case ALLEGRO_KEY_ENTER:
+                            escape = true;
+                            break;
+                            
+                        case ALLEGRO_KEY_ESCAPE:
+                            escape          = true;
+                            stopPlaying     = true;
+                            gameComplete    = true;
+                            break;
+                    }
+                }
+            }// end while escape
+        }// end wait for human being ready
+    }
+    
+    bool game::playIndividualGUIGame() {
         bool stopPlaying        = false;
         bool redraw             = false;
         bool gameComplete       = false;
         bool handleNonHumans    = false;
         bool key[4] = {0};
         double newPlayerPos[2] = {0};
-        size_t state_hash = 17;
+        state_hash = 17;
         
+        // if either of the players are human, allow players to start the game
+        // after hitting enter
+        waitForHumanReadyIfPlaying(stopPlaying,gameComplete);
+        
+        // do main game loop
         al_start_timer(timer);
         while(!gameComplete)
         {
@@ -273,7 +358,7 @@ namespace pong {
                 
                 // update the state
                 state_hash = state_transition(state, newPlayerPos[Player1], newPlayerPos[Player2],
-                                                    playerAreWalls[Player1], playerAreWalls[Player2]);
+                                              playerAreWalls[Player1], playerAreWalls[Player2]);
                 
                 // check if game is complete
                 gameComplete    = gameComplete || !(state_hash != RL::mdp<>::FriendlyPassedPaddleState
@@ -284,33 +369,37 @@ namespace pong {
             }
         }// main game loop
         
-        // increment the win score count if game ended normally
-        if( !stopPlaying ){
-            ++playerWins[(state_hash+1)%2];
-        }
-        
-        // clear the event queue related variables
-        al_destroy_timer(timer);
-        al_destroy_event_queue(event_queue);
-        
-        // return flag
         return stopPlaying;
     }
-    void game::reset() {
-        playerWins[0] = playerWins[1] = 0;
+    bool game::playIndividualGameWithNoGUI() {
+        bool stopPlaying        = false;
+        bool gameComplete       = false;
+        double newPlayerPos[2] = {0};
+        state_hash = 17;
+        
+        while(!gameComplete)
+        {
+            
+            newPlayerPos[Player1] = players[Player1]->updatePosition(state);
+            swap();
+            newPlayerPos[Player2] = players[Player2]->updatePosition(state);
+            swap();
+            
+            bool playerAreWalls[2] = {  players[Player1]->getAgentType() == Wall,
+                                        players[Player2]->getAgentType() == Wall };
+            
+            // update the state
+            state_hash = state_transition(state, newPlayerPos[Player1], newPlayerPos[Player2],
+                                          playerAreWalls[Player1], playerAreWalls[Player2]);
+            
+            // check if game is complete
+            gameComplete    = gameComplete || !(state_hash != RL::mdp<>::FriendlyPassedPaddleState
+                                                && state_hash != RL::mdp<>::OpponentPassedPaddleState);
+            
+        }// main game loop
+        
+        return stopPlaying;
     }
-    
-    // getters
-    unsigned int game::getNumberOfWins(int idx) {
-        return playerWins[idx];
-    }
-    const std::vector<double> & game::getState() const {
-        return state;
-    }
-    enum agent_type game::getPlayerType(int idx) const {
-        return players[idx]->getAgentType();
-    }
-
 
     
 }

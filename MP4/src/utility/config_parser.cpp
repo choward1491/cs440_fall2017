@@ -28,6 +28,16 @@ namespace parser {
         interpreter(keyval_map);
     }
     
+    
+    /*!
+     * \brief Method to see if some string exists
+     */
+    bool config::exist( const std::string & varname ) const {
+        auto it = keyval_map.find(varname);
+        return ( it != keyval_map.end() );
+    }
+    
+    
     /*!
      * \brief Method used to retrieve data stored by some variable in the config file
      *        such that the output data is in a desired form
@@ -181,7 +191,9 @@ namespace parser {
         if( getToken().getType() == token_t::COLON ){ updateIndex(); }
         else{ /* throw error */ }
         skipAllSpaceAndNextline();
-        readStringWithSpaces();
+        //readStringWithSpaces();
+        readString();
+        skipAllSpace();
         if( getToken().getType() == token_t::POUND ){ skipComments(); }
         else{ skipAllSpaceAndNextline(); }
         kvlist[key] = tmp;

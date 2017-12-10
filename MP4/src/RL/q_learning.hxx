@@ -44,18 +44,19 @@ namespace RL {
     // main learning algorithm
     HEADER
     template<typename alpha_func, typename callback>
-    void CLASS::train(unsigned int num_episodes, callback* cback) {
+    void CLASS::train(num_t alpha_value, unsigned int num_episodes, unsigned int count_print_msg, callback* cback) {
         
         // define random number generators for use in training
         std::uniform_real_distribution<num_t>       U(0,1);
         std::uniform_int_distribution<action_type>  Ua(0,model.numActions()-1);
         
         // define the alpha function for use in defining the learning rate
-        alpha_func  alphaf(model.numStates(),model.numActions());
+        alpha_func  alphaf(model.numStates(),model.numActions(),alpha_value);
         num_t       alpha = 0.0;
         
         //loop through the number of games that will be used
         // to train
+        num_t avg_reward = 0, tot_reward = 0;
         for(unsigned int n = 0; n < num_episodes; ++n){
             
             // reset the game to some initial configuration
@@ -65,9 +66,8 @@ namespace RL {
             num_t       r = 0.0;
             state_type  s = 0, sn = 0;
             action_type a = 0;
-            num_t tot_reward = 0, avg_reward = 0, tmp_avg_reward = 0;
-            const unsigned int print_progress = 1000000;
-            const num_t        inv_factor = 1.0/print_progress;
+            num_t tmp_avg_reward = 0;
+            const num_t inv_factor = 1.0/count_print_msg;
             
             while( !model.episodeComplete() ){
                 
@@ -75,8 +75,9 @@ namespace RL {
                 s = model.getState();
                 
                 // get next action
-                if( U(sampler) < epsilon )  {   a = Ua(sampler);            }
-                else                        {   a = argmaxQ(s);    }
+                num_t eps_scale = (1000.0/(1000.0 + n));
+                if( U(sampler) < epsilon*eps_scale )    {   a = Ua(sampler);   }
+                else                                    {   a = argmaxQ(s);    }
                 
                 // perform the action
                 model.transition(a);
@@ -89,18 +90,20 @@ namespace RL {
                 alpha = alphaf(num_episodes_tot++, s, a);
                 Q(s,a) = (1-alpha)*Q(s,a) + alpha*(r + gamma*maxQ(sn) );
                 
+                // update reward related statistics
                 tot_reward      += r;
                 tmp_avg_reward  += r*inv_factor;
                 
                 // if callback is defined
                 if( cback ){
-                    // may still refine this
-                    (*cback)(r);
+                    (*cback)(r); // may still refine this
                 }
                 
             }// end single game loop
-            if( n && n % 1000000 == 0 ){
-                const num_t ratio = print_progress / static_cast<num_t>(n);
+            
+            // print message if necessary
+            if( n && (n % count_print_msg == 0) ){
+                const num_t ratio = count_print_msg / static_cast<num_t>(n);
                 avg_reward = ratio*tmp_avg_reward + (1.0 - ratio)*avg_reward;
                 printf("Episode %10u | R_{avg} = %5.3e | R_{tot} = %lf\n", n+1, avg_reward, tot_reward);
                 tmp_avg_reward  = 0.0;
@@ -112,6 +115,12 @@ namespace RL {
     HEADER void CLASS::init( num_t value ) {
         num_episodes_tot = 0;
         q_values.resize(model.numStates()*model.numActions(),value);
+    }
+    
+    HEADER void CLASS::init( const std::string & qvalues_file ) {
+        num_episodes_tot = 0;
+        q_values.resize(model.numStates()*model.numActions(),0);
+        load(qvalues_file);
     }
     
     // method to reset the table and progress made

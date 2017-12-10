@@ -49,7 +49,7 @@ namespace pong {
         num_t prevBall_y    = state[RL::Ball_y];
         state[RL::Ball_x] += time_step*state[RL::BallSpeed_x];
         state[RL::Ball_y] += time_step*state[RL::BallSpeed_y];
-        num_t avgBall_y     = 0.5*(prevBall_y + state[RL::Ball_y]);
+        //sampler.seed(17);
         
         // update friendly paddle if necessary
         if( !player1IsWall ){

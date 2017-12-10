@@ -18,23 +18,28 @@ namespace RL {
     class constant_rate {
     public:
         constant_rate() = default;
-        constant_rate(size_t,size_t);
+        constant_rate(size_t,size_t,double);
         double operator()(unsigned int iter, size_t s, size_t a);
+    private:
+        double alpha;
     };
     
     class inverse_decay_rate {
     public:
         inverse_decay_rate() = default;
-        inverse_decay_rate(size_t,size_t);
+        inverse_decay_rate(size_t,size_t,double);
         double operator()(unsigned int iter, size_t s, size_t a);
+    private:
+        double C;
     };
     
     class state_tracker_rate {
     public:
         state_tracker_rate() = default;
-        state_tracker_rate(size_t,size_t);
+        state_tracker_rate(size_t,size_t,double);
         double operator()(unsigned int iter, size_t s, size_t a);
     private:
+        double C;
         size_t ns, na;
         std::vector<unsigned int> N;
     };

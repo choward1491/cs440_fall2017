@@ -31,7 +31,7 @@ namespace test {
         ql.setDiscountFactor(discountFactor);
         ql.setExplorationThreshold(eps);
         ql.init();
-        ql.train<RL::state_tracker_rate,void (*)(double)>(num_episodes);
+        ql.train<RL::state_tracker_rate,void (*)(double)>(1e1,num_episodes);
         ql.save(data_file);
     }
     
@@ -54,7 +54,7 @@ namespace test {
         ql.setExplorationThreshold(0);
         ql.init();
         ql.load(data_file);
-        ql.train<RL::state_tracker_rate,void (*)(double)>(1000);
+        ql.train<RL::state_tracker_rate,void (*)(double)>(1e1,1000);
         ql.save(data_file2);
     }
     
@@ -96,7 +96,7 @@ namespace test {
         ql.setDiscountFactor(discountFactor);
         ql.setExplorationThreshold(eps);
         ql.init();
-        ql.train<RL::state_tracker_rate,PrintGameWins>(num_episodes);
+        ql.train<RL::state_tracker_rate,PrintGameWins>(1e1,num_episodes);
         ql.save(data_file);
     }
     
@@ -121,7 +121,7 @@ namespace test {
         ql.setExplorationThreshold(eps);
         ql.init();
         ql.load(data_file);
-        ql.train<RL::state_tracker_rate,PrintGameWins>(num_episodes,&callback);
+        ql.train<RL::state_tracker_rate,PrintGameWins>(1e1,num_episodes,1e6,&callback);
         ql.save(data_file2);
     }
     
@@ -143,7 +143,7 @@ namespace test {
         ql.setDiscountFactor(0.70);
         ql.setExplorationThreshold(0.0);
         ql.init(3.0);
-        ql.train<RL::state_tracker_rate,void (*)(double)>(10*1000000);
+        ql.train<RL::state_tracker_rate,void (*)(double)>(1e1,10*1000000);
         ql.save(data_file);
     }
 }
