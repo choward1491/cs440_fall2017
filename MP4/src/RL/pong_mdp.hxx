@@ -277,7 +277,8 @@ namespace pong {
             
             // do reward related checks
             if( cont_state[Ball_x] > width ){
-                reward = -1.0;
+                //reward = -1.0*10;   // reward for modified MDP case
+                reward = -1.0;      // reward for nominal MDP case
                 disc_state = FriendlyPassedPaddleState;
             }
             else if( cont_state[Ball_x] < 0 ){

@@ -1,0 +1,20 @@
+\contentsline {section}{\numberline {1}Pong and Q Learning}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}General Formulation}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}General Implementation}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Volleying Pong Agent}{4}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}Formulation}{4}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {1.3.2}Nominal Results}{6}{subsubsection.1.3.2}
+\contentsline {subsubsection}{\numberline {1.3.3}Results after MDP Modification}{7}{subsubsection.1.3.3}
+\contentsline {subsection}{\numberline {1.4}Dualing Pong Agents}{8}{subsection.1.4}
+\contentsline {subsubsection}{\numberline {1.4.1}Formulation}{8}{subsubsection.1.4.1}
+\contentsline {subsubsection}{\numberline {1.4.2}Implementation Modifications}{8}{subsubsection.1.4.2}
+\contentsline {subsubsection}{\numberline {1.4.3}Nominal Results}{8}{subsubsection.1.4.3}
+\contentsline {subsubsection}{\numberline {1.4.4}Results after Human Playing Agent}{9}{subsubsection.1.4.4}
+\contentsline {subsubsection}{\numberline {1.4.5}Results}{9}{subsubsection.1.4.5}
+\contentsline {subsection}{\numberline {1.5}Classification of Spoken Digits}{9}{subsection.1.5}
+\contentsline {subsubsection}{\numberline {1.5.1}Problem Formulation}{10}{subsubsection.1.5.1}
+\contentsline {subsubsection}{\numberline {1.5.2}Results}{10}{subsubsection.1.5.2}
+\contentsline {section}{\numberline {2}Contributions}{11}{section.2}
+\contentsline {section}{\numberline {3}List of Potential Extra Credit}{12}{section.3}
+\contentsline {section}{Appendices}{13}{section*.6}
+\contentsline {section}{\numberline {A}Open Source Software Used}{13}{Appendix.a.A}

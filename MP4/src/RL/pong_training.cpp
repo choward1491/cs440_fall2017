@@ -40,7 +40,7 @@ void pong::train( const parser::config & cparser ) {
     qlearner_t ql;
     pong_mdp & pmdp = ql.getMDP();
     pmdp.setVariableValues(pong::RL::Ball_x, 0.0, 1.0, 12);
-    pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 12);
+    pmdp.setVariableValues(pong::RL::Ball_y, 0.0, 1.0, 24 /*Used 12 for nominal case*/);
     pmdp.setVariableValues(pong::RL::BallSpeed_x, {-1, 1});
     pmdp.setVariableValues(pong::RL::BallSpeed_y, {-1, 0, 1});
     pmdp.setVariableValues(pong::RL::FriendlyPaddle_y, 0.0, 1.0, 12);
