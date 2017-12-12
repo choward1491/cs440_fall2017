@@ -11,6 +11,9 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
+#include <ctime>
+#include <random>
+#include <algorithm>
 #include "digitSolver.h"
 
 #define featureCount 784
@@ -45,6 +48,7 @@ void digitSolver::setWeights() {
     vector<int> trainExamplesCount;
     vector<int> trainLabels;
     vector<vector<double>> imgvec; 
+    
     
     ifstream trainImgs, trainLabel;
     
@@ -92,6 +96,13 @@ void digitSolver::setWeights() {
     
     // train weights
     for(int e = 0; e < setepochs; e++) { // epochs
+        if(setrandomorder) {
+            auto seed = unsigned ( std::time(0) );
+            std::srand ( seed );
+            std::random_shuffle ( imgvec.begin(), imgvec.end() );
+            std::srand ( seed );
+            std::random_shuffle ( trainLabels.begin(), trainLabels.end() );
+        }
         for(int tr = 0; tr < trainCount; tr++) { // training data
             double maxdot = -999;
             int maxclass = -1;
@@ -99,6 +110,7 @@ void digitSolver::setWeights() {
             
             for(int wv = 0; wv < classCount; wv++) { // compare against each class weight
                 double dr = dotProduct(imgvec[tr], weights[wv]);
+                if(setbias) dr += biases[wv];
                 if(dr > maxdot) {
                     maxdot = dr;
                     maxclass = wv;
@@ -107,22 +119,32 @@ void digitSolver::setWeights() {
             if(correctClass != maxclass) { //update for wrong guess
                 updateWeight(correctClass, imgvec[tr], alpha, true);
                 updateWeight(maxclass, imgvec[tr], alpha, false);
+                if(setbias) {
+                    biases[correctClass] += alpha*1.0;
+                    biases[maxclass] -= alpha*1.0;
+                }
             } else {
                 // do nothing???
             }
         } // end one set of train data
-        alpha = (double)setepochs/((double)setepochs + e); //update learning rate
+        alpha = (double)setepochs/((double)setepochs + (double)e); //update learning rate
+//        alpha = pow(2.718,(double)e*(-1.0/(double)setepochs)); //update learning rate
+//        alpha = (-1.0/(double)setepochs)*(double)e + 1.0;
     } // end all epochs
     
-    // set priors
-//    for(int p = 0; p < 10; p++) {
-//        priors[p] = (double) trainExamples[p] / (double) trainCount;
-//    }
+    // priors
+    printf("\npriors: \n");
+    for(int p = 0; p < 10; p++) {
+        double l = (double) trainExamplesCount[p] / (double) trainCount;
+        printf("%d: %f\n",p,l);
+    }
     
-//    printf("priors\n");
-//    for(double pp : priors) {
-//        printf("%f,",pp);
-//    }
+   // biases
+    printf("\nbiases: \n");
+    for(int b = 0; b < 10; b++) {
+        printf("%d: %f\n",b,biases[b]);
+    }
+    
     
 //    printf("\nweights 0:\n");
 //    vector<double> one = weights[0];
@@ -194,6 +216,7 @@ void digitSolver::test() {
 
         for(int wv = 0; wv < classCount; wv++) { // compare against each class weight
             double dr = dotProduct(imgvec[tr], weights[wv]);
+            if(setbias) dr += biases[wv];
             if(dr > maxdot) {
                 maxdot = dr;
                 maxclass = wv;
@@ -210,6 +233,7 @@ void digitSolver::test() {
     
     
     // accuracy and such
+    printf("\nIndividual success rates:\n");
     for(int s = 0; s < classCount; s++) {
         double successRate = (double) testSuccesses[s] / (double) testExamplesCount[s];
         printf("%d: %f\n",s,successRate);
@@ -241,26 +265,30 @@ digitSolver::digitSolver() {
 }
 
 digitSolver::digitSolver(string testImages, string testLabels, string trainingImages, string trainingLabels, 
-        bool testdecay, bool testbias, bool testinitialzero, bool testrandomorder, bool testepochs, 
         double setdecay, bool setbias, bool setinitalzero, bool setrandomorder, int setepochs) {
     this->testImages = testImages;
     this->testLabels = testLabels;
     this->trainingImages = trainingImages;
     this->trainingLabels = trainingLabels;
-    this->testdecay = testdecay;
-    this->testbias = testbias;
-    this->testinitialzero = testinitialzero;
-    this->testrandomorder = testrandomorder;
-    this->testepochs = testepochs;
     this->setdecay = setdecay;
     this->setbias = setbias;
     this->setinitalzero = setinitalzero;
     this->setrandomorder = setrandomorder;
     this->setepochs = setepochs;
     
+    biases.resize(classCount, 0.0);
+    
     weights.resize(classCount);
     for(int r = 0; r < classCount; r++) {
-        weights[r].resize(featureCount);
+        weights[r].resize(featureCount, 0.0);
+    }
+    
+    if(!setinitalzero) {
+        for(int r = 0; r < classCount; r++) {
+            for(int s = 0; s < featureCount; s++) {
+                weights[r][s] = (double)(rand()%10);
+            }
+        }
     }
 }
 

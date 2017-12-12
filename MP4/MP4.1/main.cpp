@@ -16,17 +16,15 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    bool testdecay = false, testbias = false, testinitialzero = false, testrandomorder = false, testepochs = false;
     double setdecay = 1.0;
-    bool setbias = true, setinitalzero = true, setrandomorder = false;
-    int setepochs = 10;
+    bool setbias = false, setinitalzero = true, setrandomorder = false;
+    int setepochs = 100;
     
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     
     // digit identification   
     try {
         digitSolver ds("testimages","testlabels","trainingimages","traininglabels", 
-                testdecay, testbias, testinitialzero, testrandomorder, testepochs,
                 setdecay, setbias, setinitalzero, setrandomorder, setepochs);
         ds.solve();
     } catch(exception &e) {

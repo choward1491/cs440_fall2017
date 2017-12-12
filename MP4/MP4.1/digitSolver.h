@@ -19,7 +19,6 @@ class digitSolver {
 public:
     digitSolver();
     digitSolver(string testImages, string testLabels, string trainingImages, string trainingLables, 
-        bool testdecay, bool testbias, bool testinitialzero, bool testrandomorder, bool testepochs,
                 double setdecay, bool setbias, bool setinitalzero, bool setrandomorder, int setepochs);
     digitSolver(const digitSolver& orig);
     virtual ~digitSolver();
@@ -29,9 +28,10 @@ public:
 private:
     string testImages, testLabels, trainingImages, trainingLabels;
     double setdecay;
-    bool testdecay, testbias, testinitialzero, testrandomorder, testepochs, setbias, setinitalzero, setrandomorder;
+    bool setbias, setinitalzero, setrandomorder;
     int setepochs;
     vector<vector<double>> weights;
+    vector<double> biases;
     
     double dotProduct(const vector<double>& a, const vector<double>& b);
     void updateWeight(int wi, vector<double> img, double alpha, bool add); 
