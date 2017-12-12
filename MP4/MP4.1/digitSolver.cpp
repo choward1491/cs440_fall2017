@@ -35,7 +35,6 @@ double digitSolver::dotProduct(const vector<double>& a, const vector<double>& b)
 
 void digitSolver::updateWeight(int wi, vector<double> img, double alpha, bool add) {
     int sign = (add) ? 1 : -1;
-//    printf("alpha: %f\n",alpha);
     for(int i = 0; i < featureCount; i++) {
         weights[wi][i] += (sign)*(alpha*img[i]);
     }
@@ -72,21 +71,17 @@ void digitSolver::setWeights() {
             trainLabel >> label;
             trainExamplesCount[label] += 1; // count occurrences
             trainLabels[ind] = label;
-//            printf("class: %d:\n",label);
             
             for(int i = 0; i < height; i++) {
                 for(int j = 0; j <= width; j++) {
                     trainImgs.get(val);
                     if(val == '#' || val == '+') {
                         imgvec[ind][i*height+j] = 1.0;
-//                        printf("%1.1f,",imgvec[ind][i*height+j]);
                     } else if(val == ' ') {
                         imgvec[ind][i*height+j] = 0.0; // TODO: -1 or 0?
-//                        printf("%1.1f,",imgvec[ind][i*height+j]);
                     }
                     
                 }
-//                std::cout << endl;
             } // end single example    
         } // end all examples
     } // end file if
@@ -127,9 +122,9 @@ void digitSolver::setWeights() {
                 // do nothing???
             }
         } // end one set of train data
-        alpha = (double)setepochs/((double)setepochs + (double)e); //update learning rate
-//        alpha = pow(2.718,(double)e*(-1.0/(double)setepochs)); //update learning rate
-//        alpha = (-1.0/(double)setepochs)*(double)e + 1.0;
+        alpha = (double)setepochs/((double)setepochs + (double)e); //update learning rate, inverse
+//        alpha = pow(2.718,(double)e*(-1.0/(double)setepochs)); //exponential
+//        alpha = (-1.0/(double)setepochs)*(double)e + 1.0; //linear
     } // end all epochs
     
     // priors
@@ -187,21 +182,17 @@ void digitSolver::test() {
             testLabel >> label;
             testExamplesCount[label] += 1; // count occurrences
             testimgLabels[ind] = label;
-//            printf("class: %d:\n",label);
             
             for(int i = 0; i < height; i++) {
                 for(int j = 0; j <= width; j++) {
                     testImgs.get(val);
                     if(val == '#' || val == '+') {
                         imgvec[ind][i*height+j] = 1.0;
-//                        printf("%1.1f,",imgvec[ind][i*height+j]);
                     } else if(val == ' ') {
-                        imgvec[ind][i*height+j] = 0.0; // TODO: -1 or 0?
-//                        printf("%1.1f,",imgvec[ind][i*height+j]);
+                        imgvec[ind][i*height+j] = 0.0;
                     }
                     
                 }
-//                std::cout << endl;
             } // end single example    
         } // end all examples
     } // end file if
@@ -286,7 +277,7 @@ digitSolver::digitSolver(string testImages, string testLabels, string trainingIm
     if(!setinitalzero) {
         for(int r = 0; r < classCount; r++) {
             for(int s = 0; s < featureCount; s++) {
-                weights[r][s] = (double)(rand()%10);
+                weights[r][s] = (double)(rand()%20) - 10.0;
             }
         }
     }
@@ -296,6 +287,5 @@ digitSolver::digitSolver(const digitSolver& orig) {
 }
 
 digitSolver::~digitSolver() {
-//    printf("destruct\n");
 }
 
