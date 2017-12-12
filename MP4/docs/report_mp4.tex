@@ -39,6 +39,10 @@
 % redefine QED symbol
 \renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
 
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\left\lceil}{\right\rceil}
+\DeclarePairedDelimiter\floor{\left\lfloor}{\right\rfloor}
+
 % define lemma and result theorem-styled sections
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{result}{Result}[section]
@@ -50,9 +54,11 @@
 \DontPrintSemicolon
 
 % define the title that will be used in the report
-\title{CS 440 MP3 \\ Section Q4 \\ 4 Credits}
+\title{CS 440 MP4 \\ Section Q4 \\ 4 Credits}
 \author{
 Christian Howard \\ howard28@illinois.edu
+\and
+Luke Pitstick \\ pitstck2@illinois.edu
 }
 \date{} % don't set a date because we don't need this shit
 
@@ -63,7 +69,7 @@ Christian Howard \\ howard28@illinois.edu
    % create the title page 
    \maketitle
    \begin{abstract}
-   Within this MP, software was developed to create and evaluate a Maximum a Posteriori classifier. This generic software was applied to a set of problems such as classifying handwritten digits, classifying face vs. non-face images, classifying Hebrew 'Yes' vs. 'No', and classifying spoken digits. The algorithms developed performed reliably, classifiers reaching at least 80\% accuracy with some reaching more than 95\% classification accuracy. Within the handwritten digits classifier and face classifier problems, some work was done into investigating the value and time complexity of using various block feature representations based on the original image data. It was found that there is a sweet spot in terms of feature block sizes that will have the best accuracy. Additionally, theoretical complexity trends were validated against experimental time measurements recorded during the training and testing phases of the handwritten digit classification process, helping to better contrast the pros and cons of the different feature representations.
+   	Within this assignment, areas of supervised and reinforcement learning were investigated. In the first part of the assignment, digit classification was revisited using Multi-Class perceptrons and $k$-Nearest Neighbor classification methods. Both methods proved to generate models with great testing accuracy. For the second part of the assignment, Q Learning was used to teach a set of agents to play Pong with a set of differing goals. The first agent was tasked to volley the ball off of a wall on the opposite side of the domain as many times as possible, achieving about 14.4 volleys on average per game with the setup developed. The second agent was tasked to play against and beat an agent with a predefined strategy. After sufficient training, the Q Learning agent was found to have a win rate of just over 97\% against the predefined agent. Software was developed to watch the agents play and allow humans to play. It was found that while the Q Learning agent performed well against the predefined agent, human players appeared to find holes in the Q Learning strategy that made the Q Learning agent play sub-optimally against humans.
    \end{abstract}
    \newpage
    
@@ -72,468 +78,288 @@ Christian Howard \\ howard28@illinois.edu
    \newpage
    
    % start section covering work on Part 1.1
-   \section{Naive Bayes Formulation} \label{sec:one}
+   \section{Digit Classification using Discriminative Machine Learning Methods} \label{sec:one}
    
-   %%
-   %% Subsection for Naive Bayes classifier formulation
-   %%
-   \subsection{Bayes Rule Classifier Formulation}
-   Before diving into each of the problems for this MP, a discussion of the general mathematical formulation is an important first step and will allow for easily formulating the problems later.
+   \subsection{Digit Classification with Perceptrons}
    
-   Let us assume our goal is to develop a classifier that can take some input $x \in \mathcal{X} = \mathcal{V}^d$, where $\mathcal{V} = \lbrace v_1, v_2, \cdots, v_m\rbrace$ are the values a component of $x$ can take, and produce some class $\omega \in \Omega = \lbrace \omega_1, \cdots, \omega_p \rbrace$ that is most likely representative when the input $x = v$, where $v$ is some value in $\mathcal{X}$. We can choose the classifier to be the following:
+   First digit classification is done with a multi-class perceptron. Each pixel is considered a feature with 784 in total. First the program reads all the digits into the system in a binary format. It then passes through all the training examples and obtains a result $y_c = w \cdot x$ where $y_c$ is the result for a single class and $w\cdot x$ is the dot product of the weight and feature vectors. Then the maximum result is selected ass the temporary guess for that round. If correct, the weights are left unchanged. If incorrect the expected class is updated as $w_{cc} = w_{cc} + \alpha x$ and the guessed class as $w_{cg} = w_{cg} - \alpha x$. Alpha is the learning rate which decays over time. This process is repeated multiple times (epochs) over the same training set.
    
-   \begin{align}
-   \omega^* &= \arg \max_{\omega \in \Omega} P(\omega | x = v) \label{eq:c1}
-   \end{align}
-   
-   Now using Bayes Rules and a Conditional Independence assumption, we can use the following relationship to compute the classifier:
-   
-   \begin{align*}
-   P(\omega | x) &= \frac{P(\omega) P(x = v | \omega) }{\sum_{\hat{\omega} \in \Omega} P(x = v| \hat{\omega} ) P( \hat{\omega} )} \\
-   &= \frac{ P(\omega) \prod_{l=1}^d P(x_l = v_l | \omega) }{\sum_{\hat{\omega} \in \Omega} P(x = v| \hat{\omega} ) P( \hat{\omega} )}
-   \end{align*}
-   
-   Since the denominator is just a normalization constant shared between each $P(\omega | x = v)$, we can ignore computing it and just use the numerator to help choose the class. This means the classifier rule actually ends up being:
-   
-    \begin{align}
-   \omega^* &= \arg \max_{\omega \in \Omega} P(\omega) \prod_{l=1}^d P(x_l = v_l | \omega) \label{eq:c2}
-   \end{align}
-   
-   To make things more reasonable to compute in practice due to finite precision, without changing the classifier result, we can $\log\left(\cdot\right)$ the terms in the classifier:
-   
-   \begin{align}
-   \omega^* &= \arg \max_{\omega \in \Omega} \log P(\omega) +  \sum_{l=1}^d \log P(x_l = v_l| \omega) \label{eq:c3}
-   \end{align}
-   
-   
-   %%
-   %% Subsection for discrete value feature training
-   %%
-   \subsection{Learning with Discrete valued Features} \label{ssec:ldv}
-   Based on \ref{eq:c3}, it is obvious that $P( \omega)$ and $P(x_l = \hat{v} | \omega)$ need to be computed $\forall \omega, x_l, \hat{v}$. As discussed in the MP problem statement, usage of Laplace Smoothing will be utilized to smooth the categorical data and make the algorithms we use more robust. 
-   
-   Let us assume we have some training dataset of inputs and label outputs $D_T$, defined as $D_T \subset D = \lbrace (x, \omega) | x \in \mathcal{X}, \omega \in \Omega \rbrace$. Let us define $G_{\omega}: \Omega \times D \rightarrow \mathcal{P}(\mathcal{X})$ as a map that, given some class and dataset, produces a subset of the input data that corresponds to the class $\omega$. Using this, we can define the computation for each of the desired probabilities as the following:
-   
-   \begin{align}
-   P(\hat{\omega}) &= \frac{|G_{\omega}(\hat{\omega}, D_T)|}{|D_T|} \label{eq:po}\\
-   P(x_l = \hat{v} | \hat{\omega}) &= \frac{ \alpha + \sum_{ \hat{x} \in G_{\omega}(\hat{\omega}, D_T) } \mu(\hat{x} \cdot \hat{e}_l, \hat{v}) }{ \alpha |\mathcal{V}| +  |G_{\omega}(\hat{\omega}, D_T)|} \label{eq:pxo}
-   \end{align}
-   
-   where $\alpha$ is the Laplace Smoothing constant and $\mu: \mathcal{V}^2 \rightarrow \mathbb{R}$ is defined as the following:
-   
-   \begin{align}
-   \mu(v_1, v_2) &= \begin{cases}
-   1 & v_1 = v_2 \\
-   0 & v_1 \neq v_2
-   \end{cases}
-   \end{align}
-   
-   These quantities are computed for each $\hat{\omega} \in \Omega, \hat{v} \in \mathcal{V}$, and each component of $x$. With these equations, the training can be done quite simply. To get a feel for the space and time complexity, the naive time complexity for computing (\ref{eq:po}) is $O(pN)$, where $N = |D_T|$, with a memory complexity of $O(p)$. As for (\ref{eq:pxo}), this quantity can be computed in $O(dmpN)$ with a space complexity of $O(dmp)$. Additionally, if we want to then evaluate this model after training, we can find the evaluation time complexity to be $O(pd)$ for each input point.
-   
-   
-   \subsection{Implementation Discussion}
-   Given the theoretical representation discussed above, the implementation was designed to allow for generic abstraction so I could tackle new problems by just modifying some of the defining quantities, like $d$, $V$, $\Omega$. The code basically implemented a Discriminant class that would take some dataset for a class, a Laplace Smoothing constant, and the total amount of data and produce a trained object that could compute class posteriors and likelihoods. Then, a separate function would take a list of these Discriminant objects and would perform the MAP computation for some set of input data.
-   
-   To keep things separate, I implemented methods to read in the data from disk in a manner that allowed me to pass in some functor that could transform the baseline input data into data with new features. I used this to easily go from the baseline pixel features to Disjoint and Overlapping block features, for example, with lots of code reuse. This allowed me to separate data reading and feature extraction from the classifier model in a very modular way.
-   
-   
-   
-   
-   
-   
-   %%
-   %% Section about Digit Classification
-   %%
-   \section{Problem 1 | Digit Classification}
-   
-   %%
-   %% Subsection about Part 1.1 using pixel values as features
-   %%
-   \subsection{Single Pixels as Features} \label{ssec:spf}
-   \subsubsection{Problem Formulation}
-   Within this problem, we are handed a dataset of square images, each with $n = 28$ rows and columns, read into storage with binary values at each pixel. For ease of use, each image is vectorized into a column vector such that $V = \lbrace 0, 1 \rbrace $ and $d = n^2$, given the definitions in Section \ref{sec:one}. Note that we also define $\Omega = \lbrace 0, 1, \cdots, 9\rbrace$, where each value is a label for the corresponding hand-written digit. Using this formulation, it is trivial to use the generic algorithms based on the formulation in Section \ref{sec:one} to train and test the classifier.
-   
-   \subsection{Results}
-   After a training run-time of around $0.155$ seconds and testing run-time of around $18.08$ seconds, the classifier was able to achieve an overall classification accuracy of $77.1$\%. The individual classification accuracy for each digit can be seen in Table \ref{tab:digacc}. This optimal classification was found with a Laplace Smoothing constant of $\alpha = 0.1$. I found that increasing the Laplace Smoothing constant actually hurt the training performance, which I found interesting. 
+   Once the weights have been trained the same guessing procedure is done just once on each example in the testing set, and the results are recorded. The best settings that were selected were with bias, initial weights as random, random training order, and inverse decay. The selection of these is discussed later. These were then tested over a range of epochs to see the effect on overall accuracy. Figure 1 contains these results.
    
    \begin{table}[ht]
    	\centering
-   	\begin{tabular}{l | c }
+   	\begin{tabular}{l | c | c}
    		\hline
-   		Digit & Classification Accuracy  \\
-   		\hline \hline 
-   		0 & 84.4\% \\
-   		1 & 96.2\% \\
-   		2 & 77.6\% \\
-   		3 & 79.0\% \\
-   		4 & 76.6\% \\
-   		5 & 67.3\% \\
-   		6 & 75.8\% \\
-   		7 & 72.6\% \\
-   		8 & 60.1\% \\
-   		9 & 80.0\% \\
+   		Epochs  & Accuracy & Runtime (s)\\
+   		\hline \hline \hline
+   		1 & 76.9\% & 0.4\\
+   		2 & 71.7\% &0.6\\
+   		3 & 82.2\% &0.8\\
+   		4 & 80.3\% &1.0\\
+   		5 & 82.7\% &1.4\\
+   		10 & 83.1\% &3.9\\
+   		15 & 82.5\% &3.3\\
+   		20 & 80.9\% &4.2\\
+   		30 & 82.4\% &5.8\\
+   		40 & 82.1\% &8.5\\
+   		50 & 82.9\% &10.9\\
+   		100 & 82.3\% &21.1\\
+   		200 & 81.9\% &42.4\\
+   		500 & 82.4\% &102.9\\
    		\hline
    	\end{tabular}
-   	\caption{Accuracy for individual digit classifiers} \label{tab:digacc}
+   	\caption{Classification Accuracy by Number of Epochs} \label{tab:digacc}
    \end{table}
    
-   If we look at the Confusion Matrix in Figure \ref{fig:cm11}, we can see that most of the misclassifications were when it misclassified 4 as 9, misclassified 5 as 3, misclassified 7 as 9, and misclassified 8 as 3. When thinking about the shapes of these digits, these misclassifications seem reasonable. For each of these misclassification pairs, we see their associated log likelihood and log odds ratio plots in Figures \ref{fig:mdp1}, \ref{fig:mdp2}, \ref{fig:mdp3}, \ref{fig:mdp4}.
+   We can see that accuracy improves early on with the increase in number of epochs. We see a leveling off after 30 epochs around the accuracy of 82\%. The highest values being at 10 epochs is likely due to a random variation in the weights that made it get some lucky guesses. We decided to use 50 epochs for all further test because it is after the leveling point with good results. This also gives us the confusion  in figure 2 which shows how often digits from the rows on the left were identified as the classes from the row on the top.
    
-   As a further facet to investigate, Figures \ref{fig:d0p}, \ref{fig:d1p}, \ref{fig:d2p}, \ref{fig:d3p}, \ref{fig:d4p}, \ref{fig:d5p}, \ref{fig:d6p}, \ref{fig:d7p}, \ref{fig:d8p}, \ref{fig:d9p} show the testing data examples from each class that have the highest and lowest posterior probabilities for each digit. It is interesting to note that the testing data with the lowest posterior probabilities generally barely resembles the digit it is labeled as while the testing data with the highest posterior probabilities definitely resembles a clear version of the digit it is labeled as.
+   Runtime scaled linearly to epochs as expected. It took roughly epochs/5 in seconds to run. 
+   
    
    \begin{figure}[!htb]
    	\centering
-   	\includegraphics[scale=0.7]{prob1/confusion_mat.png}
-   	\caption{Confusion Matrix for Single Pixel Features}
+   	\includegraphics[scale=0.7]{confusion.png}
+   	\caption{Perceptron Confusion Matrix}
    	\label{fig:cm11}
    \end{figure}
-
-	\begin{figure}[!htb]
-		\centering
-		\subfloat[Digit 4 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd4} }}%
-		\qquad
-		\subfloat[Digit 9 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd9} }}%
-		\qquad
-		\subfloat[(4, 9) Log Odd Ratio]{{\includegraphics[width=4cm]{prob1/odds_4_9} }}%
-		\caption{Log Likelihood and Log Odd Ratio for (4, 9) Misclassification Pair}%
-		\label{fig:mdp1}
-	\end{figure}
-
-	\begin{figure}[!htb]
-		\centering
-		\subfloat[Digit 5 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd5} }}%
-		\qquad
-		\subfloat[Digit 3 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd3} }}%
-		\qquad
-		\subfloat[(5, 3) Log Odd Ratio]{{\includegraphics[width=4cm]{prob1/odds_5_3} }}%
-		\caption{Log Likelihood and Log Odd Ratio for (5, 3) Misclassification Pair}%
-		\label{fig:mdp2}
-	\end{figure}
-
-	\begin{figure}[!htb]
-		\centering
-		\subfloat[Digit 7 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd7} }}%
-		\qquad
-		\subfloat[Digit 9 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd9} }}%
-		\qquad
-		\subfloat[(7, 9) Log Odd Ratio]{{\includegraphics[width=4cm]{prob1/odds_7_9} }}%
-		\caption{Log Likelihood and Log Odd Ratio for (7, 9) Misclassification Pair}%
-		\label{fig:mdp3}
-	\end{figure}
-
-	\begin{figure}[!htb]
-		\centering
-		\subfloat[Digit 8 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd8} }}%
-		\qquad
-		\subfloat[Digit 3 Log Likelihood]{{\includegraphics[width=4cm]{prob1/llhd3} }}%
-		\qquad
-		\subfloat[(8, 3) Log Odd Ratio]{{\includegraphics[width=4cm]{prob1/odds_8_3} }}%
-		\caption{Log Likelihood and Log Odd Ratio for (8, 3) Misclassification Pair}%
-		\label{fig:mdp4}
-	\end{figure}
    
+   As mentioned above, the overall accuracy obtained with optimal settings is 82.9\%. The bias was implemented by having a feature dimension that was a constant 1 for all images. This helps account for the overall frequency that a class appears. Without a bias accuracy is 82.5\%, so using bias performs better. The inital weights could be set to either 0 or a random range between -10 and 10. When set to 0 overall accuracy was 81.5\%, so random weights were used. Before each epoch the training examples could remain in a static order, or be shuffeled each time. Without shuffling the accuracy is 81.7\%, so shuffling is used for the best results. Finally the best decay function found was $\alpha=epochs/(epochs+t)$ where $t$ is the current epoch. This is an inverse decay. We also tested exponential decay $\alpha = e^{-t/epochs}$ with an accuracy of 81.9\%, and linear decay $\alpha = (-t/epochs)+1$ with an accuracy of 81.5\%.
+   
+   The single pixel Naive Bayes approach gave an overall accuracy of 77.5\%, so clearly the perceptron approach was much more accurate. The combinations with the highest confusion rates were nearly the same. The top 3 for both approaches are (8,3), (7,9), (4,9). But the Naive Bayes had (5,3) in the top four, while the perceptron had (3,5) instead. The perceptron also did better for each individual accuracy, except for 9's where Naive Bayes outperformed it. These previous results are in Figure 2.
    
    \begin{figure}[!htb]
    	\centering
-   	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class0_minPosteriorTestData} }}%
-   	\qquad
-   	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class0_maxPosteriorTestData} }}%
-   	\caption{Min and Max Posterior Test Data for 0 Digit}%
-   	\label{fig:d0p}
-   \end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class1_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class1_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 1 Digit}%
-	\label{fig:d1p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class2_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class2_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 2 Digit}%
-	\label{fig:d2p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class3_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class3_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 3 Digit}%
-	\label{fig:d3p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class4_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class4_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 4 Digit}%
-	\label{fig:d4p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class5_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class5_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 5 Digit}%
-	\label{fig:d5p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class6_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class6_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 6 Digit}%
-	\label{fig:d6p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class7_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class7_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 7 Digit}%
-	\label{fig:d7p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class8_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class8_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 8 Digit}%
-	\label{fig:d8p}
-\end{figure}
-
-\begin{figure}[!htb]
-	\centering
-	\subfloat[Min Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class9_minPosteriorTestData} }}%
-	\qquad
-	\subfloat[Max Posterior Test Data]{{\includegraphics[width=5cm]{prob1/class9_maxPosteriorTestData} }}%
-	\caption{Min and Max Posterior Test Data for 9 Digit}%
-	\label{fig:d9p}
-\end{figure}
-   
-   
-   %%
-   %% Subsection about Part 1.2 using features based on a set of disjoint local chunks of image
-   %%
-  \subsection{Disjoint Block as Features}
-  \subsubsection{Problem Formulation} \label{sssec:disform}
-  Within this problem, we take the same dataset of square images, each with $n = 28$ rows and columns of pixels with binary values, and create new set of features based on taking disjoint subregions of a given image and representing them as a single value. For simplicity, each image $I \in B_I = \lbrace 0,1 \rbrace^{n \times n}$ and define $V_{rq} = \lbrace 0, 1, \cdots, 2^{rq}-1 \rbrace$. Then let us define the operator $F_{rq}: B_I \rightarrow V_{rq}^{\frac{n}{r} \times \frac{n}{q}}$ as the map that converts an image into a smaller matrix made up of the new, disjoint features. The algorithm representing $F_{rq}$ for computing the new set of features is found in Algorithm \ref{algo:fdisjoint}.
-  
-  \RestyleAlgo{boxruled}
-  \begin{algorithm}[ht]
-  	\caption{$F_{rq}$ Definition }
-  	\KwData{Image, $I \in B_I$ }
-  	\KwData{Number of rows in subblock of image used for a feature, $r$ }
-  	\KwData{Number of columns in subblock of image used for a feature, $q$ }
-  	\KwResult{Output matrix of new features, $G \in V_{rq}^{\frac{n}{r} \times \frac{n}{q}}$}
-  	\;
-  	
-  	\tcp{Initialize output feature matrix, $G$}
-  	$G_{ij} = 0$  $\forall i \in \lbrace 1, 2, \cdots, \frac{n}{r}\rbrace, j \in \lbrace 1, 2, \cdots, \frac{n}{q} \rbrace $
-  	\;
-  	\;
-  	
-  	\tcp{Construct the feature values}
-  	\For{$i \in \lbrace 1, 2, \cdots, \frac{n}{r}\rbrace$}{
-  		\For{$j \in \lbrace 1, 2, \cdots, \frac{n}{q} \rbrace$}{
-  			\For{$k \in \lbrace 1, 2, \cdots, r \rbrace$}{
-  				\For{$l \in \lbrace 1, 2, \cdots, q \rbrace$}{
-  					$t = 1 + (i-1)r + k$ \;
-  					$s = 1 + (j-1)q + l$ \;
-  					$G_{ij} = G_{ij} + 2^{(l-1) + q (k-1)} I_{ts}$
-  				}
-  			}
-  		}
-  	}
-  	\;
-  	
-  	\Return $G$
-  	\label{algo:fdisjoint}
-  \end{algorithm}
-  
-  For ease of use, each resulting feature matrix $G$ is vectorized into a column vector such that $V = V_{rq} $ and $d = \frac{n^2}{rq}$ for some chosen pair of $r$ and $q$, given the definitions in Section \ref{sec:one}. Using this formulation, we can again use the generic algorithms based on the formulation in Section \ref{sec:one} to compute the information needed for the classifier.
-  
-  \subsubsection{Results} \label{sssec:disres}
-  For the results generated, we are looking at features with dimension pairs (2,2), (2,4), (4,2), and (4,4). With this set of disjoint block feature dimensions, Table \ref{tab:dis} includes the accuracy and training run-time for each pair, including (1,1) which represents the data collected in Section \ref{ssec:spf}.
-  
-  \begin{table}[ht]
-  	\centering
-  	\begin{tabular}{l | l | l | l}
-  		\hline
-  		Feature Dimension Pair & Training Run-time & Testing Run-time & Accuracy  \\
-  		\hline \hline 
-  		(1, 1) & 0.155s & 18.08s &77.1\% \\
-  		(2, 2) & 0.194s & 4.082s &84.3\% \\
-  		(2, 4) & 1.609s & 2.156s &82.7\% \\
-  		(4, 2) & 1.734s & 2.036s &84.7\% \\
-  		(4, 4) & 183.6s & 0.975s &75.3\% \\
-  		\hline
-  	\end{tabular}
-  \caption{Results information for Disjoint Block Features} \label{tab:dis}
-  \end{table}
-  
-  In terms of trends, especially when looking at the features based on individual pixels from Section \ref{ssec:spf}, there are some notable ones. First, we can see that using the disjoint block features, in general, improve performance relative to the individual pixel features. We can also see, however, that making the Disjoint Blocks enclose too many pixels can actually hurt performance, likely because too large of blocks result in too much loss of information and make it hard to make meaningful classifications from that resulting feature dataset. 
-  
-  If one looks at run-time for training, we can see the block size of the features increases exponentially as the number of pixels per block are increased. This makes sense because, based on the discussion from Section \ref{ssec:ldv}, we can see the run-time complexity for the disjoint block features will be $O\left(\frac{n^2}{rq} 2^{rq} p N\right)$. If we hold other terms constant, we can see that the run-time complexity grows by $\frac{2^{rq}}{rq}$ as the product of the disjoint block dimensions, $rq$, grows. 
-  
-  For large product values for $rq$, one would expect the exponential numerator to greatly dominate, in turn making large disjoint block features take much longer to train. This analysis validates why the (4,4) feature is much more time consuming to train than the (1,1) feature, while the (2,2) feature is not much slower to train relative to the (1,1) feature.
-  
-  As for the testing run-time, we know from Section \ref{ssec:ldv} that the complexity will be $O\left(p\frac{n^2}{rq}\right)$. This means that as $rq$ increases, we should expect the run-time to decrease dramatically due to the $(rq)^{-1}$ factor. Looking at the results from Table \ref{tab:dis}, we can see this reduction occurs as the disjoint blocks span a wider area of pixels, validating the theoretical analysis.
-  
-  %%
-  %% Subsection about Part 1.2 using features based on a set of disjoint local chunks of image
-  %%
-   \subsection{Overlapping Block as Features}
-   \subsubsection{Problem Formulation}
-   Similarly to the Disjoint Block features, we take the same dataset of square images, each with $n = 28$ rows and columns of pixels with binary values, and create new set of features based on taking overlapping subregions of a given image and representing them as a single value. For simplicity, each image $I \in B_I = \lbrace 0,1 \rbrace^{n \times n}$ and define $V_{rq} = \lbrace 0, 1, \cdots, 2^{rq}-1 \rbrace$. Then let us define the operator $H_{rq}: B_I \rightarrow V_{rq}^{(n-r+1) \times (n-q+1)}$ as the map that converts an image into a smaller matrix made up of the new, overlapping features. The algorithm representing $H_{rq}$ for computing the new set of features is found in Algorithm \ref{algo:fover}.
-   
-   \RestyleAlgo{boxruled}
-   \begin{algorithm}[H]
-   	\caption{$H_{rq}$ Definition }
-   	\KwData{Image, $I \in B_I$ }
-   	\KwData{Number of rows in subblock of image used for a feature, $r$ }
-   	\KwData{Number of columns in subblock of image used for a feature, $q$ }
-   	\KwResult{Output matrix of new features, $G \in V_{rq}^{(n-r+1) \times (n-q+1)}$}
-   	\;
-   	
-   	\tcp{Initialize output feature matrix, $G$}
-   	$G_{ij} = 0$  $\forall i \in \lbrace 1, 2, \cdots, (n-r+1)\rbrace, j \in \lbrace 1, 2, \cdots, (n-q+1) \rbrace $
-   	\;
-   	\;
-   	
-   	\tcp{Construct the feature values}
-   	\For{$i \in \lbrace 1, 2, \cdots, (n-r+1)\rbrace$}{
-   		\For{$j \in \lbrace 1, 2, \cdots, (n-q+1) \rbrace$}{
-   			\For{$k \in \lbrace 1, 2, \cdots, r \rbrace$}{
-   				\For{$l \in \lbrace 1, 2, \cdots, q \rbrace$}{
-   					$t = (i+k)$ \;
-   					$s = (j+l)$ \;
-   					$G_{ij} = G_{ij} + 2^{(l-1) + q (k-1)} I_{ts}$
-   				}
-   			}
-   		}
-   	}
-   	\;
-   	
-   	\Return $G$
-   	\label{algo:fover}
-   \end{algorithm}
-   
-   As before, each resulting feature matrix $G$ is vectorized into a column vector such that $V = V_{rq} $ and $d = (n-r+1)(n-q+1)$ for some chosen pair of $r$ and $q$, given the definitions in Section \ref{sec:one}. Using this formulation, we can again use the generic algorithms based on the formulation in Section \ref{sec:one} to compute the information needed for the classifier.
-   
-   \subsubsection{Results}
-   For the results generated, we are looking at features with dimension pairs (2,2), (2,4), (4,2), (4,4), (2,3), (3, 2), (3,3). With this set of overlapping block feature dimensions, Table \ref{tab:ovr} includes the accuracy and training run-time for each pair, including (1,1) which represents the data collected in Section \ref{ssec:spf}.
-   
-   \begin{table}[ht]
-   	\centering
-   	\begin{tabular}{l | l | l | l}
-   		\hline
-   		Feature Dimension Pair & Training Run-time & Testing Run-time & Accuracy  \\
-   		\hline \hline 
-   		(1, 1) & 0.155s & 18.08s &77.1\% \\
-   		(2, 2) & 0.739s & 14.43s & 85.4\% \\
-   		(2, 4) & 11.13s & 16.75s & 85.4\% \\
-   		(4, 2) & 11.75s & 13.59s & 85.9\% \\
-   		(4, 4) & 2,516s & 13.26s & 80.3\% \\
-   		(2, 3) & 2.869s & 13.33s & 86.0\% \\
-   		(3, 2) & 2.610s & 13.42s & 86.9\% \\
-   		(3, 3) & 20.52s & 13.02s & 83.7\% \\
-   		\hline
-   	\end{tabular}
-   	\caption{Results information for Overlapping Block Features} \label{tab:ovr}
-   \end{table}
-   
-   When looking at the features based on individual pixels from Section \ref{ssec:spf} and the disjoint feature results in Section \ref{sssec:disres}, there are some notable trends. First, we can see that the Overlapping Block features achieve more robust accuracies, all block sizes achieving 80\%+ performance. This trend makes sense since the Overlapping Block features ensure we don't miss much information, even with larger block sizes, due to the overlapping behavior. We also note that there is a sweet spot in terms of block dimensions that achieves performance of just under 87\%. What I find interesting is how, based on reviewing the (2,4), (4,2), (2,3), (3,2) results, it appears that features that represent blocks with more rows perform better than blocks with more columns, implying vertical information is less important than the horizontal information.
-   
-   If one looks at run-time for training, we can see the block size of the features increases exponentially as the number of pixels per block are increased. This makes sense because, based on the discussion from Section \ref{ssec:ldv}, we can see the run-time complexity for the overlapping block features will be $O(n^2 2^{rq} p N)$. If we hold other terms constant, we can see that the run-time complexity grows proportionally to $2^{rq}$ as the product of the overlapping block dimensions, $rq$, grows. Note that this growth is larger than the growth seen in the disjoint block as a function of $rq$. This model explains why the (4,4) feature is much more time consuming to train than the (1,1) feature, while the (2,2) feature is not much slower to train relative to the (1,1) feature. The larger time complexity growth seen by the overlapping block as a function of $rq$ also explains why the run-time is much slower for each block feature dimension when contrasting it to the corresponding disjoint features.
-   
-   As for the testing run-time, we know from Section \ref{ssec:ldv} that the complexity will be $O\left(p n^2\right)$. This means that as the dimensions of the overlapping block features change, we should not expect the run-time to change much. Looking at the results from Table \ref{tab:dis}, we can see that for most of the overlapping features, the testing run-time is similar to each other, validating the theoretical analysis.
-   
-   \section{Problem 1 Extra Credit | Face Classification}
-   The problem being tackled here is taking dataset of labeled thresholded images, based on some edge detection computer vision algorithm, and learning to classify images as either a Face (1) or a Non-face (0). 
-   
-   \subsubsection{Problem Formulation}
-   This problem was formulated identically to the formulation found in Section \ref{sssec:disform} for the disjoint block features. All work done there carries over into here. One thing to note is that $\Omega = \lbrace 0, 1\rbrace$ where, as stated before, the face label is 1 and the non-face label is 0. Additionally, a disjoint block size of (2,2) was used to reduce the resolution of the input matrix of data while also keeping a sufficient amount of information. The Laplace Smoothing constant was set to $\alpha = 0.1$.
-   
-   \subsubsection{Results}
-   After training and testing, it was found that using (2,2) disjoint features produced a classification accuracy on the testing dataset of 98\%. The confusion matrix for this test dataset can be seen in Figure \ref{fig:cm1face}, making it obvious this classifier performed well against the training dataset.
-   
-   \begin{figure}[!htb]
-   	\centering
-   	\includegraphics[scale=0.7]{prob1_face/confusion_mat.png}
-   	\caption{Confusion Matrix for Face Dataset using (2,2) Disjoint Block Features}
-   	\label{fig:cm1face}
-   \end{figure}
-   
-   \newpage
-   \section{Part 2 | Audio Classification}
-   \subsection{Classification of Hebrew 'Yes' and 'No'}
-   Within this problem, the goal is to create a classifier that can distinguish between recordings saying the words 'Yes' and 'No' in Hebrew. The sounds are all represented as thresholded spectrograms, meaning that again the data will be read into memory with binary feature values. 
-   
-   \subsubsection{Problem Formulation}
-   Within this problem, we take a dataset of thresholded spectrograms matrices, each with $n_r = 25$ rows and $n_c = 10$ columns of binary values, and vectorize this matrix for use in our framework defined in Section \ref{sec:one}. Doing this gives us $V = \lbrace 0, 1 \rbrace $ and $d = n_c n_r$, given the definitions in Section \ref{sec:one}. Note that we also define $\Omega = \lbrace 0, 1\rbrace$, where $0$ is a label for 'No' and $1$ is a label for 'Yes'. Using this formulation, it is straight forward to use our generic algorithms to build and test a classifier for this problem.
-   
-   \subsubsection{Results}
-   After training and testing the classifier based on the spectrogram data, it was found that the classifier correctly classified 96\% of the testing data. This is after messing around with the Laplace Smoothing constant, $\alpha$, and finding that the performance really didn't change as a function of the constant, so I chose $\alpha = 0.1$. The confusion matrix for the results can be found in Figure \ref{fig:cm21}. Recall again that the $0$ label is for 'No' and the $1$ label is for 'Yes'. It is visually obvious from the confusion matrix that there is minimal errors in the classification. I suspect that the Hebrew 'Yes' and 'No' words have sufficiently different pronunciations to make the classifier this strong.
-   
-   \begin{figure}[!htb]
-   	\centering
-   	\includegraphics[scale=0.7]{prob21/confusion_mat.png}
-   	\caption{Confusion Matrix for Hebrew 'Yes' vs 'No' Classification}
+   	\includegraphics[scale=0.5]{confusion_nb.png}
+   	\caption{Naive Bayes Confusion Matrix}
    	\label{fig:cm21}
    \end{figure}
    
+   \newpage
    
+   \subsection{Digit Classification with Nearest Neighbor}
    
-   \subsection{Classification of Spoken Digits}
-   Within this problem, the goal is to create a classifier that can distinguish between different digits, particularly digits 1 through 5, based on recordings from a set of different speakers. The data given to us is a labeled set of thresholded Mel-frequency Cepstrum Coefficients (MFCCs). The goal is to create a classifier that can achieve greater than 80\% overall classification accuracy. 
+   We performed the same image classification but using the k-nearest neighbors approach. This approach uses a distance function to find the k nearest training examples, and is classified as the most frequent one. My distance function is simply $d=abs(FA_{11} - FB_{11}) + abs(FA_{11} - FB_{11}) + ... + abs(FA_{11} - FB_{11})$. This is the sum of the absolute values of the differences between the features at each  index on each image.
    
-   \subsubsection{Problem Formulation}
-   For practical purposes, the MFCCs we are given are essentially matrices with binary values for each element of the matrices. If we take each matrix, with $n_r = 30$ rows and $n_c = 13$ columns of binary values, we can vectorize this matrix for use in our framework defined in Section \ref{sec:one}. Doing this gives us $V = \lbrace 0, 1 \rbrace $ and $d = n_c n_r$, given the definitions in Section \ref{sec:one}. Note that we also define $\Omega = \lbrace 1, 2, 3, 4, 5 \rbrace$, where each of the labels correspond to the spoken digit we are classifying. Using this formulation, it is straight forward to use our generic algorithms to build and test a classifier for this problem.
+   \begin{table}[ht]
+   	\centering
+   	\begin{tabular}{l | c | c}
+   		\hline
+   		k  & Accuracy & Runtime (s)\\
+   		\hline \hline \hline
+   		1 & 90.2\% & 22.2\\
+   		2 & 89.3\% & 22.2\\
+   		3 & 89.0\% & 21.0\\
+   		4 & 89.6\% &21.4\\
+   		5 & 90.1\% & 22.1\\
+   		10 & 88.8\% & 22.2\\
+   		20 & 88.8\% & 22.2\\
+   		50 & 88.6\% & 22.3\\
+   		100 & 88.2\% &22.5\\
+   		500 & 86.6\% & 25.9\\
+   		\hline
+   	\end{tabular}
+   	\caption{Classification Accuracy by Number of Epochs} \label{tab:digack}
+   \end{table}
    
-   \subsubsection{Results}
-   After training and testing the classifier based on the spectrogram data, it was found that the classifier correctly classified 85\% of the testing data. The confusion matrix for the results can be found in Figure \ref{fig:cm22}. Based on the confusion matrix, it appears the digits that were toughest to correctly classify were 4 and 5. Particularly, there was a large misclassification error where the classifier interpreted some of the data labeled 4 as a 2. Additionally, noticeably large misclassification errors occurred with 5 where the classifier interpreted some of the data labeled 5 as 1 or 3.
+   We see a slow decline in accuracy as k increases. The best overall accuracy is with k=1 of 90.2\%. The confusion matrix of this result is in Figure 3.
+   
+   The change in runtime is small, it increases it by .1s (less than 1\%) for even the larger k=100. It is a bit more significant at 3s for k=500, but that is only 15\% for a k which considers 1/10 of all entries as neighbors.  This is because k only influences the runtime when adding to and checking the k nearest neighbors. Adding doesn't happen too often once a few good values have been found. And selecting from it is just an O(k) operation. The bulk of computation time is spent comparing each test image to every single training image.
    
    \begin{figure}[!htb]
    	\centering
-   	\includegraphics[scale=0.7]{prob22/confusion_mat.png}
-   	\caption{Confusion Matrix for Spoken Digit Classification}
-   	\label{fig:cm22}
+   	\includegraphics[scale=0.9]{confusion_knn.png}
+   	\caption{KNN Confusion Matrix}
+   	\label{fig:cm31}
    \end{figure}
+   
+   Performance was better than both the perceptron and the Naive Bayes implementations. However, we had different high confusion rates for this approach. KNN had trouble with similar pairs (5,3),(4,9), (7,9) and (3,5).
+   
+   
+   
+   
+   % start section covering work on Part 2
+   \section{Pong and Q Learning} \label{sec:two}
+   \subsection{General Formulation} \label{sec:pongform}
+   To formulate Pong such that it can be used in a Q Learning framework, a Markov Decision Process (MDP) needs to be defined that represents Pong. To this end, we can define $\mathcal{S} \in \mathbb{R}^n$ as the continuous state-space representing the Pong environment and then define $\mathcal{A}$ as a set of finitely many actions that can be taken within the environment. 
+   
+   Next, we need a transition function $T: \mathcal{S} \times \mathcal{A} \rightarrow \mathcal{S}$ that can give us a new state given a previous state and action pair. This function maintains the Markov property in that it only needs the last state and some corresponding action to obtain the next state. Note that $T(\cdot)$ can internally have randomness associated with it such that a given state-action pair need not produce the same output state each time they are operated on by $T(\cdot)$.
+   
+   Another important thing to define, which may greatly impact the policy learned via Q Learning, is a rewards function $R: \mathcal{S} \rightarrow \mathbb{R}$ that maps a given state into a scalar that decides how good it is to be in that state. This function will have specific definitions depending on the goal for Pong, so these will be defined later.
+   
+   Lastly, we need a way to discretize the continuous space into features that can be used to represent the Q values for a given state. Let us define $\mathcal{S}_D$ as the discrete state-space of our environment, then we must have some function $D: \mathcal{S} \rightarrow \mathcal{S}_D$ that takes a continuous state and spits out a discrete state. For added convenience, we can define bijective hash functions $h_s: \mathcal{S}_D \rightarrow \mathbb{N}$ and $h_a: \mathcal{A} \rightarrow \mathbb{N}$ to go from discrete states and actions to indices. From there, we define the Q values representation as a matrix $Q \in \mathbb{R}^{|\mathcal{S}_D|} \times \mathbb{R}^{|\mathcal{A}|} $ and use the hashes for the discrete state and action to retrieve a Q value for some state and action pair.
+   
+   The Q Learning update algorithm itself, in the complete continuous representation, is then based on the following recursive relationship:
+   \begin{align}
+   Q(s,a) &= (1 - \alpha) Q(s,a) + \alpha \left( R(s) + \gamma \max_{\hat{a}} Q( T(s,a), \hat{a})\right) \label{eq:qlrn}
+   \end{align}
+   
+   where $(s,a)$ are some state-action tuple, $\alpha \in (0,1]$ is the learning rate, and $\gamma \in [0,1]$ is the discount factor. Using a discrete analog to the above equation, we can over experience get a better representation for $Q$ and in turn develop a better policy $\pi(s)$ where it is defined as:
+   
+   \begin{align}
+   \pi(s) &= \arg \max_{a} Q(s,a)
+   \end{align}
+   
+   Now in terms of training, there are a few things that are being done. For exploration, $\epsilon$-greedy is being used. This means for some probability $\epsilon$, the agent will use a random action and otherwise will use the greedy policy $\pi(s)$ given the current values for $Q$. Additionally, $\alpha$ is being computed using the following equation:
+   
+   \begin{align}
+   \alpha(s,a) &= \frac{C}{C + N(s,a)}
+   \end{align}
+   
+   where $C$ is some constant to be tuned, $N(s,a)$ keeps track of how many times the state-action tuple $(s,a)$ has been visited before. The discount factor $\gamma$ and $C$ are tuned either manually or through a Design of Experiments (DOE).
+   
+   \subsection{General Implementation}
+   The software implemented for this part of the assignment was done in C++. The Q Learning encapsulation was designed as a templated class that used some Template Metaprogramming techniques to allow for defining a Markov Decision Process (MDP) class that can used as a template parameter. 
+   
+   Additionally, the actual learning method for this Q Learning was also templated such that a user can define a function for choosing $\alpha$ as a function of episode number and state-action pairs and can also pass in a callback function for reporting information about the learning process. Inside this training method, the Q Learning algorithm retrieves discrete state indices, gets actions via the $\epsilon$-greedy exploration-exploitation strategy, updates the MDP state by feeding in the chosen action, gets a reward for the MDP state, and then updates the associated $Q$-values using the reward, the original state-action pair, and the new state. Note that some basic statistical information is taken as an episode is played out, such as the total reward for the current episode and then a moving average of the average reward across all the episodes. After training is complete, the $Q$-values learned are safed off into a binary file that can be read in later.
+   
+   Software was also implemented for playing games, either with a GUI or without one, against any AI players or Human players or with wall barriers on any side of the game environment. This software was developed with the help of the C library Allegro5 which helped with the GUI and event handling when playing with the GUI. A sample screenshot of the GUI, annoted with which agent is which on the screen, is shown in Figure \ref{fig:gui1}.
+   
+   \begin{figure}[!htb]
+   	\centering
+   	\includegraphics[scale=0.7]{gui_snapshot2.png}
+   	\caption{Snapshot of Annotated GUI in middle of Game}
+   	\label{fig:gui1}
+   \end{figure}
+   
+   \subsection{Volleying Pong Agent}
+   \subsubsection{Formulation}
+   For this task, the goal is to come up with a Pong agent via Q Learning that can volley the ball against a wall as long as possible. Let us first define the continuous state as $\mathcal{S} = \left( s_1, s_2, s_3, s_4, s_5\right)$ and the actions set as $\mathcal{A} = \lbrace a_1, a_2, a_3\rbrace $, where the components are defined in Table \ref{tab:vwall}. Note that $h_p$ is the height of the paddle which is set to $h_p = 0.2$ for this problem. The transition function for this problem has the definition found below:
+   
+   \begin{itemize} 
+   	\item The top and bottom of the domain are walls and the ball will bounce off of them without any noise added on top of the reflection
+   	\item The left of the domain is a wall as well but a bounce off of this wall can result in random, bounded changes to the velocity dependent on a Uniform distribution
+   	\item If the ball gets hit by the paddle on the right side of the domain, the ball will bounce and can have random changes just like those done by the wall
+   	\item Ball position vector is otherwise linearly propogated via the ball velocity
+   	\item The paddle position is updated directly by the value for an input action $a$
+   \end{itemize}
+   
+    \begin{table}[ht]
+   	\centering
+   	\begin{tabular}{l | l}
+   		\hline
+   		Variable & Definition  \\
+   		\hline \hline 
+   		$s_1 \in [0,1]$ & Ball $x$ position\\
+   		$s_2 \in [0,1]$ & Ball $y$ position\\
+   		$s_3 \in [-1,1]\setminus (-0.03,0.03)$ & Ball $x$ speed \\
+   		$s_4 \in [-1,1]$ & Ball $y$ speed \\
+   		$s_5 \in [0, 1-h_p]$ & Paddle top $y$ coordinate\\
+   		$a_1 = 0$ & Do not change paddle position\\
+   		$a_2 = 0.04$ & Increase paddle position\\
+   		$a_3 = -0.04 $ & Decrease paddle position \\
+   		\hline
+   	\end{tabular}
+   	\caption{State and Action variable definitions for Wall Bouncing Pong Agent} \label{tab:vwall}
+   \end{table}
+
+	The discrete states $\mathcal{S}_D$ are defined in the following manner, taken directly from the problem statement:
+	\begin{itemize} 
+		\item Treat the entire board as a $12 \times 12$ grid, and let two states be considered the same if the ball lies within the same cell in this table. Therefore there are 144 possible ball locations.
+		\item Discretize the $x$ speed of the ball to have only two possible values, $1$ or $-1$, which represent the sign of the $x$ speed
+		\item Discretize the $y$ speed of the ball to have only three possible values: $1$, $0$, or $-1$. It should map to $0$ if $|s_4| < 0.015$
+		\item To convert your paddle's location into a discrete value, use the following equation: 
+		
+		\begin{align*} 
+		\text{discrete\_paddle} =  \left\lfloor \frac{12 s_5 }{ 1 - h_p } \right\rfloor
+		\end{align*} 
+		
+		In cases where $s_5 = 1 - h_p$, set $\text{discrete\_paddle} = 11$. As can be seen, this discrete paddle location can take on 12 possible values
+		\item Add a special state whenever the ball makes it past the paddle and leaves the game domain, call it $s_e$
+	\end{itemize}
+
+	The last thing to do is decide how the rewards are going to be generated. How the rewards function $R(\cdot)$ works is defined below:
+	\begin{itemize} 
+		\item If the discrete state is special state $s_e$, the reward is $-1$
+		\item If the discrete state represents a bounce off of the paddle, the reward is $1$
+		\item Otherwise, return reward of $0$
+	\end{itemize}
+
+	With these definitions, it is pretty trivial to put together the necessary MDP and state-space information needed to solve Pong using Q Learning. 
+   
+   \subsubsection{Nominal Results} \label{sec:nrvolley1}
+   To create a good agent capable of volleying the ball against a wall in Pong using Q Learning, it was important to come up with choices for $\gamma$, $\epsilon$, and $C$. Choices for $\gamma$, and $C$ were found by doing a small manual Design of Experiments (DOE), specifically a Factorial Experiment. The experiment was based on $\log_{10}(C) \in [0,4]$ and $\gamma \in [0.1, 0.99]$. For $\epsilon$, a function was chosen as the following:
+   
+   \begin{align*}
+   \epsilon(n) &= \frac{k \epsilon_0}{k + n}
+   \end{align*}
+   
+   where $n$ represents the episode number in the training, $k$ is some constant that was chosen as $k = 10^3$, and $\epsilon_0$ is a new tuning parameter. This parameter was experimented with values $\log_{10}(\epsilon_0) \in [-2,0]$. Through experiments with the DOE, it was found that choices for $\gamma$ and $\epsilon_0$ certainly affected convergence to a good policy but that the choice for $C$ was surprisingly vital in getting a good policy quickly. Through experimenting, it was found $\gamma \geq 0.7$, $\log_{10}(C) \geq 3$, and $\epsilon_0 \geq 0.5$ tended to generate quicker convergence to strong policies.  
+   
+   To obtaining a policy that performed sufficiently well for this volleying Pong agent, the tuning parameters were chosen as $\gamma = 0.75$, $C = 10^4$, and $\epsilon_0 = 0.99$ and the training was over $10^6$ volleying games. After running this volleying Pong agent across $10^5$ games to test its performance, the average number of times per game that the ball bounced off the agent's paddle before the ball escaped past the paddle was $14.43$ bounces per game.
+   
+   \subsubsection{Results after MDP Modification}
+   To see if improved performance could be obtained, the MDP and discrete state representation were slightly modified. First, the rewards were modified such that the agent received a reward of $1$ for bouncing the ball and received a reward of $-10$, instead of the original value of $-1$, if the ball made it past them. The idea to do this is that the agent may discover a bad action quicker with such a heavy penalty. 
+   
+   Additionally, the $y$ ball position was discretized to have 24 discrete values instead of 12. The reason only the $y$ ball position was refined, instead of both the $x$ and $y$ ball position values, was because the paddle's decision of where to be is more dependent on the ball's $y$ position than the $x$ position. This theory stems from the fact that given the paddle is lined up vertically with the ball, the paddle really only needs to move of the ball has a nonzero $y$ velocity, so it could be useful to keep track of the ball's $y$ position more accurately than the $x$ position.
+   
+   One should note the training time was really no different since the number of training episodes were set, but the $Q$-values table was twice as large after the above change. After doing the training using the same tuning parameter values and number of episodes for the optimal case described in Section \ref{sec:nrvolley1}, the average number of bounces per game for this new Q Learning agent was found to be 15.07 bounces per game. While not some enormous improvement on the baseline performance of 14.43 bounces per game, it does show some improvement.
+   
+   
+   \subsection{Dualing Pong Agents}
+   \subsubsection{Formulation}
+   Within this task, the goal was to come up with a Pong agent that could beat another Pong agent hardcoded to essentially track the vertical position of the ball at all times but move with a velocity half that of the Pong agent being trained. To do this, the new Pong agent had a slightly modified state and set of rewards.
+   
+   For the state, an added state component $s_6$ was thrown in such that $s_6$ represents the opponent paddle's top $y$ coordinate. This continuous state was then discretized in the same manner $s_5$ was. Additionally, a second special discrete state was added for when the ball moves past the opponent's paddle. It should be noted that the added variable $s_6$ multiplies the original state space by the number of discrete values this variable takes, which is a negative since the space requirements are larger, the training time is longer, and chance of touching some discrete state is much less. However, the benefit is that hopefully knowledge of the opponent paddle's position will help the Q Learning agent's paddle perform more strategically.
+   
+   As for rewards, now a reward of $1$ is given when the ball moves past the opponent's paddle, a reward of $-1$ is given when the ball moves past the Q Learning agent's paddle, and a reward of $0$ is given otherwise. The logic behind this choice is that the agent should only view getting a ball past their opponent as a job well done while having a ball get past them is obviously from doing a poor job. It is expected that this reward system will also require $\gamma$ to be on the larger side so the agent can maintain the value of some move that might take a little bit to see how useful it was on scoring on the opponent.
+   
+   \subsubsection{Implementation Modifications}
+   Relative to the MDP defined for the Volleying Pong agent, the rewards, state representation, and transition function were slightly modified depending on if the MDP should represent the Volleying Pong agent or the Dualing Pong agent situation. These changes were quite trivial, though, so no major code changes were made here.
+   
+   \subsubsection{Nominal Results}
+   To produce the most optimized Q Learning agent seen in our experiments for the Dualing Pong task, the training was done with $\gamma = 0.8$, $\epsilon_0 = 0.99$, $C = 10^4$, and the number of training episodes were $10^7$. With these training parameters in mind, the win rate of the Q Learning agent against the baseline Pong agent can be found to be 97\%, as noted in Table \ref{tab:p22}. 
+   
+    \begin{table}[ht]
+   	\centering
+   	\begin{tabular}{l | l }
+   		\hline
+   		Number of Games Played & Win Rate by Q Learning Agent (\%)  \\
+   		\hline \hline 
+   		10,000 &  97.04 \\
+   		\hline
+   	\end{tabular}
+   	\caption{Win Rate of Q Learning Agent for Dualing Pong Task} \label{tab:p22}
+   \end{table}
+   
+   A video for this Q Learning agent going up against the hardcoded Pong agent can be found \href{https://www.youtube.com/watch?v=FWLAqNOhF6I}{here}. Note that this video just shows the two AI playing to 50 points.
+   
+   \subsubsection{Results after Human Playing Agent}
+   So to really test the quality of the agent, a human player played against this agent. This test was actually quite interesting because some flaws in the agent's play style became quite apparent. First, it seemed this agent's strategy banked too much on the fact its opponent was going to actively track the vertical position of the ball. Since the human player generally didn't perfectly track the vertical position of the ball as a strategy, sometimes the Q Learning agent would get stumped about what action to take and even stop moving much!
+   
+   This flaw seemed to be related to the Q Learning agent ending up in a state it had not either seen before or had not seen often enough to get a good idea what action to take while in it. So while the agent performed fairly well, it was not generally good enough to win against the human player when playing the game to a higher number of points.
+  
+   
 
 \newpage
 \section{Contributions}
 \begin{itemize}
 \item Christian Howard
 	\begin{itemize}
-	\item Did everything since worked on this MP alone
+	\item Did Q Learning part of assignment
 	\end{itemize}
+\item Luke Pitstick
+\begin{itemize}
+	\item Did Digit Classification part of assignment
+\end{itemize}
 \end{itemize}   
    
    
 \newpage
    \section{List of Potential Extra Credit}
    \begin{itemize}
-   \item Face Classification for Part 1 of the assignment
+   \item Made a GUI for Pong
+   \item Made the GUI capable of allowing two players to play Pong. The players can be only AI, only Human, or a mix.
+   \item Video of Q Learning-based Agent vs. Baseline Agent found \href{https://www.youtube.com/watch?v=FWLAqNOhF6I}{here}.
 \end{itemize}      
    
    \newpage
 \begin{appendices}
 
    \section{Open Source Software Used}
-   Some system python libraries, as well as the \textbf{numpy} package, were used to help develop the codes used in this MP.
+   \begin{itemize}
+   	\item Standard C++14 Libraries
+   	\item \href{http://liballeg.org/}{Allegro5} C library for GUI and event handling
+   \end{itemize}
 
 \end{appendices}   
    
